@@ -15,10 +15,6 @@ import android.widget.Toast;
 
 import static java.sql.DriverManager.println;
 
-/**
- * Created by Thomas on 17/11/2017.
- */
-
 /*
 Works as a database helper where the tables are created and methods such as insertModule, insertNote, deleteModule, deleteNote,
 updateModule, updateNote, getAllRows and getModuleNotes are created
@@ -42,6 +38,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
+    //Used to create the database
     public void onCreate(SQLiteDatabase db){
         String TaskTable = "CREATE TABLE IF NOT EXISTS " + TABLE_PlAYER + " (" + PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PNAME + " TEXT NOT NULL" + ");";
         db.execSQL(TaskTable);
@@ -54,6 +51,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //Used to insert player into the database
     public void insertPlayer(String pname){
         System.out.println("Entered insertPlayer");
         SQLiteDatabase db = this.getWritableDatabase();
@@ -79,8 +77,6 @@ public class MyDbHelper extends SQLiteOpenHelper {
         System.out.println("Entered pdatePlayer");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues newVal = new ContentValues();
-        //newVal.put(MNAME, upmod);
-        //db.update(TABLE_NOTE, newVal, NID+ " = ?", null);
         db.execSQL("UPDATE " + TABLE_PlAYER + " SET " + PNAME + "= '" + newPlayer + "' " + " WHERE " + PNAME + "= '" + original + "'");
 
     }
@@ -89,7 +85,6 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public void deletePlayer(String pname){
         System.out.println("Entered deletePlayer");
         SQLiteDatabase db = this.getWritableDatabase();
-        //db.delete(TABLE_MODULE, "Mname" + "='" + mname+"'", null);
         db.execSQL("DELETE FROM " + TABLE_PlAYER + " WHERE " + PNAME + "= '" + pname + "'");
     }
 

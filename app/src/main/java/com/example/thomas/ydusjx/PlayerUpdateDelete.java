@@ -24,10 +24,11 @@ public class PlayerUpdateDelete extends Activity {
         setContentView(R.layout.player_update_delete);
         mydb = new MyDbHelper(this);
 
+        //Gets information passed from the playerlistmain screen
         Bundle bundle = getIntent().getExtras();
         nameselect = bundle.getString("PlayerSelected");
 
-        //Used to move back to the main screen
+        //Used to move back to the playerlistmain screen
         back = (Button)findViewById(R.id.Back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,10 +42,12 @@ public class PlayerUpdateDelete extends Activity {
         header = (TextView)findViewById(R.id.header);
         mninput = (EditText)findViewById(R.id.userInput);
         btnUpdatePlayer = (Button)findViewById(R.id.UpdatePlayer);
-        //Adds module to the module table
+
+        //Used to update the chosen players name
         btnUpdatePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Gets text from the input field
                 String player_name = mninput.getText().toString();
 
                 //Used to check if the user has entered nothing

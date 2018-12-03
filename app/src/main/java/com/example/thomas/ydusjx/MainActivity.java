@@ -10,7 +10,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnTeam;
     Button btnPlayer;
     Button btnPlayers;
-    public static int chk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,29 +17,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mydb = new MyDbHelper(this);
         System.out.println("WORKS");
-        //mydb.insertModule("3", "C");
 
-        //Used to open the module list screen
+        //Used to open the team screen
         btnTeam = (Button) findViewById(R.id.TeamBtn);
         btnTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Moving to modules");
-                chk = 5;
+                System.out.println("Moving to team");
+                //Used to pass a string to the team screen as the line "str = bundle.getString("PlayerSelected");" would bring back an error as no string was passed
                 String TeamName = "PlayerName";
-                //Learned how to do intents from the notes on webcourses
                 Intent TeamDisplay = new Intent(MainActivity.this, Team.class);
                 TeamDisplay.putExtra("PlayerSelected", TeamName);
                 startActivity(TeamDisplay);
             }
         });
 
+        //Used to open the screen playerlistmain
         btnPlayers= (Button) findViewById(R.id.PlayersBtn);
         btnPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Moving to modules");
-                //Learned how to do intents from the notes on webcourses
+                System.out.println("Moving to playerlistmain");
                 Intent PlayList = new Intent(MainActivity.this, PlayerListMain.class);
                 startActivity(PlayList);
             }

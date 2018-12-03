@@ -22,11 +22,12 @@ public class AddPlayer extends Activity {
         setContentView(R.layout.addplayer);
         mydb = new MyDbHelper(this);
 
+        //Gets information from playerlist screen
         Bundle bundle = getIntent().getExtras();
         nameselect = bundle.getString("PlayerSelected");
         Pid = bundle.getString("Pid");
 
-        //Used to move back to the main screen
+        //Used to move back to the playerlistmain or to the playerlist screen
         back = (Button)findViewById(R.id.Back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,7 +35,7 @@ public class AddPlayer extends Activity {
                 System.out.println("Moving to Main screen");
 
                 //Used to distinguish which screen to go back to
-                //As i pass the string PlayerListMin from the screen PlayerListMain so i can identify to go back to this screen
+                //As i pass the string PlayerListMain from the screen PlayerListMain so i can identify to go back to this screen
                 if(nameselect.equals("PlayerListMain")){
                     Intent PlayerList = new Intent(AddPlayer.this, PlayerListMain.class);
                     startActivity(PlayerList);

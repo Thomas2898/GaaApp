@@ -37,7 +37,7 @@ public class Team extends Activity {
     public static String str2;
     public static String Pid;
     public static String test = "Name1";
-    public static String id1, id2, player1, player2;
+    public static String id1, id2, player1, player2;//Player1, player2 are used to store the names of the players in the textview
     public static int chk;
 
     private android.widget.LinearLayout.LayoutParams layoutParams;
@@ -49,6 +49,8 @@ public class Team extends Activity {
         mydb = new MyDbHelper(this);
         //populateModuleList();
         loadTeam();// Used to load the players into their positions
+
+        //Gets information passed from the main screen and Playerlistscreen
         Bundle bundle = getIntent().getExtras();
         str = bundle.getString("PlayerSelected");
         str2 = bundle.getString("NewPlayer");
@@ -58,7 +60,6 @@ public class Team extends Activity {
 
         //Used so the main activity cannot not change any of the players names
         if(str2 != null){
-            System.out.println("HHHHHHHHHHHHHHHHHH");
             setPlayerName(Pid, str2);
         }
 
@@ -78,6 +79,8 @@ public class Team extends Activity {
         name1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Getting the coordinates of the textfield
                 int x = name1.getLeft();
                 int y = name1.getTop();
                 int width = name1.getWidth();
@@ -85,6 +88,7 @@ public class Team extends Activity {
 
                 System.out.println("Codrinates x = " + x + " y = " + y);
                 System.out.println("Name1 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
                 id1 = "ID1";
                 playerChosen = (TextView) findViewById(R.id.Name1);
                 System.out.println(name1.getId());
@@ -96,6 +100,7 @@ public class Team extends Activity {
         name2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Assigns the textview an id to make it unique and identifiable
                 id2 = "ID2";
                 playerChosen = (TextView) findViewById(R.id.Name2);
                 String a = name2.getText().toString();
@@ -132,6 +137,7 @@ public class Team extends Activity {
         startActivity(PlayList);
     }
 
+    //Used to set players names that have been retrieved from the playerlist screen
     public void setPlayerName(String Pid, String str2){
         System.out.println("Entered setPlayerName");
         System.out.println(playerChosen);
@@ -159,13 +165,15 @@ public class Team extends Activity {
         name2 = (TextView) findViewById(R.id.Name2);
         //name1.setText(player1);
 
+        //To make sure no textfield has no value as the textfield will disappear
         if(player1 == null) {
-            System.out.println("Player2 is null");
+            System.out.println("Player1 is null");
         }
         else{
             name1.setText(player1);
         }
 
+        //To make sure no textfield has no value as the textfield will disappear
         if(player2 == null) {
             System.out.println("Player2 is null");
         }

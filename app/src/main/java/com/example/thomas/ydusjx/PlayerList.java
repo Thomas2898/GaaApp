@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import static android.R.id.list;
 import static android.R.layout.simple_list_item_1;
 
-/**
- * Created by Thomas on 17/11/2017.
- */
 
 /*
 This screen displays  the modules the user has entered
@@ -46,17 +43,18 @@ public class PlayerList extends ListActivity {
         setContentView(R.layout.playerlist);
         System.out.println("Entered playerlist");
 
+        //Gets information passed from the team screen, to see which textview has been clicked
         Bundle bundle = getIntent().getExtras();
         nameselect = bundle.getString("NameSelect");
         Pid = bundle.getString("Pid");
         System.out.println("Pid =  " + Pid);
 
-        //populateModuleList();
+        //Used to go back to the Team screen
         back = (Button)findViewById(R.id.Back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Moving to modules");
+                System.out.println("Moving to Team screen");
                 Toast.makeText(PlayerList.this, "No player selected",Toast.LENGTH_LONG).show();
                 Intent Team = new Intent(PlayerList.this, Team.class);
                 //Used to keep the players name as it was if the user decides not to chnage the player when in the screen with the list of layer names
@@ -67,12 +65,12 @@ public class PlayerList extends ListActivity {
             }
         });
 
+        //Used to move to the add player screen
         addplayer = (Button)findViewById(R.id.AddPlayer);
         addplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to modules");
-                //Learned how to do intents from the notes on webcourses
                 Intent NewPlayer = new Intent(PlayerList.this, AddPlayer.class);
                 NewPlayer.putExtra("PlayerSelected", nameselect);
                 NewPlayer.putExtra("NewPlayer", nameselect);
@@ -91,8 +89,6 @@ public class PlayerList extends ListActivity {
         }
         else{
             while(cursor.moveToNext()){
-                //String[] columns = new String[] {"mid", "mname"};
-                //Gets the string in the second column which is MNAME(Module name)
                 theList.add(cursor.getString(1));
                 ListAdapter listAdapter = new ArrayAdapter<String>(this, simple_list_item_1, theList);
                 mylist.setAdapter(listAdapter);
@@ -101,6 +97,8 @@ public class PlayerList extends ListActivity {
         //Reference complete
     }
 
+    //This is called when a player from the list is clicked
+    //This opens the team screen with the player selected in the position of the textview selected
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();

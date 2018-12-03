@@ -26,7 +26,6 @@ public class PlayerListMain extends ListActivity {
     MyDbHelper mydb;
     Intent intent;
     Button back, addplayer;
-    public static int chk;
     public static String nameselect, Pid;
 
 
@@ -34,9 +33,9 @@ public class PlayerListMain extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playerlist);
-        System.out.println("Entered playerlist");
+        System.out.println("Entered playerlistmain");
 
-        //populateModuleList();
+        //opens the main menu
         back = (Button)findViewById(R.id.Back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,12 +48,12 @@ public class PlayerListMain extends ListActivity {
             }
         });
 
+        //Opens the add player screen
         addplayer = (Button)findViewById(R.id.AddPlayer);
         addplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to modules");
-                //Learned how to do intents from the notes on webcourses
                 Intent NewPlayer = new Intent(PlayerListMain.this, AddPlayer.class);
                 NewPlayer.putExtra("PlayerSelected", "PlayerListMain");
                 startActivity(NewPlayer);
@@ -71,8 +70,6 @@ public class PlayerListMain extends ListActivity {
         }
         else{
             while(cursor.moveToNext()){
-                //String[] columns = new String[] {"mid", "mname"};
-                //Gets the string in the second column which is MNAME(Module name)
                 theList.add(cursor.getString(1));
                 ListAdapter listAdapter = new ArrayAdapter<String>(this, simple_list_item_1, theList);
                 mylist.setAdapter(listAdapter);
@@ -81,6 +78,8 @@ public class PlayerListMain extends ListActivity {
         //Reference complete
     }
 
+    //Called when a player from the list is clicked
+    //Opens the PlayerUpdaeDelete screen
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
