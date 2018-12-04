@@ -86,6 +86,8 @@ public class Team extends Activity {
                 int width = name1.getWidth();
                 int height = name1.getHeight();
 
+                // x = 0 y = 144
+                // width = 140 height = 57
                 System.out.println("Codrinates x = " + x + " y = " + y);
                 System.out.println("Name1 width = " + width + " height = " + height);
                 //Assigns the textview an id to make it unique and identifiable

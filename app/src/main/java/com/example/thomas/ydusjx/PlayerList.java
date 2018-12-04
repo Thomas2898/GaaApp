@@ -36,7 +36,6 @@ public class PlayerList extends ListActivity {
     public static int chk;
     public static String nameselect, Pid;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
