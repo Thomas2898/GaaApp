@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.util.Log;
 import android.view.DragEvent;
@@ -19,6 +20,11 @@ import android.view.MotionEvent;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static android.R.id.list;
@@ -28,8 +34,8 @@ import static android.R.layout.simple_list_item_1;
  */
 
 public class Team extends Activity {
-    Button back;
-    TextView name1, name2, playerChosen;
+    Button back,test1;
+    TextView name1, name2, name3, name4, name5, name6, playerChosen;
     ImageView img, img2;
     String msg;
     MyDbHelper mydb;
@@ -37,10 +43,10 @@ public class Team extends Activity {
     public static String str2;
     public static String Pid;
     public static String test = "Name1";
-    public static String id1, id2, player1, player2;//Player1, player2 are used to store the names of the players in the textview
+    public static String id1, id2, id3, id4, id5, id6, player1, player2, player3, player4, player5, player6;//Player1, player2 are used to store the names of the players in the textview
     public static int chk;
 
-    private android.widget.LinearLayout.LayoutParams layoutParams;
+    private android.widget.RelativeLayout.LayoutParams layoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,10 @@ public class Team extends Activity {
 
         name1 = (TextView) findViewById(R.id.Name1);
         name2 = (TextView) findViewById(R.id.Name2);
+        name3 = (TextView) findViewById(R.id.Name3);
+        name4 = (TextView) findViewById(R.id.Name4);
+        name5 = (TextView) findViewById(R.id.Name5);
+        name6 = (TextView) findViewById(R.id.Name6);
 
         name1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +98,7 @@ public class Team extends Activity {
 
                 // x = 0 y = 144
                 // width = 140 height = 57
-                System.out.println("Codrinates x = " + x + " y = " + y);
+                System.out.println("Coordinates x = " + x + " y = " + y);
                 System.out.println("Name1 width = " + width + " height = " + height);
                 //Assigns the textview an id to make it unique and identifiable
                 id1 = "ID1";
@@ -102,12 +112,58 @@ public class Team extends Activity {
         name2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                int x = name2.getLeft();
+                int y = name2.getTop();
+                int width = name2.getWidth();
+                int height = name2.getHeight();
+
+                // x = 0 y = 144
+                // width = 140 height = 57
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name2 width = " + width + " height = " + height);
                 //Assigns the textview an id to make it unique and identifiable
                 id2 = "ID2";
                 playerChosen = (TextView) findViewById(R.id.Name2);
                 String a = name2.getText().toString();
                 System.out.println(a);
                 getPlayerName(a, id2);
+            }
+        });
+
+        name3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int x = name3.getLeft();
+                int y = name3.getTop();
+                int width = name3.getWidth();
+                int height = name3.getHeight();
+
+                // x = 0 y = 144
+                // width = 140 height = 57
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id3 = "ID3";
+                playerChosen = (TextView) findViewById(R.id.Name3);
+                String a = name3.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id3);
+            }
+        });
+
+        test1= (Button) findViewById(R.id.Test1);
+        test1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Test API");
+                try {
+                    MyGETRequest();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -144,16 +200,41 @@ public class Team extends Activity {
         System.out.println("Entered setPlayerName");
         System.out.println(playerChosen);
         System.out.println(str2);
+        name1 = (TextView) findViewById(R.id.Name1);
+        name2 = (TextView) findViewById(R.id.Name2);
+        name3 = (TextView) findViewById(R.id.Name3);
+
+
         if(Pid.equals("ID1")) {
-            name1 = (TextView) findViewById(R.id.Name1);
             player1 = str2;
             name1.setText(str2);
         }
         if(Pid.equals("ID2")) {
-            name2 = (TextView) findViewById(R.id.Name2);
             player2 = str2;
             name2.setText(str2);
         }
+        if(Pid.equals("ID3")) {
+            player3 = str2;
+            name3.setText(str2);
+        }
+
+
+        /*
+        String[] Ids = {"ID1","ID2","ID3"};
+        String[] Players = {player1,player2,player3};
+        TextView[] Names = {name1,name2,name3};
+
+        for(int i = 0 ; i < Ids.length; i++){
+            if(Pid.equals(Ids[i])) {
+                System.out.println("ENTERED LOOOOP");
+                System.out.println("Value ===== " + Players[i]);
+                Players[i] = str2;
+                System.out.println("Value ===== " + Players[i]);
+                Names[i].setText(str2);
+            }
+        }
+        */
+
 
         //Used to reload the team when a new player is chosen
         loadTeam();
@@ -162,11 +243,12 @@ public class Team extends Activity {
     //When the team page is open this is called to load the players into their positions
     //Players that have been picked will be stored in strings such as player1 and player2
     public void loadTeam(){
-        System.out.println("Entered load time");
         name1 = (TextView) findViewById(R.id.Name1);
         name2 = (TextView) findViewById(R.id.Name2);
+        name3 = (TextView) findViewById(R.id.Name3);
         //name1.setText(player1);
 
+        /*
         //To make sure no textfield has no value as the textfield will disappear
         if(player1 == null) {
             System.out.println("Player1 is null");
@@ -182,6 +264,25 @@ public class Team extends Activity {
         else{
             name2.setText(player2);
         }
+
+        if(player3 != null) {
+            name3.setText(player3);
+        }
+        */
+
+        //An array of strings that hold the value of the players name (String player1 = "Tom")
+        String[] Players = {player1,player2,player3};
+        //Used to know which textview is which
+        TextView[] Names = {name1,name2,name3};
+
+        //Used to set the textviews to the players names that were already chosen
+        for(int i = 0 ; i < Players.length; i++){
+            if( Players[i] != null) {
+                Names[i].setText(Players[i]);
+            }
+        }
+
+
     }
 
     //Called when one of the images is touched
@@ -210,7 +311,7 @@ public class Team extends Activity {
             public boolean onDrag(View v, DragEvent event) {
                 switch(event.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
-                        layoutParams = (LinearLayout.LayoutParams)v.getLayoutParams();
+                        layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
                         System.out.println("Action drag started");
                         break;
 
@@ -240,11 +341,18 @@ public class Team extends Activity {
                         System.out.println("Action drag ended");
                         xValue = (int) event.getX();
                         yValue = (int) event.getY();
-                        System.out.println("This is the x value in ACTION_DRAG_ENDED");
-                        System.out.println(xValue);
+                        System.out.println("This is the x value in ACTION_DRAG_ENDED " + xValue);
+                        System.out.println("This is the y value in ACTION_DRAG_ENDED " + yValue);
+
+
                         //Used to test the images coordinates
-                        if(xValue >= 200 && xValue <= 300){
-                            System.out.println("Pass added");
+                        if(xValue >= 0 && xValue <= 200 && yValue >= 144 && yValue <= 225){
+                            System.out.println("Player1 identified");
+                            System.out.println("Players name is " + player1);
+                        }
+
+                        if(xValue >= 470 && xValue <= 610 && yValue >= 144 && yValue <= 201){
+                            System.out.println("Player2 identified");
                         }
                         break;
 
@@ -274,5 +382,28 @@ public class Team extends Activity {
             }
         });
         //End code reference
+    }
+
+    public static void MyGETRequest() throws IOException {
+        System.out.println("Entered MyGETRequest");
+        URL urlForGetRequest = new URL("https://jsonplaceholder.typicode.com/posts/1");
+        String readLine = null;
+        HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
+        conection.setRequestMethod("GET");
+        conection.setRequestProperty("userId", "a1bcdef"); // set userId its a sample here
+        int responseCode = conection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conection.getInputStream()));
+            StringBuffer response = new StringBuffer();
+            while ((readLine = in .readLine()) != null) {
+                response.append(readLine);
+            } in .close();
+            // print result
+            System.out.println("JSON String Result " + response.toString());
+            //GetAndPost.POSTRequest(response.toString());
+        } else {
+            System.out.println("GET NOT WORKED");
+        }
     }
 }

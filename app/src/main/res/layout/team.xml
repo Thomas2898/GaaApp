@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,38 +8,89 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back" />
+    <Button
+        android:id="@+id/Test1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Name5"
+        android:text="Test" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Player1"
-        android:id="@+id/Name1"/>
+        android:textSize="20dp"
+        android:id="@+id/Name1"
+        android:layout_below="@+id/Back"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Player2"
-        android:id="@+id/Name2"/>
+        android:textSize="20dp"
+        android:id="@+id/Name2"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Back"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player3"
+        android:textSize="20dp"
+        android:id="@+id/Name3"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Back"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player4"
+        android:textSize="20dp"
+        android:id="@+id/Name4"
+        android:layout_below="@+id/Name1"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player5"
+        android:textSize="20dp"
+        android:id="@+id/Name5"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Name2"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player6"
+        android:textSize="20dp"
+        android:id="@+id/Name6"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Name3"
+        android:layout_marginTop="30dp"/>
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/Player2"
-        android:layout_alignLeft="@+id/Player2"
-        android:layout_alignRight="@+id/Player2"
-        android:layout_alignStart="@+id/Player2"
-        android:layout_below="@+id/Player2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:baselineAligned="false"
         android:background="@mipmap/ic_launcher" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_below="@+id/imageView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:baselineAligned="false"
         android:background="@mipmap/ic_launcher" />
-</LinearLayout>
+</RelativeLayout>
