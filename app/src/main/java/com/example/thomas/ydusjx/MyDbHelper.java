@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -37,6 +38,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
         SQLiteDatabase db = this.getWritableDatabase();
     }
+
+
 
     //Used to create the database
     public void onCreate(SQLiteDatabase db){

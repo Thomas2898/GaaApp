@@ -35,6 +35,7 @@ public class PlayerList extends ListActivity {
     Button back, addplayer;
     public static int chk;
     public static String nameselect, Pid;
+    public ArrayList<String> PlayersNames = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +81,16 @@ public class PlayerList extends ListActivity {
 
         mylist = (ListView) findViewById(list);
         mydb = new MyDbHelper(this);
+        String[] Test = {"A","B","C","D"};
         //Reference: The following code an Android example https://stackoverflow.com/questions/45870812/showing-data-in-listview-from-database-in-android-studio
         ArrayList<String> theList = new ArrayList<String>();
+        //ArrayList<String> PlayersNames = new ArrayList<String>();
+        PlayersNames.add("A");
+        PlayersNames.add("B");
+        PlayersNames.add("C");
+        PlayersNames.add("D");
+
+        /*
         Cursor cursor = mydb.getAllRows();
         if(cursor.getCount() == 0){
             Toast.makeText(PlayerList.this, "No data in the table",Toast.LENGTH_LONG).show();
@@ -93,7 +102,15 @@ public class PlayerList extends ListActivity {
                 mylist.setAdapter(listAdapter);
             }
         }
+        */
         //Reference complete
+
+
+        for(int i = 0 ; i < PlayersNames.size(); i++){
+            theList.add(PlayersNames.get(i));
+            ListAdapter listAdapter = new ArrayAdapter<String>(this, simple_list_item_1, theList);
+            mylist.setAdapter(listAdapter);
+        }
     }
 
     //This is called when a player from the list is clicked
