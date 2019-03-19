@@ -158,11 +158,13 @@ public class Team extends Activity {
             @Override
             public void onClick(View v) {
                 System.out.println("Test API");
-                try {
-                    MyGETRequest();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+               // try {
+                    //MyGETRequest();
+                //} catch (IOException e) {
+                //    e.printStackTrace();
+               // }
+                MainActivity.updateApi();
 
             }
         });

@@ -33,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -96,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Test API");
-                sendPost();
+                //sendPost();
+                //updateApi();
+                callApi();
 
                 //apiCalls.JsonTask().execute("http://142.93.44.141/players/1?format=json");
                 //new JsonTask().execute("http://142.93.44.141/players/1?format=json");
@@ -309,9 +312,11 @@ public class MainActivity extends AppCompatActivity {
                     conn.setDoInput(true);
 
                     JSONObject jsonParam = new JSONObject();
+                    //jsonParam.put("id", 3);
                     jsonParam.put("name", "Gerry");
-                    jsonParam.put("DOB", "26/03/1991");
-                    jsonParam.put("teamID", 1);
+                    jsonParam.put("DOB", "26/03/1992");
+                    jsonParam.remove("teamID");
+                    jsonParam.put("teamID", 2);
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -330,7 +335,120 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        thread.start();
+    }
 
+    static public void updateApi() {
+        final String API = "http://142.93.44.141/players/3";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(API);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("PUT");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    //jsonParam.put("id", 3);
+                    jsonParam.put("name", "Gerry");
+                    jsonParam.put("DOB", "26/03/1992");
+                    //jsonParam.remove("teamID");
+                    jsonParam.put("teamID", 10);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    static public void callApi() {
+        final String API = "http://142.93.44.141/players/";
+        //HttpURLConnection connection = null;
+        //BufferedReader reader = null;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    InputStream stream = connection.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+                    //System.out.println("BUFFER " + reader.readLine());
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
+
+                    String playerName;
+                    //String[] PlayersNames = {"Test1", "Test2"};
+                    ArrayList<String> theList = new ArrayList<String>();
+                    ArrayList<String> PlayersNames = new ArrayList<String>();
+                    //PlayersNames.add("A");
+                    //PlayersNames.add("B");
+                    //PlayersNames.add("C");
+                    //PlayersNames.add("D");
+                    //String[] Players = {Team.player1,Team.player2,Team.player3};
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int teamId = (int) jsonObject.get("teamID");
+                        //jsonObject.put("teamID", 2);
+                        //System.out.println("LOOP RESULT t " + teamId);
+                        if(teamId == 1) {
+                            String jsonObjectAsString = (String) jsonObject.get("name");
+                            int TeamID = (int) jsonObject.get("teamID");
+                            //PlayersNames[i] = jsonObjectAsString;
+                            PlayersNames.add(jsonObjectAsString);
+                            //PlayerList.PlayersNames.add("A");
+                            //jsonObject.put("teamID", 2);
+                            System.out.println("LOOP RESULT " + jsonObjectAsString);
+                            System.out.println(TeamID);
+                        }
+                    }
+
+                    //System.out.println("Player name " + PlayersNames[0]);
+
+
+                /*
+                JSONObject JSO = new JSONObject(buffer.toString());
+                System.out.println("JSON " + JSO);
+                playerName = (String) JSO.get("name");
+                System.out.println("JSON " + playerName);
+                */
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         thread.start();
     }
 }
