@@ -24,6 +24,9 @@
         <activity android:name=".PlayerList"/>
         <activity android:name=".PlayerListMain"/>
         <activity android:name=".PlayerUpdateDelete"/>
+        <activity android:name=".TeamSelection"/>
+        <activity android:name=".TeamMainScreen"/>
+
     </application>
 
 </manifest>

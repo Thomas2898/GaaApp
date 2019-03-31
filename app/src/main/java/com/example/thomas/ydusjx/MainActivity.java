@@ -41,11 +41,12 @@ import static com.example.thomas.ydusjx.Team.player1;
 
 public class MainActivity extends AppCompatActivity {
     MyDbHelper mydb;
-    apiCalls myApi;
+    apiCalls apiPlayer;
     Button btnTeam;
     Button btnPlayer;
     Button btnPlayers;
     Button btnTest;
+    JSONArray players;
     //JSONParser jsonparser = new JSONParser();
     //JSONObject jobj = null;
     ProgressDialog pd;
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mydb = new MyDbHelper(this);
         System.out.println("WORKS");
+        apiCalls.getTeams getTeam = new apiCalls.getTeams();
+        getTeam.execute("http://142.93.44.141/teams/");
+        System.out.println("This is the returned values in TeamSelection " + getTeam);
 
         /*
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -70,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
         btnTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Moving to team list");
+                Intent TeamDisplay = new Intent(MainActivity.this, TeamSelection.class);
+                startActivity(TeamDisplay);
+            }
+        });
+
+        /*
+        btnTeam = (Button) findViewById(R.id.TeamBtn);
+        btnTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 System.out.println("Moving to team");
                 //Used to pass a string to the team screen as the line "str = bundle.getString("PlayerSelected");" would bring back an error as no string was passed
                 String TeamName = "PlayerName";
@@ -78,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(TeamDisplay);
             }
         });
+        */
 
         //Used to open the screen playerlistmain
         btnPlayers= (Button) findViewById(R.id.PlayersBtn);
@@ -99,7 +115,19 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Test API");
                 //sendPost();
                 //updateApi();
-                callApi();
+                //apiPlayer = new apiCalls();
+                //JSONArray playersID = apiPlayer.callApi();
+                // System.out.println("This is the returned values" + playersID);
+                /*
+                getPlayers getPlayer = new getPlayers();
+                getPlayer.execute("http://142.93.44.141/teams/");
+                System.out.println("This is the returned values " + getPlayer);
+                */
+                apiCalls.getTeams getTeam = new apiCalls.getTeams();
+                getTeam.execute("http://142.93.44.141/teams/");
+                System.out.println("This is the returned values " + getTeam);
+
+
 
                 //apiCalls.JsonTask().execute("http://142.93.44.141/players/1?format=json");
                 //new JsonTask().execute("http://142.93.44.141/players/1?format=json");
@@ -241,62 +269,153 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class CallAPI extends AsyncTask<String, String, String> {
 
-        public CallAPI(){
-            //set context variables if required
-        }
 
-        @Override
+
+    public class getPlayers extends AsyncTask<String, String, JSONArray> {
+
+        public JSONArray p1;
         protected void onPreExecute() {
             super.onPreExecute();
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setMessage("Please wait");
+            pd.setCancelable(false);
+            pd.show();
         }
 
-        @Override
-        protected String doInBackground(String... params) {
-            String urlString = params[0]; // URL to call
-            //String data = params[1]; //data to post
-            String data = "{name: gerry, DOB: 23/11/2000, teamID:1}";
-            OutputStream out = null;
+        protected JSONArray doInBackground(String... params) {
+
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
 
             try {
-                URL url = new URL(urlString);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+
                 /*
-                out = new BufferedOutputStream(urlConnection.getOutputStream());
+                JSONParser jp = new JSONParser(); //from gson
+                try {
+                    JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                */
 
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                writer.write(data);
-                writer.flush();
-                writer.close();
-                out.close();
+                InputStream stream = connection.getInputStream();
 
-                urlConnection.connect();
+                reader = new BufferedReader(new InputStreamReader(stream));
+
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+                //String jsonText = readAll(reader);
+                //JSONObject json = new JSONObject(jsonText);
+
+                //JSONObject jobj = (JSONObject) parser.parse(reader); // Pass the Json formatted String
+                //String internal_id = (String) jobj.get("Id"); // Extract the value from your key
+                //System.out.println(internal_id);
+
+                //System.out.println("BUFFER " + reader.readLine());
+
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line+"\n");
+                    Log.d("Response: ", "> " + line);
+                }
+
+                String playerName;
+                String[] PlayersNames = {"Test1", "Test2"};
+                //String[] Players = {Team.player1,Team.player2,Team.player3};
+                JSONArray jsonArray = new JSONArray(buffer.toString());
+                for(int i=0; i<jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    //int teamId = (int) jsonObject.get("teamID");
+                    //jsonObject.put("teamID", 2);
+                    //System.out.println("LOOP RESULT t " + teamId);
+                    //if(teamId == 1) {
+                    //String jsonObjectAsString = (String) jsonObject.get("players");
+                    JSONArray pl = new JSONArray(buffer.toString());
+
+                    p1 = (JSONArray) jsonObject.get("players");
+
+                    //int TeamID = (int) jsonObject.get("teamID");
+                    //PlayersNames[i] = jsonObjectAsString;
+                    //PlayersNames.add(jsonObjectAsString);
+                    //PlayerList.PlayersNames.add("A");
+                    //jsonObject.put("teamID", 2);
+                    System.out.println("LOOP RESULT " + pl);
+                    //System.out.println(TeamID);
+                    //}
+                }
+
+                //return buffer.toString();
+                //return p1;
+                displayPlayers(p1);
+
+
+
+                /*
+                JSONObject JSO = new JSONObject(buffer.toString());
+                System.out.println("JSON " + JSO);
+                playerName = (String) JSO.get("name");
+                System.out.println("JSON " + playerName);
                 */
 
 
-                String dataToSend = "(\"name=\" + Gerry + \"DOB=\" + 28/05/1992 + \"teamID=\" + 1)";
-                urlConnection.setRequestMethod("POST");// do not use "GET" in your case
 
-                urlConnection.setRequestProperty("Content-Type", "application/json");//whatever you want
-
-                urlConnection.setRequestProperty("Content-Length", "" + dataToSend.getBytes().length);
-
-                urlConnection.setUseCaches(false);//set true to enable Cache for the req
-                urlConnection.setDoOutput(true);//enable to write data to output stream
-                OutputStream os = urlConnection.getOutputStream();
-                os.write(dataToSend.getBytes());
-                os.flush();
-                os.close();
-                urlConnection.connect();
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            return urlString;
+
+            System.out.println("This is the result at the bottom " + p1);
+            return p1;
+            //return null;
+        }
+
+
+
+        @Override
+        protected void onPostExecute(JSONArray result) {
+            super.onPostExecute(result);
+            if (pd.isShowing()){
+                pd.dismiss();
+            }
+            //txtJson.setText(result);
+            System.out.println("This is the results" + result);
         }
     }
+
+
+    static void displayPlayers(JSONArray result) {
+
+        //txtJson.setText(result);
+        System.out.println("This is the results in displayPlayers" + result);
+    }
+
+
+
+
+
+
+
+
+
+
     // Where i learned how to post to an api https://stackoverflow.com/questions/42767249/android-post-request-with-json 
     public void sendPost() {
         Thread thread = new Thread(new Runnable() {
@@ -380,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static public void callApi() {
-        final String API = "http://142.93.44.141/players/";
+        final String API = "http://142.93.44.141/teams/";
         //HttpURLConnection connection = null;
         //BufferedReader reader = null;
         Thread thread = new Thread(new Runnable() {
@@ -419,19 +538,21 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(buffer.toString());
                     for(int i=0; i<jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int teamId = (int) jsonObject.get("teamID");
+                        //int teamId = (int) jsonObject.get("teamID");
                         //jsonObject.put("teamID", 2);
                         //System.out.println("LOOP RESULT t " + teamId);
-                        if(teamId == 1) {
-                            String jsonObjectAsString = (String) jsonObject.get("name");
-                            int TeamID = (int) jsonObject.get("teamID");
+                        //if(teamId == 1) {
+                            //String jsonObjectAsString = (String) jsonObject.get("players");
+                        JSONArray pl = (JSONArray) jsonObject.get("players");
+
+                            //int TeamID = (int) jsonObject.get("teamID");
                             //PlayersNames[i] = jsonObjectAsString;
-                            PlayersNames.add(jsonObjectAsString);
+                            //PlayersNames.add(jsonObjectAsString);
                             //PlayerList.PlayersNames.add("A");
                             //jsonObject.put("teamID", 2);
-                            System.out.println("LOOP RESULT " + jsonObjectAsString);
-                            System.out.println(TeamID);
-                        }
+                            System.out.println("LOOP RESULT " + pl.getJSONObject(9));
+                            //System.out.println(TeamID);
+                        //}
                     }
 
                     //System.out.println("Player name " + PlayersNames[0]);
