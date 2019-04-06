@@ -4,6 +4,13 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/Back"
+        android:text="Back"
+        android:layout_marginLeft="128dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
         android:id="@+id/FixtureBtn"
         android:text="Fixtures"
         android:layout_marginLeft="128dp"
@@ -13,6 +20,13 @@
     <Button
         android:id="@+id/StatsBtn"
         android:text="Statistics"
+        android:layout_marginLeft="128dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/PlayersBtn"
+        android:text="Players"
         android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

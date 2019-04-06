@@ -26,6 +26,8 @@
         <activity android:name=".PlayerUpdateDelete"/>
         <activity android:name=".TeamSelection"/>
         <activity android:name=".TeamMainScreen"/>
+        <activity android:name=".FixtureSelection"/>
+        <activity android:name=".PlayerSelection"/>
 
     </application>
 
