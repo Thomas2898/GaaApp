@@ -33,6 +33,7 @@ import static android.R.layout.simple_list_item_1;
  * Created by Thomas on 27/10/2018.
  */
 
+//This is the code that creates the screen where stats are recorded
 public class Team extends Activity {
     Button back,test1;
     TextView name1, name2, name3, name4, name5, name6, playerChosen;

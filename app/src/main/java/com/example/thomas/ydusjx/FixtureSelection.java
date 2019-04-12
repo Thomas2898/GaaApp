@@ -80,7 +80,7 @@ public class FixtureSelection extends ListActivity {
         }
     }
 
-    //This recesives data from the
+    //This recesives data from apiCalls
     protected static void getFixtures(ArrayList result) {
         System.out.println("In getFixtures");
         fixtures.clear();

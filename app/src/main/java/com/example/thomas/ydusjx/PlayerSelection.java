@@ -52,11 +52,10 @@ public class PlayerSelection extends ListActivity {
         getFixtures.execute("http://142.93.44.141/fixtures/", "fixtures");
         */
 
-        /*
+        //Used to get what team was chosen
         Bundle bundle = getIntent().getExtras();
         TeamName = bundle.getString("TeamSelected");
         System.out.println("This is the team that was selected " + TeamName);
-        */
 
         //Used to go back to the Team screen
         back = (Button)findViewById(R.id.Back);

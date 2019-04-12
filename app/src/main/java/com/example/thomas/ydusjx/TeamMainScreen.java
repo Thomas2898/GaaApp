@@ -74,6 +74,7 @@ public class TeamMainScreen extends Activity {
             public void onClick(View v) {
                 System.out.println("Moving to playerlist");
                 Intent TeamDisplay = new Intent(TeamMainScreen.this, PlayerSelection.class);
+                TeamDisplay.putExtra("TeamSelected", TeamName);
                 startActivity(TeamDisplay);
             }
         });

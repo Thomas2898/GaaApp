@@ -177,29 +177,12 @@ public class apiCalls extends Activity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String name = (String) jsonObject.get("name");
                         teamNames.add(name);
-                        //int teamId = (int) jsonObject.get("teamID");
-                        //jsonObject.put("teamID", 2);
-                        //System.out.println("LOOP RESULT t " + teamId);
-                        //if(teamId == 1) {
-                        //String jsonObjectAsString = (String) jsonObject.get("players");
                         JSONArray pl = new JSONArray(buffer.toString());
 
                         p1 = (JSONArray) jsonObject.get("players");
-
-
-                        //int TeamID = (int) jsonObject.get("teamID");
-                        //PlayersNames[i] = jsonObjectAsString;
-                        //PlayersNames.add(jsonObjectAsString);
-                        //PlayerList.PlayersNames.add("A");
-                        //jsonObject.put("teamID", 2);
                         System.out.println("LOOP RESULT " + pl);
-                        //System.out.println(TeamID);
-                        //}
-                    }
 
-                    //return buffer.toString();
-                    //return p1;
-                    //MainActivity.displayPlayers(p1);
+                    }
                     TeamSelection.getTeam(teamNames);
                 }
 
@@ -381,44 +364,6 @@ public class apiCalls extends Activity {
                 storePID(PlayerIDS);
                 //storePlayerID(playerIDS);
 
-
-                /*
-                URL urlPlayer = new URL("http://142.93.44.141/players");
-                connection = (HttpURLConnection) urlPlayer.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-
-                InputStream streamPlayer = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(streamPlayer));
-
-                StringBuffer bufferPlayer = new StringBuffer();
-                String linePlayer = "";
-
-                while ((linePlayer = reader.readLine()) != null) {
-                    bufferPlayer.append(line+"\n");
-                    Log.d("Response: ", "> " + line);
-                }
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    p1 = (JSONArray) jsonObject.get("players");
-                    int pid = (int) jsonObject.get("name");
-                    String pname = (String) jsonObject.get("DOB");
-                    String pDOB = (String) jsonObject.get("id");
-
-                    for (int j = 0; j < playerIDS.size(); j++) {
-
-                        if(pid == playerIDS.get(i)){
-
-                            System.out.println("Players id for the team selected " + pid);
-                            String fullDisplayPlayer = pid + " " + pname + " " + pDOB;
-                            System.out.println(fullDisplayPlayer);
-
-                        }
-                    }
-                }
-                */
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -451,7 +396,108 @@ public class apiCalls extends Activity {
         }
     }
 
-    //This recesives data from the
+
+
+
+    static public void playerStat(final int playerID, final int fixtureID, final String Stat) {
+        final String API = "http://142.93.44.141/teams/";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    InputStream stream = connection.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
+
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int playerIDData = (int) jsonObject.get("Player_ID");
+                        int fixtureIDData = (int) jsonObject.get("Fixture_ID");
+
+                        if(playerID == playerIDData && fixtureID == fixtureIDData) {
+
+                            int StatID = (int) jsonObject.get("id");
+                            int Player_ID = (int) jsonObject.get("Player_ID");
+                            int Fixture_ID = (int) jsonObject.get("Fixture_ID");
+                            int Pass = (int) jsonObject.get("Pass");
+                            int Pass_Miss = (int) jsonObject.get("Pass_Miss");
+                            int Point = (int) jsonObject.get("Point");
+                            int Point_Miss = (int) jsonObject.get("Point_Miss");
+                            int Goal = (int) jsonObject.get("Goal");
+                            int Goal_Miss = (int) jsonObject.get("Goal_Miss");
+                            int Turnover = (int) jsonObject.get("Turnover");
+                            int Dispossessed = (int) jsonObject.get("Dispossessed");
+                            int Block = (int) jsonObject.get("Block");
+                            int Kickout_won = (int) jsonObject.get("Kickout_won");
+                            int Kickout_lost = (int) jsonObject.get("Kickout_lost");
+                            int Goal_save = (int) jsonObject.get("Goal_save");
+                            int Goal_conceded = (int) jsonObject.get("Goal_conceded");
+                            int Yellow_card = (int) jsonObject.get("Yellow_card");
+                            int Red_card = (int) jsonObject.get("Red_card");
+                            int Black_card = (int) jsonObject.get("Black_card");
+
+                            //Used to compare to the stat that is a parameter when this class is called
+                            String[] PStats = {"id", "Player_ID", "Fixture_ID", "Pass", "Pass_Miss", "Point", "Point_Miss", "Goal", "Goal_Miss", "Turnover", "Dispossessed", "Block", "Kickout_won", "Kickout_lost", "Goal_save", "Goal_conceded", "Yellow_card", "Red_card", "Black_card"};
+                            int[] PStatsVal = {StatID, Player_ID, Fixture_ID, Pass, Pass_Miss, Point, Point_Miss, Goal, Goal_Miss, Turnover, Dispossessed, Block, Kickout_won, Kickout_lost, Goal_save, Goal_conceded, Yellow_card, Red_card, Black_card};
+
+                            //Used to compare the stat that was passed in as a parameter
+                            //and increase the stat by one
+                            for(int j=0; j<PStats.length; j++) {
+                                if(Stat.equals(PStats[j])){
+                                    System.out.println("Stat being increased is "  + Stat);
+                                    PStatsVal[j] = PStatsVal[j] + 1;
+                                    System.out.println("Stat is increased to "  + PStatsVal[j]);
+                                    System.out.println("Compare "  + Point);
+                                }
+                            }
+
+                            System.out.println("Player Pass " + Pass + " Player pass miss " + Pass_Miss);
+                            System.out.println("The id of the stat is "  + StatID);
+                            String StatChosen = Integer.toString(StatID);
+                            //System.out.println(TeamID);
+                            connection.disconnect();
+                        }
+                    }
+                    connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    //This receives data from the getPlayers class of the ids in string format
+    //the strings are seperated by spaces in the string so taking them out of the
+    //string is easier
+    //This calls
     protected static void storePID(String result) {
         System.out.println("StorePID received " + result);
 
