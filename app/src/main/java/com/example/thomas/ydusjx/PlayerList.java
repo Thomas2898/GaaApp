@@ -34,8 +34,8 @@ public class PlayerList extends ListActivity {
     Intent intent;
     Button back, addplayer;
     public static int chk;
-    public static String nameselect, Pid;
-    public ArrayList<String> PlayersNames = new ArrayList<String>();
+    public static String nameselect, Pid, FixtureID, TeamName;
+    public static ArrayList<String> PlayersNames = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,12 @@ public class PlayerList extends ListActivity {
 
         //Gets information passed from the team screen, to see which textview has been clicked
         Bundle bundle = getIntent().getExtras();
+        FixtureID = bundle.getString("FixtureID");
+        TeamName = bundle.getString("TeamSelected");
         nameselect = bundle.getString("NameSelect");
         Pid = bundle.getString("Pid");
         System.out.println("Pid =  " + Pid);
+        System.out.println("Team name in PlayerList is " + TeamName);
 
         //Used to go back to the Team screen
         back = (Button)findViewById(R.id.Back);
@@ -55,9 +58,12 @@ public class PlayerList extends ListActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to Team screen");
+                System.out.println("Team name in PlayerLists Back is " + TeamName);
                 Toast.makeText(PlayerList.this, "No player selected",Toast.LENGTH_LONG).show();
                 Intent Team = new Intent(PlayerList.this, Team.class);
                 //Used to keep the players name as it was if the user decides not to chnage the player when in the screen with the list of layer names
+                Team.putExtra("FixtureID", FixtureID);
+                Team.putExtra("TeamSelected", TeamName);
                 Team.putExtra("PlayerSelected", nameselect);
                 Team.putExtra("NewPlayer", nameselect);
                 Team.putExtra("Pid", Pid);
@@ -65,6 +71,7 @@ public class PlayerList extends ListActivity {
             }
         });
 
+        /*
         //Used to move to the add player screen
         addplayer = (Button)findViewById(R.id.AddPlayer);
         addplayer.setOnClickListener(new View.OnClickListener() {
@@ -78,38 +85,29 @@ public class PlayerList extends ListActivity {
                 startActivity(NewPlayer);
             }
         });
+        */
 
         mylist = (ListView) findViewById(list);
         mydb = new MyDbHelper(this);
         String[] Test = {"A","B","C","D"};
         //Reference: The following code an Android example https://stackoverflow.com/questions/45870812/showing-data-in-listview-from-database-in-android-studio
         ArrayList<String> theList = new ArrayList<String>();
-        //ArrayList<String> PlayersNames = new ArrayList<String>();
-        PlayersNames.add("A");
-        PlayersNames.add("B");
-        PlayersNames.add("C");
-        PlayersNames.add("D");
-
-        /*
-        Cursor cursor = mydb.getAllRows();
-        if(cursor.getCount() == 0){
-            Toast.makeText(PlayerList.this, "No data in the table",Toast.LENGTH_LONG).show();
-        }
-        else{
-            while(cursor.moveToNext()){
-                theList.add(cursor.getString(1));
-                ListAdapter listAdapter = new ArrayAdapter<String>(this, simple_list_item_1, theList);
-                mylist.setAdapter(listAdapter);
-            }
-        }
-        */
-        //Reference complete
-
 
         for(int i = 0 ; i < PlayersNames.size(); i++){
             theList.add(PlayersNames.get(i));
             ListAdapter listAdapter = new ArrayAdapter<String>(this, simple_list_item_1, theList);
             mylist.setAdapter(listAdapter);
+        }
+    }
+
+
+    //This recesives data from apiCalls
+    protected static void getPlayersNames(ArrayList result) {
+        System.out.println("In getFixtures");
+        PlayersNames.clear();
+        for(int i = 0 ; i < result.size(); i++){
+            String name = (String) result.get(i);
+            PlayersNames.add(name);
         }
     }
 
@@ -121,6 +119,8 @@ public class PlayerList extends ListActivity {
         Intent PlayedSelected = new Intent(PlayerList.this, Team.class);
         //Used tp pass a string to NoteList
         //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
+        PlayedSelected.putExtra("TeamSelected", TeamName);
+        PlayedSelected.putExtra("FixtureID", FixtureID);
         PlayedSelected.putExtra("PlayerSelected", nameselect);
         PlayedSelected.putExtra("NewPlayer", selection);
         PlayedSelected.putExtra("Pid", Pid);

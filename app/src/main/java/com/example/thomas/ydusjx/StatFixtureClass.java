@@ -1,7 +1,7 @@
 package com.example.thomas.ydusjx;
 
 /**
- * Created by Thomas on 01/04/2019.
+ * Created by Thomas on 13/04/2019.
  */
 
 import android.app.ListActivity;
@@ -28,10 +28,11 @@ import static android.R.layout.simple_list_item_1;
 
 
 /*
-This screen displays  the modules the user has entered
-Also has a back button th=o bring the user to the main page
+This screen is called when the user clicks he Record statistics button.
+It is used to allow the user to click which fixture they would like to
+record the statistics for
  */
-public class FixtureSelection extends ListActivity {
+public class StatFixtureClass extends ListActivity {
     Team team;
     ListView mylist;
     static ListView teamList;
@@ -41,12 +42,12 @@ public class FixtureSelection extends ListActivity {
     Button back, addplayer;
     //public static int chk;
     String TeamName, ScreenCalled;//ScreenCalled is used to see which screen opened FixtureSelection.java
-    public static ArrayList<String> fixtures = new ArrayList<String>();
+    public static ArrayList<String> Statfixtures = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fixtureselection);
+        setContentView(R.layout.statfixtureselection);
         System.out.println("Entered FixtureSelection");
 
         /*
@@ -67,30 +68,31 @@ public class FixtureSelection extends ListActivity {
             public void onClick(View v) {
                 System.out.println("Moving to Team screen");
                 //Toast.makeText(FixtureSelection.this, "No player selected",Toast.LENGTH_LONG).show();
-                Intent TeamMainScreen = new Intent(FixtureSelection.this, TeamMainScreen.class);
+                Intent TeamMainScreen = new Intent(StatFixtureClass.this, TeamMainScreen.class);
                 TeamMainScreen.putExtra("TeamSelected", TeamName);
                 startActivity(TeamMainScreen);
             }
         });
 
+        Header = (TextView) findViewById(R.id.Header);
         mylist = (ListView) findViewById(list);
         //Reference: The following code an Android example https://stackoverflow.com/questions/45870812/showing-data-in-listview-from-database-in-android-studio
         ArrayList<String> theList = new ArrayList<String>();
 
-        for(int i = 0 ; i < fixtures.size(); i++){
-            theList.add(fixtures.get(i));
+        for(int i = 0 ; i < Statfixtures.size(); i++){
+            theList.add(Statfixtures.get(i));
             ListAdapter listAdapter = new ArrayAdapter<String>(this, simple_list_item_1, theList);
             mylist.setAdapter(listAdapter);
         }
     }
 
     //This recesives data from apiCalls
-    protected static void getFixtures(ArrayList result) {
+    protected static void getStatFixtures(ArrayList result) {
         System.out.println("In getFixtures");
-        fixtures.clear();
+        Statfixtures.clear();
         for(int i = 0 ; i < result.size(); i++){
             String name = (String) result.get(i);
-            fixtures.add(name);
+            Statfixtures.add(name);
         }
     }
 
@@ -100,14 +102,17 @@ public class FixtureSelection extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-        //Intent TeamSelected = new Intent(TeamSelection.this, TeamMainScreen.class);
-        //Used tp pass a string to NoteList
-        //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
-        //TeamSelected.putExtra("TeamSelected", selection);
+        String[] FixtureString = selection.split(" ");
+        System.out.println("The id of selected fixture is " + FixtureString[0]);
+        System.out.println("Moving to team");
 
-        //team.setPlayerName();
-        //Reference complete
-        //startActivity(TeamSelected);
+        //Used to pass a string to the team screen as the line "str = bundle.getString("PlayerSelected");" would bring back an error as no string was passed
+        String PlayerName = "PlayerName";
+        Intent TeamDisplay = new Intent(StatFixtureClass.this, Team.class);
+        TeamDisplay.putExtra("PlayerSelected", PlayerName);
+        TeamDisplay.putExtra("TeamSelected", TeamName);
+        TeamDisplay.putExtra("FixtureID", FixtureString[0]);
+        startActivity(TeamDisplay);
 
     }
 

@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -262,21 +263,24 @@ public class apiCalls extends Activity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+                        int StatID = (int) jsonObject.get("id");
+                        String StatChosen = Integer.toString(StatID);
                         String AwayTeam = (String) jsonObject.get("Away_Team");
                         String HomeTeam = (String) jsonObject.get("Home_Team");
                         String Date = (String) jsonObject.get("Date");
-                        String fullDisplay = HomeTeam + " vs " + AwayTeam + " Date " + Date;
+                        String fullDisplay = StatChosen + " " + HomeTeam + " vs " + AwayTeam + " Date " + Date;
                         System.out.println(fullDisplay);
                         System.out.println("This is the param " + params[1]);
                         System.out.println("This is the homeTeam " + HomeTeam);
                         //fixtureNames.add(fullDisplay);
 
-
+                        //Used to get the fixtures that contain the users team as the home team
                         if(params[1].equals(HomeTeam)) {
                             fixtureNames.add(fullDisplay);
                         }
                     }
                     FixtureSelection.getFixtures(fixtureNames);
+                    StatFixtureClass.getStatFixtures(fixtureNames);
                 //}
 
             } catch (MalformedURLException e) {
@@ -399,8 +403,124 @@ public class apiCalls extends Activity {
 
 
 
+
+
+
+
+
+
+    //This receives data from the getPlayers class of the ids in string format
+    //the strings are seperated by spaces in the string so taking them out of the
+    //string is easier
+    //This calls
+    protected static void storePID(String result) {
+        System.out.println("StorePID received " + result);
+
+        loadPlayers loadPlayerID = new loadPlayers();
+        loadPlayerID.execute("http://142.93.44.141/players/", result);
+    }
+
+
+
+
+
+
+
+    public static class loadPlayers extends AsyncTask<String, String, JSONArray> {
+
+        public JSONArray p1;
+        public ArrayList<String> playerNames = new ArrayList<String>();
+        //public ArrayList<Integer> playerIDS = new ArrayList<Integer>();
+
+        protected JSONArray doInBackground(String... params) {
+
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+
+            try {
+                System.out.println("Entered load players");
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line+"\n");
+                    Log.d("Response: ", "> " + line);
+                }
+
+                //Split the string up
+                String[] PlayerIDs = params[1].split(" ");
+                System.out.println("First element from splitting string " + PlayerIDs[0]);
+
+                JSONArray jsonArray = new JSONArray(buffer.toString());
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    //p1 = (JSONArray) jsonObject.get("players");
+                    int pid = (int) jsonObject.get("id");
+                    String pname = (String) jsonObject.get("name");
+                    String pDOB = (String) jsonObject.get("DOB");
+
+                    String IDString = (String) Integer.toString(pid);
+                    for (int j = 0; j < PlayerIDs.length; j++) {
+
+                        if(IDString.equals(PlayerIDs[j])){
+                            System.out.println("Players id for the team selected " + IDString);
+                            String fullDisplayPlayer = IDString + " " + pname;
+                            System.out.println(fullDisplayPlayer);
+                            playerNames.add(fullDisplayPlayer);
+
+                        }
+                    }
+                }
+                PlayerSelection.getPlayers(playerNames);
+                PlayerList.getPlayersNames(playerNames);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //System.out.println("This is the result at the bottom " + p1);
+            //return p1;
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray result) {
+            super.onPostExecute(result);
+            //txtJson.setText(result);
+            System.out.println("This is the results" + result);
+        }
+    }
+
+
+
+
+    //Used to get a players stats from a specific match
     static public void playerStat(final int playerID, final int fixtureID, final String Stat) {
-        final String API = "http://142.93.44.141/teams/";
+        final String API = "http://142.93.44.141/stats/";
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -472,6 +592,9 @@ public class apiCalls extends Activity {
                             String StatChosen = Integer.toString(StatID);
                             //System.out.println(TeamID);
                             connection.disconnect();
+
+
+                            updatePlayerStat(StatChosen, PStats, PStatsVal);
                         }
                     }
                     connection.disconnect();
@@ -494,109 +617,79 @@ public class apiCalls extends Activity {
 
 
 
-    //This receives data from the getPlayers class of the ids in string format
-    //the strings are seperated by spaces in the string so taking them out of the
-    //string is easier
-    //This calls
-    protected static void storePID(String result) {
-        System.out.println("StorePID received " + result);
-
-        loadPlayers loadPlayerID = new loadPlayers();
-        loadPlayerID.execute("http://142.93.44.141/players/", result);
-    }
 
 
 
-
-
-
-
-    public static class loadPlayers extends AsyncTask<String, String, JSONArray> {
-
-        public JSONArray p1;
-        public ArrayList<String> playerNames = new ArrayList<String>();
-        //public ArrayList<Integer> playerIDS = new ArrayList<Integer>();
-
-        protected JSONArray doInBackground(String... params) {
-
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            try {
-                System.out.println("Entered load players");
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line+"\n");
-                    Log.d("Response: ", "> " + line);
-                }
-
-                //Split the string up
-                String[] PlayerIDs = params[1].split(" ");
-                System.out.println("First element from splitting string " + PlayerIDs[0]);
-
-                JSONArray jsonArray = new JSONArray(buffer.toString());
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    //p1 = (JSONArray) jsonObject.get("players");
-                    int pid = (int) jsonObject.get("id");
-                    String pname = (String) jsonObject.get("name");
-                    String pDOB = (String) jsonObject.get("DOB");
-
-                    String IDString = (String) Integer.toString(pid);
-                    for (int j = 0; j < PlayerIDs.length; j++) {
-
-                        if(IDString.equals(PlayerIDs[j])){
-                            System.out.println("Players id for the team selected " + IDString);
-                            String fullDisplayPlayer = IDString + " " + pname + " " + pDOB;
-                            System.out.println(fullDisplayPlayer);
-                            playerNames.add(fullDisplayPlayer);
-
-                        }
-                    }
-                }
-                PlayerSelection.getPlayers(playerNames);
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
+    static public void updatePlayerStat(final String StatID, final String[] PStats, final int[] PStatsVal) {
+        final String API = "http://142.93.44.141/stats/" + StatID;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
                 try {
-                    if (reader != null) {
-                        reader.close();
+                    URL url = new URL(API);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("PUT");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    for(int i=0; i<PStats.length; i++) {
+                        jsonParam.put(PStats[i], PStatsVal[i]);
                     }
-                } catch (IOException e) {
+                    /*
+                    //jsonParam.put("id", 3);
+                    jsonParam.put("Player_ID", "Rick");
+                    jsonParam.put("Fixture_ID", "26/03/1994");
+                    jsonParam.put("Pass", "26/03/1994");
+                    jsonParam.put("Pass_Miss", "Rick");
+                    jsonParam.put("Point", "26/03/1994");
+                    jsonParam.put("Point_Miss", "Rick");
+                    jsonParam.put("Goal", "26/03/1994");
+                    jsonParam.put("Goal_Miss", "Rick");
+                    jsonParam.put("Turnover", "26/03/1994");
+                    jsonParam.put("Dispossessed", "Rick");
+                    jsonParam.put("Kickout_won", "26/03/1994");
+                    jsonParam.put("Kickout_lost", "Rick");
+                    jsonParam.put("Goal_save", "26/03/1994");
+                    jsonParam.put("Goal_conceded", "Rick");
+                    jsonParam.put("Yellow_card", "26/03/1994");
+                    jsonParam.put("Red_card", "Rick");
+                    jsonParam.put("Black_card", "26/03/1994");
+                    */
+                    //jsonParam.remove("teamID");
+                    //jsonParam.put("teamID", 10);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
-            //System.out.println("This is the result at the bottom " + p1);
-            //return p1;
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray result) {
-            super.onPostExecute(result);
-            //txtJson.setText(result);
-            System.out.println("This is the results" + result);
-        }
+        });
+        thread.start();
     }
+
+
+
+
+
+
+
+
+
+
+
 }
 

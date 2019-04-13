@@ -40,7 +40,7 @@ public class Team extends Activity {
     ImageView img, img2;
     String msg;
     MyDbHelper mydb;
-    public static String str;
+    public static String str, FixtureID, TeamName;
     public static String str2;
     public static String Pid;
     public static String test = "Name1";
@@ -62,8 +62,12 @@ public class Team extends Activity {
         str = bundle.getString("PlayerSelected");
         str2 = bundle.getString("NewPlayer");
         Pid = bundle.getString("Pid");
+        FixtureID = bundle.getString("FixtureID");
+        TeamName = bundle.getString("TeamSelected");
+
         System.out.println("This is new player");
         System.out.println(str2 + "its id = " + Pid);
+        System.out.println("###### This is the fixture " + FixtureID);
 
         //Used so the main activity cannot not change any of the players names
         if(str2 != null){
@@ -75,8 +79,9 @@ public class Team extends Activity {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to main menu");
-                Intent ModList = new Intent(Team.this, MainActivity.class);
-                startActivity(ModList);
+                Intent StatFixture = new Intent(Team.this, StatFixtureClass.class);
+                StatFixture.putExtra("TeamSelected", TeamName);
+                startActivity(StatFixture);
             }
         });
 
@@ -101,6 +106,7 @@ public class Team extends Activity {
                 // width = 140 height = 57
                 System.out.println("Coordinates x = " + x + " y = " + y);
                 System.out.println("Name1 width = " + width + " height = " + height);
+
                 //Assigns the textview an id to make it unique and identifiable
                 id1 = "ID1";
                 playerChosen = (TextView) findViewById(R.id.Name1);
@@ -174,7 +180,8 @@ public class Team extends Activity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DragDrop(img, "image1");
+                System.out.println("This is the fixture in the image call" + FixtureID);
+                DragDrop(img, "image1", FixtureID);
             }
         });
 
@@ -182,7 +189,7 @@ public class Team extends Activity {
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DragDrop(img2, "image2");
+                DragDrop(img2, "image2", FixtureID);
             }
         });
     }
@@ -193,6 +200,9 @@ public class Team extends Activity {
         System.out.println(playerChosen.getText().toString());
         System.out.println(playerChosen);
         Intent PlayList = new Intent(Team.this, PlayerList.class);
+
+        PlayList.putExtra("FixtureID", FixtureID);
+        PlayList.putExtra("TeamSelected", TeamName);
         PlayList.putExtra("NameSelect", name);
         PlayList.putExtra("Pid", id);
         startActivity(PlayList);
@@ -290,9 +300,10 @@ public class Team extends Activity {
 
     //Called when one of the images is touched
     //Reference: The following code an Android example from https://www.tutorialspoint.com/android/android_drag_and_drop.htm
-    public void DragDrop(ImageView image, String name){
+    public void DragDrop(ImageView image, final String name, final String FixID){
         System.out.println("Inside DragDrop");
         System.out.println(name);
+        System.out.println("This is the fixture that was passed in " + FixID);
 
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -352,6 +363,18 @@ public class Team extends Activity {
                         if(xValue >= 0 && xValue <= 200 && yValue >= 144 && yValue <= 225){
                             System.out.println("Player1 identified");
                             System.out.println("Players name is " + player1);
+
+                            //Used to extratc the players id from the string
+                            String[] PlayerID = player1.split(" ");
+                            System.out.println("Icon that was used " + name);
+                            System.out.println("The split " + PlayerID[0]);
+                            //Used to turn the string into an int so it can be passed to a class
+                            int Player = Integer.parseInt(PlayerID[0]);
+                            System.out.println("The int " + Player);
+                            System.out.println("The fixture " + FixID);
+                            int Fixture= Integer.parseInt(FixtureID);
+                            //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
+                            apiCalls.playerStat(Player, Fixture, "Point_Miss");
                         }
 
                         if(xValue >= 470 && xValue <= 610 && yValue >= 144 && yValue <= 201){
@@ -385,28 +408,5 @@ public class Team extends Activity {
             }
         });
         //End code reference
-    }
-
-    public static void MyGETRequest() throws IOException {
-        System.out.println("Entered MyGETRequest");
-        URL urlForGetRequest = new URL("https://jsonplaceholder.typicode.com/posts/1");
-        String readLine = null;
-        HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-        conection.setRequestMethod("GET");
-        conection.setRequestProperty("userId", "a1bcdef"); // set userId its a sample here
-        int responseCode = conection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(conection.getInputStream()));
-            StringBuffer response = new StringBuffer();
-            while ((readLine = in .readLine()) != null) {
-                response.append(readLine);
-            } in .close();
-            // print result
-            System.out.println("JSON String Result " + response.toString());
-            //GetAndPost.POSTRequest(response.toString());
-        } else {
-            System.out.println("GET NOT WORKED");
-        }
     }
 }

@@ -18,15 +18,15 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/StatsBtn"
-        android:text="Statistics"
+        android:id="@+id/PlayersBtn"
+        android:text="Players"
         android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/PlayersBtn"
-        android:text="Players"
+        android:id="@+id/StatsBtn"
+        android:text="Record Statistics"
         android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

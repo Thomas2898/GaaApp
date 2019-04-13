@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 */
 
                 //updatePlayerStat();
-                playerStat(9, 10, "Point_Miss");
+                apiCalls.playerStat(9, 10, "Point_Miss");
                 //updateApi();
                 //addPlayer();
             }

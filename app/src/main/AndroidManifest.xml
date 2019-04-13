@@ -28,6 +28,7 @@
         <activity android:name=".TeamMainScreen"/>
         <activity android:name=".FixtureSelection"/>
         <activity android:name=".PlayerSelection"/>
+        <activity android:name=".StatFixtureClass"/>
 
     </application>
 

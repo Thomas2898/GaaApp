@@ -14,12 +14,16 @@ import android.widget.Toast;
 public class TeamMainScreen extends Activity {
 
     Button fixture, stats, teamPlayers, back;
+    String ScreenCalled;
     String TeamName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team_main_screen);
+
+        System.out.println("####Entered TeamMainScreen####");
+        System.out.println("Team palyer 1 ===== " + Team.player1);
 
         Bundle bundle = getIntent().getExtras();
         TeamName = bundle.getString("TeamSelected");
@@ -32,6 +36,8 @@ public class TeamMainScreen extends Activity {
 
         apiCalls.getPlayers getPlayers = new apiCalls.getPlayers();
         getPlayers.execute("http://142.93.44.141/teams", TeamName);
+
+        System.out.println("Team palyer 1 ===== " + Team.player1);
 
 
         //Used to go back to the Team selection
@@ -46,28 +52,37 @@ public class TeamMainScreen extends Activity {
             }
         });
 
-        //Used to open the team screen
+        //Used to open the a screen where the user can view, add, update and delete fixtures
         fixture = (Button) findViewById(R.id.FixtureBtn);
         fixture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to team list");
                 Intent FixtureDisplay = new Intent(TeamMainScreen.this, FixtureSelection.class);
+                ScreenCalled = "TeamMainScreen";
+                //FixtureDisplay.putExtra("ScreenCalled", ScreenCalled);
                 FixtureDisplay.putExtra("TeamSelected", TeamName);
                 startActivity(FixtureDisplay);
             }
         });
 
+        //Used top open a fixture selection, then when a fixture is selected
+        //a screen where the user can record stats is open
         stats = (Button) findViewById(R.id.StatsBtn);
         stats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to team list");
-                //Intent TeamDisplay = new Intent(MainActivity.this, TeamSelection.class);
-                //startActivity(TeamDisplay);
+                Intent StatFixture = new Intent(TeamMainScreen.this, StatFixtureClass.class);
+                ScreenCalled = "Stat";
+                //StatFixture.putExtra("ScreenCalled", ScreenCalled);
+                StatFixture.putExtra("TeamSelected", TeamName);
+                //StatFixture.putExtra("Pid", Pid);
+                startActivity(StatFixture);
             }
         });
 
+        //Used to open the a screen where the user can view, add, update and delete players
         teamPlayers = (Button) findViewById(R.id.PlayersBtn);
         teamPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
