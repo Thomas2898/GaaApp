@@ -124,6 +124,7 @@ public class PlayerList extends ListActivity {
         PlayedSelected.putExtra("PlayerSelected", nameselect);
         PlayedSelected.putExtra("NewPlayer", selection);
         PlayedSelected.putExtra("Pid", Pid);
+        //Team.setPlayerName(String Pid, String str2)
         //team.setPlayerName();
         //Reference complete
         startActivity(PlayedSelected);

@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mydb = new MyDbHelper(this);
         System.out.println("WORKS");
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        System.out.println("The screen height " + height + " width " + width);
+
 
         apiCalls.getTeams getTeam = new apiCalls.getTeams();
         getTeam.execute("http://142.93.44.141/teams", "teams");

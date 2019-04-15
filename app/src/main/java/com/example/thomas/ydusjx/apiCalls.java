@@ -544,6 +544,7 @@ public class apiCalls extends Activity {
                         Log.d("Response: ", "> " + line);
                     }
 
+                    int chkStat = 0;//Used to clarify if the players stat record exists for the certain fixture
                     JSONArray jsonArray = new JSONArray(buffer.toString());
                     for(int i=0; i<jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -551,6 +552,7 @@ public class apiCalls extends Activity {
                         int fixtureIDData = (int) jsonObject.get("Fixture_ID");
 
                         if(playerID == playerIDData && fixtureID == fixtureIDData) {
+                            chkStat = 1;
 
                             int StatID = (int) jsonObject.get("id");
                             int Player_ID = (int) jsonObject.get("Player_ID");
@@ -597,7 +599,68 @@ public class apiCalls extends Activity {
                             updatePlayerStat(StatChosen, PStats, PStatsVal);
                         }
                     }
+                    //Used to create a stat record for a player who does not have one for a certain fixture
+                    if(chkStat == 0){
+                        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPP");
+                        System.out.println("Doesnt have one");
+                        addPlayerStat(playerID, fixtureID, Stat);
+
+                    }
                     connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public static void addPlayerStat(final int playerID, final int fixtureID, final String Stat) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://142.93.44.141/stats/");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("Player_ID", playerID);
+                    jsonParam.put("Fixture_ID", fixtureID);
+                    jsonParam.put("Pass", 0);
+                    jsonParam.put("Pass_Miss", 0);
+                    jsonParam.put("Point", 0);
+                    jsonParam.put("Point_Miss", 0);
+                    jsonParam.put("Goal", 0);
+                    jsonParam.put("Goal_Miss", 0);
+                    jsonParam.put("Turnover", 0);
+                    jsonParam.put("Dispossessed", 0);
+                    jsonParam.put("Block", 0);
+                    jsonParam.put("Kickout_won", 0);
+                    jsonParam.put("Kickout_lost", 0);
+                    jsonParam.put("Goal_save", 0);
+                    jsonParam.put("Goal_conceded", 0);
+                    jsonParam.put("Yellow_card", 0);
+                    jsonParam.put("Red_card", 0);
+                    jsonParam.put("Black_card", 0);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                    playerStat(playerID, fixtureID, Stat);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -638,28 +701,6 @@ public class apiCalls extends Activity {
                     for(int i=0; i<PStats.length; i++) {
                         jsonParam.put(PStats[i], PStatsVal[i]);
                     }
-                    /*
-                    //jsonParam.put("id", 3);
-                    jsonParam.put("Player_ID", "Rick");
-                    jsonParam.put("Fixture_ID", "26/03/1994");
-                    jsonParam.put("Pass", "26/03/1994");
-                    jsonParam.put("Pass_Miss", "Rick");
-                    jsonParam.put("Point", "26/03/1994");
-                    jsonParam.put("Point_Miss", "Rick");
-                    jsonParam.put("Goal", "26/03/1994");
-                    jsonParam.put("Goal_Miss", "Rick");
-                    jsonParam.put("Turnover", "26/03/1994");
-                    jsonParam.put("Dispossessed", "Rick");
-                    jsonParam.put("Kickout_won", "26/03/1994");
-                    jsonParam.put("Kickout_lost", "Rick");
-                    jsonParam.put("Goal_save", "26/03/1994");
-                    jsonParam.put("Goal_conceded", "Rick");
-                    jsonParam.put("Yellow_card", "26/03/1994");
-                    jsonParam.put("Red_card", "Rick");
-                    jsonParam.put("Black_card", "26/03/1994");
-                    */
-                    //jsonParam.remove("teamID");
-                    //jsonParam.put("teamID", 10);
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
