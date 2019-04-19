@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class TeamMainScreen extends Activity {
 
-    Button fixture, stats, teamPlayers, back;
+    Button fixture, stats, teamPlayers, back, DisplayStatsBtn;
     String ScreenCalled;
     String TeamName;
 
@@ -91,6 +91,18 @@ public class TeamMainScreen extends Activity {
                 Intent TeamDisplay = new Intent(TeamMainScreen.this, PlayerSelection.class);
                 TeamDisplay.putExtra("TeamSelected", TeamName);
                 startActivity(TeamDisplay);
+            }
+        });
+
+        //Used to open the a screen where the user can view, add, update and delete players
+        DisplayStatsBtn = (Button) findViewById(R.id.DisplayStatsBtn);
+        DisplayStatsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Moving to playerlist");
+                Intent DisplayStats = new Intent(TeamMainScreen.this, statsDisplay.class);
+                DisplayStats.putExtra("TeamSelected", TeamName);
+                startActivity(DisplayStats);
             }
         });
     }

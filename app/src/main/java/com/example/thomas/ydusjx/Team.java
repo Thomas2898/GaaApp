@@ -373,7 +373,8 @@ public class Team extends Activity {
                 System.out.println("Value ===== " + Players[i]);
                 System.out.println("Value View ===== " + name1);
                 System.out.println("Value View Array ===== " + Names[i]);
-                Names[i].setText(Players[i]);
+                //Names[i].setText(Players[i]);
+                textViewNames[i].setText(Players[i]);
             }
         }
         */

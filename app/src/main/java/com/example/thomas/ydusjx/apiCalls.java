@@ -280,6 +280,7 @@ public class apiCalls extends Activity {
                         }
                     }
                     FixtureSelection.getFixtures(fixtureNames);
+                    statsDisplay.getFixtures(fixtureNames);
                     StatFixtureClass.getStatFixtures(fixtureNames);
                 //}
 
@@ -481,6 +482,7 @@ public class apiCalls extends Activity {
                     }
                 }
                 PlayerSelection.getPlayers(playerNames);
+                statsDisplay.getPlayers(playerNames);
                 PlayerList.getPlayersNames(playerNames);
 
             } catch (MalformedURLException e) {

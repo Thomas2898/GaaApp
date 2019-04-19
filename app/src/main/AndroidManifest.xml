@@ -29,6 +29,7 @@
         <activity android:name=".FixtureSelection"/>
         <activity android:name=".PlayerSelection"/>
         <activity android:name=".StatFixtureClass"/>
+        <activity android:name=".statsDisplay"/>
 
     </application>
 
