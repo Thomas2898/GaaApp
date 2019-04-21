@@ -35,7 +35,7 @@ import static android.R.layout.simple_list_item_1;
 
 //This is the code that creates the screen where stats are recorded
 public class Team extends Activity {
-    Button back,test1;
+    Button back,stats;
     TextView name1, name2, name3, name4, name5, name6, playerChosen, name7, name8, name9, name10, name11, name12, name13, name14, name15;
     ImageView img, img2;
     MyDbHelper mydb;
@@ -90,6 +90,18 @@ public class Team extends Activity {
                 Intent StatFixture = new Intent(Team.this, StatFixtureClass.class);
                 StatFixture.putExtra("TeamSelected", TeamName);
                 startActivity(StatFixture);
+            }
+        });
+
+        stats = (Button) findViewById(R.id.Statistcs);
+        stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Moving to main DisplayPlayerStats class");
+                Intent displayPlayerStats = new Intent(Team.this, DisplayPlayerStats.class);
+                displayPlayerStats.putExtra("TeamSelected", TeamName);
+                displayPlayerStats.putExtra("FixtureSelected", FixtureID);
+                startActivity(displayPlayerStats);
             }
         });
 

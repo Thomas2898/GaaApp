@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="Back" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +28,16 @@
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
         android:layout_below="@+id/Back"/>
+
+    <Button
+        android:id="@+id/Statistcs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/Name2"
+        android:text="Stats" />
 
     <TextView
         android:layout_width="wrap_content"

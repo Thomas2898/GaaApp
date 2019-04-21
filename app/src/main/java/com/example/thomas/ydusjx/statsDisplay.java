@@ -38,16 +38,14 @@ Also has a back button th=o bring the user to the main page
  */
 public class statsDisplay extends  Activity {
     Team team;
-    ListView mylist;
     TextView Player, Fixture;
-    static ListView teamList;
-    MyDbHelper mydb;
     Intent intent;
-    Button back, addplayer;
-    public static int chk;
+    Button back;
     String TeamName;
+    public static int PID, FID;//Player id and fixture id
     public static ArrayList<String> players = new ArrayList<String>();
     public static ArrayList<String> fixtures = new ArrayList<String>();
+    public static ArrayList<Integer> playersStats = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +62,8 @@ public class statsDisplay extends  Activity {
         Bundle bundle = getIntent().getExtras();
         TeamName = bundle.getString("TeamSelected");
         System.out.println("This is the team that was selected " + TeamName);
+
+        System.out.println("Player chosen " + PID + " Fixture chosen " + FID);
 
         //Used to go back to the Team screen
         back = (Button)findViewById(R.id.Back);
@@ -92,6 +92,17 @@ public class statsDisplay extends  Activity {
                 Log.v("item", (String) parent.getItemAtPosition(position));
                 String selection = (String) parent.getItemAtPosition(position);
                 System.out.println("Player that was selected is " + selection);
+                if(selection.equals("All")){
+                    System.out.println("All chosen");
+                }
+                else{
+                    String[] getPID = selection.split(" ");//Used to extract the players id from the string
+                    System.out.println("First element from splitting string " + getPID[0]);
+                    PID = Integer.parseInt(getPID[0]);
+                    if(FID != 0) {
+                        //apiCalls.getPlayersFixtureStats(PID, FID);
+                    }
+                }
             }
 
             @Override
@@ -112,6 +123,17 @@ public class statsDisplay extends  Activity {
                 Log.v("item", (String) parent.getItemAtPosition(position));
                 String selection = (String) parent.getItemAtPosition(position);
                 System.out.println("Fixture that was selected is " + selection);
+                if(selection.equals("All")){
+                    System.out.println("All chosen");
+                }else {
+                    String[] getFID = selection.split(" ");//Used to extract the players id from the string
+                    System.out.println("The id of fixture selected " + getFID[0]);
+                    FID = Integer.parseInt(getFID[0]);
+                    if(PID != 0) {
+                        //apiCalls.getPlayersFixtureStats(PID, FID);
+                    }
+                }
+
             }
 
             @Override
@@ -121,7 +143,7 @@ public class statsDisplay extends  Activity {
         });
     }
 
-    //This recesives data from apiCalls.java
+    //This recesives data from apiCalls.java to pass the players into the arraylist players
     protected static void getPlayers(ArrayList result) {
         System.out.println("In getPlayers");
         players.clear();
@@ -132,7 +154,7 @@ public class statsDisplay extends  Activity {
         }
     }
 
-    //This recesives data from apiCalls.java
+    //This recesives data from apiCalls.java to pass the fixtures into the arraylist fixtures
     protected static void getFixtures(ArrayList result) {
         System.out.println("In getPlayers");
         fixtures.clear();
@@ -143,22 +165,22 @@ public class statsDisplay extends  Activity {
         }
     }
 
-    /*
-    //This is called when a player from the list is clicked
-    //This opens the team screen with the player selected in the position of the textview selected
-    protected void onListItemClick(ListView l, View v, int position, long id){
-        String selection = l.getItemAtPosition(position).toString();
-        Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-        Intent TeamSelected = new Intent(TeamSelection.this, TeamMainScreen.class);
-        //Used tp pass a string to NoteList
-        //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
-        TeamSelected.putExtra("TeamSelected", selection);
-
-        //team.setPlayerName();
-        //Reference complete
-        startActivity(TeamSelected);
-
+    //This receives data from apiCalls.java
+    protected static void getPlayersStats(int result[], int check) {
+        //check is used to see if rhe user exists, if = 1 then the payers stat exists for the given fixture
+        if(check == 1) {
+            System.out.println(result[0]);
+            System.out.println("In getPlayersStats");
+            int OverallPass = result[3] + result[4];
+            float PercPass = ((float) result[3]/OverallPass * 100/1);
+            System.out.println("Pass " + result[3] + "/" + OverallPass + " (" + PercPass + ")");
+            playersStats.clear();
+            for (int i = 0; i < result.length; i++) {
+                playersStats.add(result[i]);
+            }
+        }
+        else{
+            System.out.println("Player Doesnt exist");
+        }
     }
-    */
-
 }

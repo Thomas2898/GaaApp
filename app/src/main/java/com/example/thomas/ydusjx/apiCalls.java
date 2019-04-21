@@ -316,7 +316,7 @@ public class apiCalls extends Activity {
         }
     }
 
-    //Used to get Player names from the restframework
+    //Used to get Player names from the restframework and pass the names to
     public static class getPlayers extends AsyncTask<String, String, JSONArray> {
 
         public JSONArray p1;
@@ -413,7 +413,7 @@ public class apiCalls extends Activity {
     //This receives data from the getPlayers class of the ids in string format
     //the strings are seperated by spaces in the string so taking them out of the
     //string is easier
-    //This calls
+    //This calls loadPlayerID
     protected static void storePID(String result) {
         System.out.println("StorePID received " + result);
 
@@ -421,12 +421,7 @@ public class apiCalls extends Activity {
         loadPlayerID.execute("http://142.93.44.141/players/", result);
     }
 
-
-
-
-
-
-
+    //This loads the players names along with their IDs t arraylists through out the app. Used to fill lists up
     public static class loadPlayers extends AsyncTask<String, String, JSONArray> {
 
         public JSONArray p1;
@@ -456,12 +451,14 @@ public class apiCalls extends Activity {
                     Log.d("Response: ", "> " + line);
                 }
 
-                //Split the string up
+                //Split the string which contains all the IDs of players from the team the user chose
                 String[] PlayerIDs = params[1].split(" ");
                 System.out.println("First element from splitting string " + PlayerIDs[0]);
 
+                //Data received from framework
                 JSONArray jsonArray = new JSONArray(buffer.toString());
 
+                //Used to go through all the data received from the framework
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     //p1 = (JSONArray) jsonObject.get("players");
@@ -469,11 +466,15 @@ public class apiCalls extends Activity {
                     String pname = (String) jsonObject.get("name");
                     String pDOB = (String) jsonObject.get("DOB");
 
+                    //Used to turn the players id from /players into a string so it can be compared to players ids received from storePID
                     String IDString = (String) Integer.toString(pid);
+                    //Goes through all the IDs receieved from storePID
                     for (int j = 0; j < PlayerIDs.length; j++) {
 
+                        //Used to find the users ids in /players taken from /team
                         if(IDString.equals(PlayerIDs[j])){
                             System.out.println("Players id for the team selected " + IDString);
+                            //Makes keeping track of some players ID easy
                             String fullDisplayPlayer = IDString + " " + pname;
                             System.out.println(fullDisplayPlayer);
                             playerNames.add(fullDisplayPlayer);
@@ -481,9 +482,12 @@ public class apiCalls extends Activity {
                         }
                     }
                 }
+
+                //Used to fill up arraylists through out the app
                 PlayerSelection.getPlayers(playerNames);
                 statsDisplay.getPlayers(playerNames);
                 PlayerList.getPlayersNames(playerNames);
+                DisplayPlayerStats.getPlayers(playerNames);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -603,7 +607,6 @@ public class apiCalls extends Activity {
                     }
                     //Used to create a stat record for a player who does not have one for a certain fixture
                     if(chkStat == 0){
-                        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPP");
                         System.out.println("Doesnt have one");
                         addPlayerStat(playerID, fixtureID, Stat);
 
@@ -726,13 +729,99 @@ public class apiCalls extends Activity {
 
 
 
+    //Used to get a players stats from a specific match
+    //Chkclass is used to see which class is calling getPlayersFixtureStats
+    static public void getPlayersFixtureStats(final int playerID, final int fixtureID, final int ChkClass) {
+        final String API = "http://142.93.44.141/stats/";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
 
+                    InputStream stream = connection.getInputStream();
 
+                    reader = new BufferedReader(new InputStreamReader(stream));
 
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
 
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
 
+                    int chkStat = 0;//Used to clarify if the players stat record exists for the certain fixture
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int playerIDData = (int) jsonObject.get("Player_ID");
+                        int fixtureIDData = (int) jsonObject.get("Fixture_ID");
 
+                        if(playerID == playerIDData && fixtureID == fixtureIDData) {
+                            chkStat = 1;
 
+                            int StatID = (int) jsonObject.get("id");
+                            int Player_ID = (int) jsonObject.get("Player_ID");
+                            int Fixture_ID = (int) jsonObject.get("Fixture_ID");
+                            int Pass = (int) jsonObject.get("Pass");
+                            int Pass_Miss = (int) jsonObject.get("Pass_Miss");
+                            int Point = (int) jsonObject.get("Point");
+                            int Point_Miss = (int) jsonObject.get("Point_Miss");
+                            int Goal = (int) jsonObject.get("Goal");
+                            int Goal_Miss = (int) jsonObject.get("Goal_Miss");
+                            int Turnover = (int) jsonObject.get("Turnover");
+                            int Dispossessed = (int) jsonObject.get("Dispossessed");
+                            int Block = (int) jsonObject.get("Block");
+                            int Kickout_won = (int) jsonObject.get("Kickout_won");
+                            int Kickout_lost = (int) jsonObject.get("Kickout_lost");
+                            int Goal_save = (int) jsonObject.get("Goal_save");
+                            int Goal_conceded = (int) jsonObject.get("Goal_conceded");
+                            int Yellow_card = (int) jsonObject.get("Yellow_card");
+                            int Red_card = (int) jsonObject.get("Red_card");
+                            int Black_card = (int) jsonObject.get("Black_card");
+
+                            //Used to compare to the stat that is a parameter when this class is called
+                            String[] PStats = {"id", "Player_ID", "Fixture_ID", "Pass", "Pass_Miss", "Point", "Point_Miss", "Goal", "Goal_Miss", "Turnover", "Dispossessed", "Block", "Kickout_won", "Kickout_lost", "Goal_save", "Goal_conceded", "Yellow_card", "Red_card", "Black_card"};
+                            int[] PStatsVal = {StatID, Player_ID, Fixture_ID, Pass, Pass_Miss, Point, Point_Miss, Goal, Goal_Miss, Turnover, Dispossessed, Block, Kickout_won, Kickout_lost, Goal_save, Goal_conceded, Yellow_card, Red_card, Black_card};
+
+                            System.out.println("Player Pass " + Pass + " Player pass miss " + Pass_Miss);
+                            System.out.println("The id of the stat is "  + StatID);
+                            String StatChosen = Integer.toString(StatID);
+                            //System.out.println(TeamID);
+                            connection.disconnect();
+
+                            //updatePlayerStat(PStatsVal);
+                            if(ChkClass == 2){
+                                DisplayPlayerStats.getPlayersStats(PStatsVal, chkStat);
+                            }
+                            else {
+                                statsDisplay.getPlayersStats(PStatsVal, chkStat);
+                            }
+                        }
+                    }
+                    int[] PStatsVal = {1};
+                    if(chkStat == 0) {
+                        if(ChkClass == 2){
+                            DisplayPlayerStats.getPlayersStats(PStatsVal, chkStat);
+                        }
+                        else {
+                            statsDisplay.getPlayersStats(PStatsVal, chkStat);
+                        }
+                    }
+                    connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
 
 }
 
