@@ -22,7 +22,6 @@
 
     <EditText
         android:id="@+id/userInput"
-        android:hint="Name"
         android:layout_marginLeft="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +32,6 @@
 
     <EditText
         android:id="@+id/userInput2"
-        android:hint="DOB"
         android:layout_marginLeft="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,13 +41,23 @@
         android:layout_below="@+id/userInput"/>
 
     <Button
-        android:id="@+id/AddPlayer"
+        android:id="@+id/UpdatePlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Player"
+        android:text="Update Player"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
         android:layout_below="@+id/userInput2"/>
+
+    <Button
+        android:id="@+id/DeletePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Player"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/UpdatePlayer"/>
 
 </RelativeLayout>

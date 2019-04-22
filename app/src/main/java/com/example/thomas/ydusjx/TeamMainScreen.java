@@ -29,6 +29,7 @@ public class TeamMainScreen extends Activity {
         TeamName = bundle.getString("TeamSelected");
         System.out.println("This is the team that was selected " + TeamName);
 
+        apiCalls.getTeamsID(TeamName);
         //Calls the getFixtures class in apiCalls.java, to get the fixtures relating to the team that was chosen
         //It places these fixtures in an arraylist called fixture in fixtureselection.java
         apiCalls.getFixtures getFixtures = new apiCalls.getFixtures();
@@ -106,4 +107,5 @@ public class TeamMainScreen extends Activity {
             }
         });
     }
+
 }

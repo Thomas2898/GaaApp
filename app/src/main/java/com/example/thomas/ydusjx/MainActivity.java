@@ -140,9 +140,10 @@ public class MainActivity extends AppCompatActivity {
                 */
 
                 //updatePlayerStat();
-                apiCalls.playerStat(9, 10, "Point_Miss");
+                //apiCalls.playerStat(9, 10, "Point_Miss");
                 //updateApi();
                 //addPlayer();
+                deletePlayer(21);
             }
         });
     }
@@ -403,55 +404,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("This is the results in displayPlayers" + result);
     }
 
-
-
-
-
-
-
-
-
-
-    // Where i learned how to post to an api https://stackoverflow.com/questions/42767249/android-post-request-with-json 
-    public void addPlayer() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://142.93.44.141/players/");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-
-                    JSONObject jsonParam = new JSONObject();
-                    //jsonParam.put("id", 3);
-                    jsonParam.put("name", "Ryan");
-                    jsonParam.put("DOB", "26/03/1990");
-                    //jsonParam.remove("teamID");
-                    jsonParam.put("TeamID", 1);
-
-                    Log.i("JSON", jsonParam.toString());
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-                    os.writeBytes(jsonParam.toString());
-
-                    os.flush();
-                    os.close();
-
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.i("MSG" , conn.getResponseMessage());
-
-                    conn.disconnect();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
 
     static public void updateApi() {
         final String API = "http://142.93.44.141/players/11";
@@ -726,6 +678,43 @@ public class MainActivity extends AppCompatActivity {
                     */
                     //jsonParam.remove("teamID");
                     //jsonParam.put("teamID", 10);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    static public void deletePlayer(final int PlayerID) {
+        final String API = "http://142.93.44.141/players/" + PlayerID;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(API);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("DELETE");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("id", PlayerID);
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());

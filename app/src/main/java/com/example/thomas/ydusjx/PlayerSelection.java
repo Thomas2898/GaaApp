@@ -70,6 +70,19 @@ public class PlayerSelection extends ListActivity {
             }
         });
 
+        //Used to open addPlayer screen
+        addplayer = (Button)findViewById(R.id.AddPlayer);
+        addplayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Moving to AddPlayer class");
+                //Toast.makeText(FixtureSelection.this, "No player selected",Toast.LENGTH_LONG).show();
+                Intent TeamMainScreen = new Intent(PlayerSelection.this, AddPlayer.class);
+                TeamMainScreen.putExtra("TeamSelected", TeamName);
+                startActivity(TeamMainScreen);
+            }
+        });
+
         mylist = (ListView) findViewById(list);
         //Reference: The following code an Android example https://stackoverflow.com/questions/45870812/showing-data-in-listview-from-database-in-android-studio
         ArrayList<String> theList = new ArrayList<String>();
@@ -91,22 +104,20 @@ public class PlayerSelection extends ListActivity {
         }
     }
 
-    /*
     //This is called when a player from the list is clicked
     //This opens the team screen with the player selected in the position of the textview selected
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-        Intent TeamSelected = new Intent(TeamSelection.this, TeamMainScreen.class);
+        Intent PlayerSelected = new Intent(PlayerSelection.this, UpdateDeletePlayer.class);
         //Used tp pass a string to NoteList
         //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
-        TeamSelected.putExtra("TeamSelected", selection);
-
+        PlayerSelected.putExtra("TeamSelected", TeamName);
+        PlayerSelected.putExtra("PlayerSelected", selection);
         //team.setPlayerName();
         //Reference complete
-        startActivity(TeamSelected);
-
+        startActivity(PlayerSelected);
     }
-    */
+
 
 }

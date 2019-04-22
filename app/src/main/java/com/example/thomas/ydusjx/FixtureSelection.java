@@ -38,7 +38,7 @@ public class FixtureSelection extends ListActivity {
     TextView Header;
     MyDbHelper mydb;
     Intent intent;
-    Button back, addplayer;
+    Button back, AddFixture;
     //public static int chk;
     String TeamName, ScreenCalled;//ScreenCalled is used to see which screen opened FixtureSelection.java
     public static ArrayList<String> fixtures = new ArrayList<String>();
@@ -70,6 +70,19 @@ public class FixtureSelection extends ListActivity {
                 Intent TeamMainScreen = new Intent(FixtureSelection.this, TeamMainScreen.class);
                 TeamMainScreen.putExtra("TeamSelected", TeamName);
                 startActivity(TeamMainScreen);
+            }
+        });
+
+        //Used to go back to the Team screen
+        AddFixture = (Button)findViewById(R.id.AddFixture);
+        AddFixture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Moving to AddFixture class");
+                //Toast.makeText(FixtureSelection.this, "No player selected",Toast.LENGTH_LONG).show();
+                Intent AddFixture = new Intent(FixtureSelection.this, AddFixture.class);
+                AddFixture.putExtra("TeamSelected", TeamName);
+                startActivity(AddFixture);
             }
         });
 

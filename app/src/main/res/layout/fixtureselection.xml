@@ -10,10 +10,10 @@
         android:text="Back" />
 
     <Button
-        android:id="@+id/AddTeam"
+        android:id="@+id/AddFixture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Team" />
+        android:text="Add Fixture" />
 
     <ListView
         android:id="@android:id/list"
