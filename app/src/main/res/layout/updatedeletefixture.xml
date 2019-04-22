@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:baselineAligned="false"
+android:orientation="vertical">
+
+<Button
+    android:id="@+id/Back"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Back" />
+
+<TextView
+    android:id="@+id/header"
+    android:layout_marginLeft="150dp"
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Update Players Details"
+    android:layout_below="@+id/Back"/>
+
+<EditText
+    android:id="@+id/AwayInput"
+    android:layout_marginLeft="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/header"/>
+
+<EditText
+    android:id="@+id/RefereeInput"
+    android:layout_marginLeft="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/AwayInput"/>
+
+<EditText
+    android:id="@+id/DateInput"
+    android:layout_marginLeft="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/RefereeInput"/>
+
+<EditText
+    android:id="@+id/TimeInput"
+    android:layout_marginLeft="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/DateInput"/>
+
+<EditText
+    android:id="@+id/LocationInput"
+    android:layout_marginLeft="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/TimeInput"/>
+
+<Button
+    android:id="@+id/UpdateFixture"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Update Fixture"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/LocationInput"/>
+
+<Button
+    android:id="@+id/DeleteFixture"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Delete Fixture"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/UpdateFixture"/>
+
+</RelativeLayout>

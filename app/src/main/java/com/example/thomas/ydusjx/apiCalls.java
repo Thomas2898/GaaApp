@@ -267,8 +267,12 @@ public class apiCalls extends Activity {
                         String StatChosen = Integer.toString(StatID);
                         String AwayTeam = (String) jsonObject.get("Away_Team");
                         String HomeTeam = (String) jsonObject.get("Home_Team");
+                        String Referee = (String) jsonObject.get("Referee");
                         String Date = (String) jsonObject.get("Date");
-                        String fullDisplay = StatChosen + " " + HomeTeam + " vs " + AwayTeam + " Date " + Date;
+                        String Time = (String) jsonObject.get("Time");
+                        String Location = (String) jsonObject.get("Location");
+                        //String fullDisplay = StatChosen + " " + HomeTeam + " vs " + AwayTeam + " Date " + Date;
+                        String fullDisplay = StatChosen + ", " + HomeTeam + ", " + AwayTeam + ", " + Referee + ", " + Date + ", " + Time + ", " + Location;
                         System.out.println(fullDisplay);
                         System.out.println("This is the param " + params[1]);
                         System.out.println("This is the homeTeam " + HomeTeam);
@@ -475,7 +479,7 @@ public class apiCalls extends Activity {
                         if(IDString.equals(PlayerIDs[j])){
                             System.out.println("Players id for the team selected " + IDString);
                             //Makes keeping track of some players ID easy
-                            String fullDisplayPlayer = IDString + " " + pname;
+                            String fullDisplayPlayer = IDString + ", " + pname + ", " + pDOB;
                             System.out.println(fullDisplayPlayer);
                             playerNames.add(fullDisplayPlayer);
 
@@ -952,8 +956,10 @@ public class apiCalls extends Activity {
         thread.start();
     }
 
-    static public void deletePlayer(final int PlayerID) {
-        final String API = "http://142.93.44.141/players/" + PlayerID;
+    //Use to delete fixtures and players
+    static public void deleteObject(final int ObjectID, final String table) {
+        //final String API = "http://142.93.44.141/players/" + PlayerID;
+        final String API = "http://142.93.44.141/" + table + "/" + ObjectID;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -967,7 +973,7 @@ public class apiCalls extends Activity {
                     conn.setDoInput(true);
 
                     JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("id", PlayerID);
+                    jsonParam.put("id", ObjectID);
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -997,6 +1003,49 @@ public class apiCalls extends Activity {
                     URL url = new URL("http://142.93.44.141/fixtures/");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    //jsonParam.put("id", 3);
+                    jsonParam.put("Home_Team", HomeTeam);
+                    jsonParam.put("Away_Team", AwayTeam);
+                    //jsonParam.remove("teamID");
+                    jsonParam.put("Referee", Referee);
+                    jsonParam.put("Date", Date);
+                    jsonParam.put("Time", Time);
+                    jsonParam.put("Location", Location);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public static void updateFixture(final int FixtureID, final String HomeTeam, final String AwayTeam, final String Referee, final String Date, final String Time, final String Location) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://142.93.44.141/fixtures/" + FixtureID);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("PUT");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                     conn.setRequestProperty("Accept","application/json");
                     conn.setDoOutput(true);

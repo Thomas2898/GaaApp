@@ -102,7 +102,8 @@ public class StatFixtureClass extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-        String[] FixtureString = selection.split(" ");
+        //Used to spit the fixture string to get the chosen fixtures id
+        String[] FixtureString = selection.split(", ");
         System.out.println("The id of selected fixture is " + FixtureString[0]);
         System.out.println("Moving to team");
 

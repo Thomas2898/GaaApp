@@ -100,6 +100,12 @@ public class PlayerSelection extends ListActivity {
         players.clear();
         for(int i = 0 ; i < result.size(); i++){
             String name = (String) result.get(i);
+
+            String PlayerDetails = (String) result.get(i);
+            String[] getPlayerDetails = PlayerDetails.split(",");//Used to extract the players id from the string
+            System.out.println("First element from splitting string " + getPlayerDetails[1]);
+            //final int TeamID = Integer.parseInt(getPID[0]);
+            //String name = getPlayerDetails[0] + " " + getPlayerDetails[1] + " " + getPlayerDetails[2];
             players.add(name);
         }
     }
@@ -114,6 +120,8 @@ public class PlayerSelection extends ListActivity {
         //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
         PlayerSelected.putExtra("TeamSelected", TeamName);
         PlayerSelected.putExtra("PlayerSelected", selection);
+        System.out.println("Fixture that is selected " + selection);
+
         //team.setPlayerName();
         //Reference complete
         startActivity(PlayerSelected);

@@ -113,14 +113,14 @@ public class FixtureSelection extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-        //Intent TeamSelected = new Intent(TeamSelection.this, TeamMainScreen.class);
-        //Used tp pass a string to NoteList
-        //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
-        //TeamSelected.putExtra("TeamSelected", selection);
+        Intent UpdateDeleteFixture = new Intent(FixtureSelection.this, UpdateDeleteFixture.class);
+        UpdateDeleteFixture.putExtra("FixtureSelected", selection);
+        UpdateDeleteFixture.putExtra("TeamSelected", TeamName);
 
+        System.out.println("Entered Fixture " + selection);
         //team.setPlayerName();
         //Reference complete
-        //startActivity(TeamSelected);
+        startActivity(UpdateDeleteFixture);
 
     }
 

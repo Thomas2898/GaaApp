@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Players Details"
+        android:text="Update Fixture Details"
         android:layout_below="@+id/Back"/>
 
     <EditText

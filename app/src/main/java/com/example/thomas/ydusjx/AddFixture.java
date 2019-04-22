@@ -25,7 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class AddFixture extends Activity {
-    EditText HomeTeamInput, AwayTeamInput, RefereeInput, DateInput, TimeInput, LocationInput;//Name and DOB input
+    EditText HomeTeamInput, AwayTeamInput, RefereeInput, DateInput, TimeInput, LocationInput;
     Button btnAddFixture;
     Button back;
     TextView header;//Text on top of screen
@@ -94,6 +94,7 @@ public class AddFixture extends Activity {
                     //System.out.println("This is the DOB that was selected " + DOB);
                     //System.out.println("This is the teams ID that was selected " + TeamID);
                     apiCalls.addFixture(TeamName, away_team, referee, date, time, location);
+
                     apiCalls.getFixtures getFixtures = new apiCalls.getFixtures();
                     getFixtures.execute("http://142.93.44.141/fixtures", TeamName);
                     Intent PlayerSelection = new Intent(AddFixture.this, FixtureSelection.class);

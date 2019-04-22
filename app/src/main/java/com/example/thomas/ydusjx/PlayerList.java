@@ -106,7 +106,13 @@ public class PlayerList extends ListActivity {
         System.out.println("In getFixtures");
         PlayersNames.clear();
         for(int i = 0 ; i < result.size(); i++){
-            String name = (String) result.get(i);
+            //Split up string to only display the user id and user name
+            String PlayerDetails = (String) result.get(i);
+            String[] getPlayerDetails = PlayerDetails.split(", ");//Used to extract the players id from the string
+            //System.out.println("First element from splitting string " + getPID[0]);
+            //final int TeamID = Integer.parseInt(getPID[0]);
+            String name = getPlayerDetails[0] + " " + getPlayerDetails[1];
+            //String name = (String) result.get(i);
             PlayersNames.add(name);
         }
     }

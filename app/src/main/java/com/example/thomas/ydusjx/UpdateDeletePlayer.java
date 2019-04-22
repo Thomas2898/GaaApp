@@ -24,6 +24,7 @@ public class UpdateDeletePlayer extends Activity {
     static int TeamID;
     public static String nameselect, Pid;
     private String PlayerChosen;
+    public static ArrayList<String> playersDetails = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,12 @@ public class UpdateDeletePlayer extends Activity {
         System.out.println("This is the team that was selected " + TeamName);
         System.out.println("This is the player that was selected " + PlayerChosen);
 
-        String[] getPID = PlayerChosen.split(" ");//Used to extract the players id from the string
+        String[] getPID = PlayerChosen.split(", ");//Used to extract the players id from the string
         System.out.println("First element from splitting string " + getPID[0]);
         final int PlayerID = Integer.parseInt(getPID[0]);
+        //Used to get data for the edittext box with the player the user selected to update/delete
+        String PlayerName = getPID[1];
+        String DOB = getPID[2];
 
 
         //Used to move back to the playerlistmain or to the playerlist screen
@@ -61,6 +65,10 @@ public class UpdateDeletePlayer extends Activity {
         DOBInput = (EditText)findViewById(R.id.userInput2);
         btnUpdatePlayer = (Button)findViewById(R.id.UpdatePlayer);
         btnDeletePlayer = (Button)findViewById(R.id.DeletePlayer);
+
+        //Used to set the data for the edittext box with the player the user selected to update/delete
+        nameInput.setText(PlayerName);
+        DOBInput.setText(DOB);
 
         //Used tp pass the new players data to a class in apiCalls to add to the framework
         btnUpdatePlayer.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +100,7 @@ public class UpdateDeletePlayer extends Activity {
             @Override
             public void onClick(View v) {
                 System.out.println("Delete player");
-                apiCalls.deletePlayer(PlayerID);
+                apiCalls.deleteObject(PlayerID, "players");
                 apiCalls.getPlayers getPlayers = new apiCalls.getPlayers();
                 getPlayers.execute("http://142.93.44.141/teams", TeamName);
             }
@@ -104,6 +112,7 @@ public class UpdateDeletePlayer extends Activity {
         System.out.println("In receiveID");
         TeamID = TID;
     }
+
 }
 
 
