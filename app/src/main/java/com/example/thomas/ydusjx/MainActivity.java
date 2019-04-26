@@ -143,7 +143,9 @@ public class MainActivity extends AppCompatActivity {
                 //apiCalls.playerStat(9, 10, "Point_Miss");
                 //updateApi();
                 //addPlayer();
-                deletePlayer(21);
+                updatePlayerStat();
+
+                //apiPlayer.getAllPlayersStats(10, "Passing", "Player 1");
             }
         });
     }
@@ -612,7 +614,7 @@ public class MainActivity extends AppCompatActivity {
                             connection.disconnect();
 
 
-                            updatePlayerStat(StatChosen, PStats, PStatsVal);
+                            //updatePlayerStat(StatChosen, PStats, PStatsVal);
                         }
                     }
                     connection.disconnect();
@@ -638,8 +640,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    static public void updatePlayerStat(final String StatID, final String[] PStats, final int[] PStatsVal) {
-        final String API = "http://142.93.44.141/stats/" + StatID;
+    //static public void updatePlayerStat(final String StatID, final String[] PStats, final int[] PStatsVal) {
+    static public void updatePlayerStat() {
+
+        //final String API = "http://142.93.44.141/stats/" + StatID;
+        final String API = "http://142.93.44.141/stats/8";
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -652,69 +657,35 @@ public class MainActivity extends AppCompatActivity {
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
 
+
                     JSONObject jsonParam = new JSONObject();
+                    /*
                     for(int i=0; i<PStats.length; i++) {
                         jsonParam.put(PStats[i], PStatsVal[i]);
                     }
-                    /*
-                    //jsonParam.put("id", 3);
-                    jsonParam.put("Player_ID", "Rick");
-                    jsonParam.put("Fixture_ID", "26/03/1994");
-                    jsonParam.put("Pass", "26/03/1994");
-                    jsonParam.put("Pass_Miss", "Rick");
-                    jsonParam.put("Point", "26/03/1994");
-                    jsonParam.put("Point_Miss", "Rick");
-                    jsonParam.put("Goal", "26/03/1994");
-                    jsonParam.put("Goal_Miss", "Rick");
-                    jsonParam.put("Turnover", "26/03/1994");
-                    jsonParam.put("Dispossessed", "Rick");
-                    jsonParam.put("Kickout_won", "26/03/1994");
-                    jsonParam.put("Kickout_lost", "Rick");
-                    jsonParam.put("Goal_save", "26/03/1994");
-                    jsonParam.put("Goal_conceded", "Rick");
-                    jsonParam.put("Yellow_card", "26/03/1994");
-                    jsonParam.put("Red_card", "Rick");
-                    jsonParam.put("Black_card", "26/03/1994");
                     */
+
+                    //jsonParam.put("id", 11);
+                    jsonParam.put("Player_ID", 19);
+                    jsonParam.put("Fixture_ID", 1);
+                    jsonParam.put("Pass", 12);
+                    jsonParam.put("Pass_Miss", 2);
+                    jsonParam.put("Point", 5);
+                    jsonParam.put("Point_Miss", 3);
+                    jsonParam.put("Goal", 0);
+                    jsonParam.put("Goal_Miss", 1);
+                    jsonParam.put("Turnover", 2);
+                    jsonParam.put("Dispossessed", 4);
+                    jsonParam.put("Block", 5);
+                    jsonParam.put("Kickout_won", 0);
+                    jsonParam.put("Kickout_lost", 0);
+                    jsonParam.put("Goal_save", 0);
+                    jsonParam.put("Goal_conceded",0);
+                    jsonParam.put("Yellow_card", 1);
+                    jsonParam.put("Red_card", 0);
+                    jsonParam.put("Black_card", 0);
                     //jsonParam.remove("teamID");
                     //jsonParam.put("teamID", 10);
-
-                    Log.i("JSON", jsonParam.toString());
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-                    os.writeBytes(jsonParam.toString());
-
-                    os.flush();
-                    os.close();
-
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.i("MSG" , conn.getResponseMessage());
-
-                    conn.disconnect();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
-    static public void deletePlayer(final int PlayerID) {
-        final String API = "http://142.93.44.141/players/" + PlayerID;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(API);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("DELETE");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-
-                    JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("id", PlayerID);
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());

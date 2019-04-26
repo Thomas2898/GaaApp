@@ -34,4 +34,52 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Player 2"
+        android:textSize="20dp"
+        android:id="@+id/Player2" />
+
+    <Spinner
+        android:id="@+id/playerDropDown2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Fixture 2"
+        android:textSize="20dp"
+        android:id="@+id/Fixture2" />
+
+    <Spinner
+        android:id="@+id/fixtureDropDown2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select stat"
+        android:textSize="20dp"
+        android:id="@+id/stat" />
+
+    <Spinner
+        android:id="@+id/statDropDown"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/Search"
+        android:text="Search"
+        android:layout_marginLeft="128dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.github.mikephil.charting.charts.PieChart
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/idPieChart"></com.github.mikephil.charting.charts.PieChart>
+
 </LinearLayout>

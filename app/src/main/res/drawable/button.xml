@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" android:padding="8dp">
+    <!-- you can use any color you want I used here gray color-->
+    <!--https://stackoverflow.com/questions/18070008/android-button-background-color-->
+    <solid android:color="#09d1f9"/>
+    <corners
+        android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"/>
+</shape>

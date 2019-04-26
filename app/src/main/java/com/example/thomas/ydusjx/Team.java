@@ -37,7 +37,8 @@ import static android.R.layout.simple_list_item_1;
 public class Team extends Activity {
     Button back,stats;
     TextView name1, name2, name3, name4, name5, name6, playerChosen, name7, name8, name9, name10, name11, name12, name13, name14, name15;
-    ImageView img, img2;
+    ImageView img, img2, img3;
+    static String IconChosen;
     MyDbHelper mydb;
     public static ArrayList<Integer> PlayersX = new ArrayList<Integer>();
     public static ArrayList<Integer> PlayersY = new ArrayList<Integer>();
@@ -287,9 +288,12 @@ public class Team extends Activity {
                 int height = img.getHeight();
                 // x = 880 y = 144
                 // width = 200 height = 81
+                System.out.println("###################################################");
                 System.out.println("Coordinates x = " + x + " y = " + y);
                 System.out.println("img width = " + width + " height = " + height);
-                DragDrop(img, "image1", FixtureID);
+                System.out.println("###################################################");
+                IconChosen = "Pass";
+                DragDrop(img, "Pass", FixtureID);
             }
         });
 
@@ -303,12 +307,32 @@ public class Team extends Activity {
                 int height = img2.getHeight();
                 // x = 880 y = 144
                 // width = 200 height = 81
+                System.out.println("###################################################");
                 System.out.println("Coordinates x = " + x + " y = " + y);
                 System.out.println("img2 width = " + width + " height = " + height);
-                DragDrop(img2, "image2", FixtureID);
+                System.out.println("###################################################");
+                IconChosen = "Pass_Miss";
+                DragDrop(img2, "Pass_Miss", FixtureID);
+            }
+        });
+        /*
+        img3=(ImageView)findViewById(R.id.imageView3);
+        img3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = img3.getLeft();
+                int y = img3.getTop();
+                int width = img3.getWidth();
+                int height = img3.getHeight();
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("img3 width = " + width + " height = " + height);
+                DragDrop(img3, "Point", FixtureID);
             }
         });
         //onWindowFocusChanged(true);
+        */
     }
 
     //Used to get new player from the database
@@ -376,7 +400,6 @@ public class Team extends Activity {
         String[] Ids = {"ID1","ID2","ID3"};
         String[] Players = {player1,player2,player3};
         TextView[] Names = {name1,name2,name3};
-
         for(int i = 0 ; i < Ids.length; i++){
             if(Pid.equals(Ids[i])) {
                 System.out.println("ENTERED LOOOOP");
@@ -452,7 +475,6 @@ public class Team extends Activity {
         else{
             name1.setText(player1);
         }
-
         //To make sure no textfield has no value as the textfield will disappear
         if(player2 == null) {
             System.out.println("Player2 is null");
@@ -460,7 +482,6 @@ public class Team extends Activity {
         else{
             name2.setText(player2);
         }
-
         if(player3 != null) {
             name3.setText(player3);
         }
@@ -487,6 +508,7 @@ public class Team extends Activity {
         System.out.println("Inside DragDrop");
         System.out.println(name);
         System.out.println("This is the fixture that was passed in " + FixID);
+        System.out.println("This is the fixture that was passed in " + name);
 
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -509,6 +531,7 @@ public class Team extends Activity {
                 switch(event.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
                         layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
+                        //v.setVisibility(View.VISIBLE);
                         System.out.println("Action drag started");
                         break;
 
@@ -526,7 +549,7 @@ public class Team extends Activity {
                         yValue = (int) event.getY();
                         layoutParams.leftMargin = xValue;
                         layoutParams.topMargin = yValue;
-                        v.setLayoutParams(layoutParams);
+                        //v.setLayoutParams(layoutParams);
                         break;
 
                     case DragEvent.ACTION_DRAG_LOCATION  :
@@ -538,6 +561,7 @@ public class Team extends Activity {
                     //Used to get location of when the icon/image was released
                     case DragEvent.ACTION_DRAG_ENDED   :
                         System.out.println("Action drag ended");
+                        //image.setVisibility(View.VISIBLE);
                         xValue = (int) event.getX();
                         yValue = (int) event.getY();
                         System.out.println("This is the x value in ACTION_DRAG_ENDED " + xValue);
@@ -559,7 +583,8 @@ public class Team extends Activity {
                                 System.out.println("W ====== " + PlayersWidth.get(i));
                                 System.out.println("H ====== " + PlayersHeight.get(i));
                                 String[] PlayerID = PlayersNames[i].split(" ");
-                                System.out.println("Icon that was used " + name);
+                                System.out.println("Icon that was used " + IconChosen);
+                                IconChosen = "";
                                 System.out.println("The split " + PlayerID[0]);
                                 //Used to turn the string into an int so it can be passed to a class
                                 int Player = Integer.parseInt(PlayerID[0]);
@@ -567,7 +592,7 @@ public class Team extends Activity {
                                 System.out.println("The fixture " + FixID);
                                 int Fixture= Integer.parseInt(FixtureID);
                                 //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
-                                apiCalls.playerStat(Player, Fixture, "Point_Miss");
+                                //apiCalls.playerStat(Player, Fixture, "Point_Miss");
                             }
                         }
 
@@ -580,7 +605,6 @@ public class Team extends Activity {
                         if(xValue >= 0 && xValue <= 200 && yValue >= 144 && yValue <= 225){
                             System.out.println("Player1 identified");
                             System.out.println("Players name is " + player1);
-
                             //Used to extratc the players id from the string
                             String[] PlayerID = player1.split(" ");
                             System.out.println("Icon that was used " + name);
@@ -593,7 +617,6 @@ public class Team extends Activity {
                             //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
                             apiCalls.playerStat(Player, Fixture, "Point_Miss");
                         }
-
                         // x = 440 y = 144
                         // width = 140 height = 57
                         if(xValue >= 470 && xValue <= 610 && yValue >= 144 && yValue <= 201){
@@ -621,7 +644,7 @@ public class Team extends Activity {
 
                     img.startDrag(clipdataTouch, MyshadowBuilder, img, 0);
                     //Makes the icon disappear
-                    //img.setVisibility(View.INVISIBLE);
+                    //img.setVisibility(View.VISIBLE);
                     return true;
                 } else {
                     return false;
