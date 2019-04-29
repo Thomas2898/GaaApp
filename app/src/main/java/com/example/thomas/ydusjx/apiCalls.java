@@ -1110,6 +1110,8 @@ public class apiCalls extends Activity {
                         int fixtureIDData = (int) jsonObject.get("Fixture_ID");
 
                         if(playerID == playerIDData && fixtureID == fixtureIDData) {
+                            System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+                            System.out.println("Finding player stats");
                             chkStat = 1;
 
                             int StatID = (int) jsonObject.get("id");
@@ -1119,6 +1121,8 @@ public class apiCalls extends Activity {
                             if(stat.equals("Passing")) {
                                 int Pass = (int) jsonObject.get("Pass");
                                 int Pass_Miss = (int) jsonObject.get("Pass_Miss");
+                                System.out.println("Players pass" + Pass);
+                                System.out.println("Players pass_miss" + Pass_Miss);
                                 playerStats.add(Pass);
                                 playerStats.add(Pass_Miss);
                             }
@@ -1128,11 +1132,15 @@ public class apiCalls extends Activity {
                                 int Point_Miss = (int) jsonObject.get("Point_Miss");
                                 playerStats.add(Point);
                                 playerStats.add(Point_Miss);
+                                System.out.println("Players pass" + Point);
+                                System.out.println("Players pass_miss" + Point_Miss);
                             }
 
                             if(stat.equals("Goals")) {
                                 int Goal = (int) jsonObject.get("Goal");
                                 int Goal_Miss = (int) jsonObject.get("Goal_Miss");
+                                System.out.println("Players pass" + Goal);
+                                System.out.println("Players pass_miss" + Goal_Miss);
                                 playerStats.add(Goal);
                                 playerStats.add(Goal_Miss);
                             }
@@ -1154,6 +1162,10 @@ public class apiCalls extends Activity {
                             //System.out.println("Player Pass " + Pass + " Player pass miss " + Pass_Miss);
                             System.out.println("The id of the stat is "  + StatID);
                             String StatChosen = Integer.toString(StatID);
+
+                            //Used to distinguish which player will be receiving the data
+                            //Player1 is the first choice on the stat screen and
+                            //Player2 is the second choice on the stat screen
                             if(playerChk.equals("Player1")) {
                                 statsDisplay.receivePlayerStats(playerStats, "Player1");
                             }
@@ -1244,6 +1256,7 @@ public class apiCalls extends Activity {
                                 Team = Goal + Team;
                                 TeamMiss = Goal_Miss + TeamMiss;
                             }
+
                             int Turnover = (int) jsonObject.get("Turnover");
                             int Dispossessed = (int) jsonObject.get("Dispossessed");
                             int Block = (int) jsonObject.get("Block");
@@ -1268,6 +1281,9 @@ public class apiCalls extends Activity {
                     System.out.println("Passes completed " + playerStats.get(0) + " Pasesses Failed " + playerStats.get(1));
                     System.out.println("6 =========== " + counter);
 
+                    //Used to distinguish which player will be receiving the data
+                    //Player1 is the first choice on the stat screen and
+                    //Player2 is the second choice on the stat screen
                     if(playerChk.equals("Player1")) {
                         statsDisplay.receivePlayerStats(playerStats, "Player1");
                     }

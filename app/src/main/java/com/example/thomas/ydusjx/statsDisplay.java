@@ -50,7 +50,7 @@ public class statsDisplay extends  Activity {
     Team team;
     TextView Player, Fixture, Player2, Fixture2, stat;
     Intent intent;
-    Button back, search;
+    Button back, search, load;
     String TeamName;
     public static String StatSelected, player1, player2;//player1 and player2 use to distinguish between the player/team chosen first and second
     private float[] yData = {25.3f, 10.6f};
@@ -123,10 +123,8 @@ public class statsDisplay extends  Activity {
                     if (selection.equals("All")) {
                         System.out.println("Team Chosen");
                         player1=selection;
-
                         //So the methods gettin data for a specific player cannot be called
                         PID = 0;
-
                         //Used to check if the user has selected a fixture and if they have then it
                         // will call a method that will get statitics
                         if(FID != 0) {
@@ -300,38 +298,26 @@ public class statsDisplay extends  Activity {
             }
         });
 
-        //Used to go back to the Team screen
         search = (Button)findViewById(R.id.Search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Moving to Team screen");
-                //apiCalls.getPlayersStats(9, 10, "Passing");
-                //apiCalls.getPlayersStats(9, 10, "Passing", 2);
-
-                //Used to call the methods again to load the two specific players specific statistics
-                /*
-                if(PID2 != 0 && PID != 0 && FID2 != 0 && FID != 0) {
+                //Used to update the Pie Chart
+                if(PID2 != 0 && FID2 != 0 && PID != 0 && FID != 0) {
+                    System.out.println("Inside the suspicous if");
                     apiCalls.getPlayersStats(PID, FID, StatSelected, "Player1");
                     apiCalls.getPlayersStats(PID2, FID2, StatSelected, "Player2");
                 }
-                */
 
-                if(PID2 != 0 && FID2 != 0) {
-                    apiCalls.getPlayersStats(PID2, FID2, StatSelected, "Player2");
-                }
-
-                if(PID != 0 && FID != 0) {
-                    apiCalls.getPlayersStats(PID, FID, StatSelected, "Player");
-                }
 
                 if(player1.equals("All") || player2.equals("All")){
+                    System.out.println("TESTING");
                     apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
                     apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
                 }
 
-                //Used to update the Pie Chart
-                if(player1Stats.isEmpty()) {
+                if(player1Stats.isEmpty() || player2Stats.isEmpty()){
                     //addDatatoChart();
                 }else{
                     addDatatoChart();
@@ -398,10 +384,12 @@ public class statsDisplay extends  Activity {
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
         ArrayList<String> xEntrys = new ArrayList<>();
 
-        System.out.println("In addDataSet");
-        System.out.println("This is itttttt " + player1Stats.get(2));
+        System.out.println("In addDataSet (Pie Chart");
+        System.out.println("This is it " + player1Stats.get(0) + "/"+ player1Stats.get(0) + "and 3rd " + player1Stats.get(2));
+        System.out.println("This is it " + player2Stats.get(0) + "/"+ player2Stats.get(0) + "and 3rd " + player2Stats.get(2));
 
-        if(player1Stats.isEmpty()){
+
+        if(player1Stats.isEmpty() || player1Stats.isEmpty()){
             System.out.println("No Player stats");
         }else{
             yEntrys.add(new PieEntry(player1Stats.get(2) , 0));
@@ -450,7 +438,7 @@ public class statsDisplay extends  Activity {
 
     //This recesives data from apiCalls.java to pass the fixtures into the arraylist fixtures
     protected static void getFixtures(ArrayList result) {
-        System.out.println("In getPlayers");
+        System.out.println("In getFixtures");
         fixtures.clear();
         //fixtures.add("Select Fixture");
         fixtures.add("All");
@@ -464,7 +452,7 @@ public class statsDisplay extends  Activity {
     protected static void receivePlayerStats(ArrayList<Integer> receivedStat, String PlayerChk) {
         //check is used to see if rhe user exists, if = 1 then the payers stat exists for the given fixture
             System.out.println(receivedStat.get(0));
-            System.out.println("In getPlayersStats");
+            System.out.println("In receivePlayerStats");
             int OverallPass = receivedStat.get(0) + receivedStat.get(1);
             float PercPass = ((float) receivedStat.get(0)/OverallPass * 100/1);
             System.out.println("Pass " + receivedStat.get(0) + "/" + OverallPass + " (" + PercPass + ")");
@@ -475,13 +463,15 @@ public class statsDisplay extends  Activity {
                     player1Stats.add(receivedStat.get(i));
                 }
                 player1Stats.add(percentage);
+                System.out.println("The 3 values for player 1 ===== " + player1Stats.get(0) + " " + player1Stats.get(1) + " " + player1Stats.get(2));
             }
-            else{
+            if(PlayerChk.equals("Player2")){
                 player2Stats.clear();
                 for (int i = 0; i < receivedStat.size(); i++) {
                     player2Stats.add(receivedStat.get(i));
                 }
                 player2Stats.add(percentage);
+                System.out.println("The 3 values for player 2 ===== " + player2Stats.get(0) + " " + player2Stats.get(1) + " " + player2Stats.get(2));
             }
     }
 

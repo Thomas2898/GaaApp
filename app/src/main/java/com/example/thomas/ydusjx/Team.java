@@ -36,8 +36,8 @@ import static android.R.layout.simple_list_item_1;
 //This is the code that creates the screen where stats are recorded
 public class Team extends Activity {
     Button back,stats;
-    TextView name1, name2, name3, name4, name5, name6, playerChosen, name7, name8, name9, name10, name11, name12, name13, name14, name15;
-    ImageView img, img2, img3;
+    TextView name1, name2, name3, name4, name5, name6, playerChosen, name7, name8, name9, name10, name11, name12, name13, name14, name15, Test, Test2;
+    ImageView img, img2, img3, img4, img5, img6, AltImg;
     static String IconChosen;
     MyDbHelper mydb;
     public static ArrayList<Integer> PlayersX = new ArrayList<Integer>();
@@ -50,7 +50,7 @@ public class Team extends Activity {
     public static String test = "Name1";
     public static String id1, id2, id3, id4, id5, id6;
     public static String player1, player2, player3, player4, player5, player6, player7, player8, player9, player10, player11, player12, player13, player14, player15;//Player1, player2 are used to store the names of the players in the textview
-    public static int chk;
+    public static int ImageChk;
     //public static ArrayList<String> PlayersNamesString = new ArrayList<String>();
     String[] PlayersNames= {player1, player2, player3};
     //TextView[] TextNames= {name1, name2, name3};
@@ -73,6 +73,7 @@ public class Team extends Activity {
         Pid = bundle.getString("Pid");
         FixtureID = bundle.getString("FixtureID");
         TeamName = bundle.getString("TeamSelected");
+        ImageChk = 0;
 
         System.out.println("This is new player");
         System.out.println(str2 + "its id = " + Pid);
@@ -135,7 +136,6 @@ public class Team extends Activity {
                 PlayersWidth.add(0, width);
                 PlayersHeight.add(0,height);
                 //getPlayersCoordinates();
-
 
                 // x = 0 y = 144
                 // width = 200 height = 81
@@ -259,7 +259,6 @@ public class Team extends Activity {
         name6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 int x = name6.getLeft();
                 int y = name6.getTop();
                 int width = name6.getWidth();
@@ -277,62 +276,276 @@ public class Team extends Activity {
             }
         });
 
+        Test = (TextView) findViewById(R.id.Test);
+        Test2 = (TextView) findViewById(R.id.Test2);
+
         img=(ImageView)findViewById(R.id.imageView);
-        img.setOnClickListener(new View.OnClickListener() {
+        //img.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View v) {
+                img.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View img, MotionEvent event) {
+                        //IconChosen = "Pass";
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            System.out.println("111111111111111111111111111111111111111111");
+                            System.out.println("Image 1 is being dragged");
+                            IconChosen = "Pass";
+                            ClipData clipdataTouch = ClipData.newPlainText("", "");
+                            View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img);
+
+                            img.startDrag(clipdataTouch, MyshadowBuilder, img, 0);
+                            //Makes the icon disappear
+                            //img.setVisibility(View.VISIBLE);
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+                //IconChosen = "Pass";
+
+
+                img.setOnDragListener(new View.OnDragListener() {
+                    final int Imagex = img.getLeft();
+                    final int Imagey = img.getTop();
+                    final int Imagewidth = img.getWidth();
+                    final int Imageheight = img.getHeight();
+                    @Override
+                    public boolean onDrag(View img, DragEvent event) {
+                        //IconChosen = "Pass";
+                        System.out.println("New Coordinates");
+                        System.out.println("Pass");
+                        //System.out.println("X ====== " + Imagex);
+                        //System.out.println("Y ====== " + Imagey);
+                        //System.out.println("W ====== " + Imagewidth);
+                        //System.out.println("H ====== " + Imageheight);
+                        switch(event.getAction()) {
+                            case DragEvent.ACTION_DRAG_STARTED:
+                                layoutParams = (RelativeLayout.LayoutParams)img.getLayoutParams();
+                                //v.setVisibility(View.VISIBLE);
+                                System.out.println("Action drag started");
+                                int xValue = (int) event.getX();
+                                int yValue = (int) event.getY();
+                                //System.out.println("This is the x value in ACTION_DRAG_Started " + xValue);
+                                //System.out.println("This is the y value in ACTION_DRAG_Started " + yValue);
+                                break;
+
+                            case DragEvent.ACTION_DRAG_ENTERED:
+                                System.out.println("Action drag entered");
+                                int xValue2 = (int) event.getX();
+                                int yValue2 = (int) event.getY();
+                                //System.out.println("This is the x value in ACTION_DRAG_ENTERED " + xValue2);
+                                //System.out.println("This is the y value in ACTION_DRAG_ENTERED " + yValue2);
+                                break;
+
+                            case DragEvent.ACTION_DRAG_EXITED :
+                                System.out.println("Action drag exited");
+                                xValue= (int) event.getX();
+                                yValue = (int) event.getY();
+                                layoutParams.leftMargin = xValue;
+                                layoutParams.topMargin = yValue;
+                                //img.setLayoutParams(layoutParams);
+                                break;
+
+                            case DragEvent.ACTION_DRAG_LOCATION  :
+                                System.out.println("Action drag location");
+                                int xValue3 = (int) event.getX();
+                                int yValue3 = (int) event.getY();
+                                //System.out.println("This is the x value in ACTION_DRAG_LOCATION " + xValue3);
+                                //System.out.println("This is the y value in ACTION_DRAG_LOCATION " + yValue3);
+                                break;
+
+                            //Used to get location of when the icon/image was released
+                            case DragEvent.ACTION_DRAG_ENDED   :
+                                //IconChosen = "Pass";
+                                System.out.println("Action drag ended");
+                                //image.setVisibility(View.VISIBLE);
+                                xValue = (int) event.getX();
+                                yValue = (int) event.getY();
+                                System.out.println("This is the x value in ACTION_DRAG_ENDED " + xValue);
+                                System.out.println("This is the y value in ACTION_DRAG_ENDED " + yValue);
+
+                                //Used to find where the icon was dropped and what player the icon was dropped on
+                                for(int i = 0 ; i < PlayersNames.length; i++){
+                                    int width = PlayersX.get(i) + PlayersWidth.get(i);
+                                    int height = PlayersY.get(i) + PlayersHeight.get(i);
+
+                                    //Name1
+                                    // x = 0 y = 144
+                                    // width = 200 height = 81
+                                    if(xValue >=  PlayersX.get(i) && xValue <= width && yValue >= PlayersY.get(i) && yValue <= height) {
+                                        System.out.println("The player found " + PlayersNames[i]);
+                                        System.out.println("Used Image 1");
+                                        //System.out.println("The coordinates");
+                                        //System.out.println("X ====== " + PlayersX.get(i));
+                                        //System.out.println("Y ====== " + PlayersY.get(i));
+                                        //System.out.println("W ====== " + PlayersWidth.get(i));
+                                        //System.out.println("H ====== " + PlayersHeight.get(i));
+                                        String[] PlayerID = PlayersNames[i].split(" ");
+                                        System.out.println("Icon that was used " + IconChosen);
+                                        //String input = img.getText().toString();
+                                        //IconChosen = "";
+                                        //System.out.println("The split " + PlayerID[0]);
+                                        //Used to turn the string into an int so it can be passed to a class
+                                        int Player = Integer.parseInt(PlayerID[0]);
+                                        //System.out.println("The int " + Player);
+                                        //System.out.println("The fixture " + FixID);
+                                        int Fixture= Integer.parseInt(FixtureID);
+                                        System.out.println("Player has been updated1");
+                                        //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
+                                        apiCalls.playerStat(Player, Fixture, IconChosen);
+                                    }
+                                }
+                                break;
+
+                            case DragEvent.ACTION_DROP:
+                                System.out.println("Action drop");
+                                break;
+                            default: break;
+                        }
+                        return true;
+                    }
+                });
+
+
+        img2=(ImageView)findViewById(R.id.imageView2);
+        img2.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                System.out.println("This is the fixture in the image call" + FixtureID);
-                int x = img.getLeft();
-                int y = img.getTop();
-                int width = img.getWidth();
-                int height = img.getHeight();
-                // x = 880 y = 144
-                // width = 200 height = 81
-                System.out.println("###################################################");
-                System.out.println("Coordinates x = " + x + " y = " + y);
-                System.out.println("img width = " + width + " height = " + height);
-                System.out.println("###################################################");
-                IconChosen = "Pass";
-                DragDrop(img, "Pass", FixtureID);
+            public boolean onTouch(View img2, MotionEvent event2) {
+                //IconChosen = "Pass_Miss";
+                if (event2.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Pass_Miss";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img2);
+                    img2.startDrag(clipdataTouch, MyshadowBuilder, img2, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
 
-        img2=(ImageView)findViewById(R.id.imageView2);
-        img2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = img2.getLeft();
-                int y = img2.getTop();
-                int width = img2.getWidth();
-                int height = img2.getHeight();
-                // x = 880 y = 144
-                // width = 200 height = 81
-                System.out.println("###################################################");
-                System.out.println("Coordinates x = " + x + " y = " + y);
-                System.out.println("img2 width = " + width + " height = " + height);
-                System.out.println("###################################################");
-                IconChosen = "Pass_Miss";
-                DragDrop(img2, "Pass_Miss", FixtureID);
-            }
-        });
-        /*
         img3=(ImageView)findViewById(R.id.imageView3);
-        img3.setOnClickListener(new View.OnClickListener() {
+        img3.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                int x = img3.getLeft();
-                int y = img3.getTop();
-                int width = img3.getWidth();
-                int height = img3.getHeight();
-                // x = 880 y = 144
-                // width = 200 height = 81
-                System.out.println("Coordinates x = " + x + " y = " + y);
-                System.out.println("img3 width = " + width + " height = " + height);
-                DragDrop(img3, "Point", FixtureID);
+            public boolean onTouch(View img3, MotionEvent event3) {
+                if (event3.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Point";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img3);
+
+                    img3.startDrag(clipdataTouch, MyshadowBuilder, img3, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
+
+        img4=(ImageView)findViewById(R.id.imageView4);
+        img4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View img4, MotionEvent event4) {
+                if (event4.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Point_Miss";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img4);
+
+                    img4.startDrag(clipdataTouch, MyshadowBuilder, img4, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        img5=(ImageView)findViewById(R.id.imageView5);
+        img5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View img5, MotionEvent event5) {
+                if (event5.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img5);
+
+                    img5.startDrag(clipdataTouch, MyshadowBuilder, img5, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        img6=(ImageView)findViewById(R.id.imageView6);
+        img6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View img6, MotionEvent event6) {
+                if (event6.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal_Miss";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img6);
+
+                    img6.startDrag(clipdataTouch, MyshadowBuilder, img6, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        //When the button is clicked this image will be infront og the image occupying image3(Point)
+        AltImg=(ImageView)findViewById(R.id.AltimageView);
+        AltImg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg, MotionEvent aAltevent) {
+                if (aAltevent.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Turnover";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg);
+
+                    AltImg.startDrag(clipdataTouch, MyshadowBuilder, AltImg, 0);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
         //onWindowFocusChanged(true);
-        */
+
+        //Used to get different Icons to drag and drop
+        Test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //img=(ImageView)findViewById(R.id.imageView);
+                //String input = img.getText().toString();
+                System.out.println("This is the chosen icon = " + IconChosen);
+                if(ImageChk == 0) {
+                    ImageChk = 1;
+                    img3.setVisibility(View.INVISIBLE);
+                    //name1.setVisibility(View.INVISIBLE);
+                    Test2.setText("Attacking Icon");
+                    System.out.println("Attacking Icon");
+                }
+                else{
+                    ImageChk = 0;
+                    img3.setVisibility(View.VISIBLE);
+                    Test2.setText("Defensive Icon");
+                    System.out.println("Defensive Icon");
+                }
+            }
+        });
     }
 
     //Used to get new player from the database
@@ -498,159 +711,5 @@ public class Team extends Activity {
                 Names[i].setText(Players[i]);
             }
         }
-
-
-    }
-
-    //Called when one of the images is touched
-    //Reference: The following code an Android example from https://www.tutorialspoint.com/android/android_drag_and_drop.htm
-    public void DragDrop(ImageView image, final String name, final String FixID){
-        System.out.println("Inside DragDrop");
-        System.out.println(name);
-        System.out.println("This is the fixture that was passed in " + FixID);
-        System.out.println("This is the fixture that was passed in " + name);
-
-        image.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                System.out.println("Image has been clicked");
-                ClipData.Item itemClip = new ClipData.Item((CharSequence)v.getTag());
-                String[] mime = {ClipDescription.MIMETYPE_TEXT_PLAIN};
-
-                ClipData datadraged = new ClipData(v.getTag().toString(),mime, itemClip);
-                View.DragShadowBuilder myShadowBuilder = new View.DragShadowBuilder(img);
-
-                v.startDrag(datadraged,myShadowBuilder,null,0);
-                return true;
-            }
-        });
-
-        image.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                switch(event.getAction()) {
-                    case DragEvent.ACTION_DRAG_STARTED:
-                        layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
-                        //v.setVisibility(View.VISIBLE);
-                        System.out.println("Action drag started");
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        System.out.println("Action drag entered");
-                        int xValue = (int) event.getX();
-                        int yValue = (int) event.getY();
-                        //System.out.println("This is the x value in ACTION_DRAG_ENTERED " + xValue);
-                        //System.out.println("This is the y value in ACTION_DRAG_ENTERED " + yValue);
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED :
-                        System.out.println("Action drag exited");
-                        xValue= (int) event.getX();
-                        yValue = (int) event.getY();
-                        layoutParams.leftMargin = xValue;
-                        layoutParams.topMargin = yValue;
-                        //v.setLayoutParams(layoutParams);
-                        break;
-
-                    case DragEvent.ACTION_DRAG_LOCATION  :
-                        System.out.println("Action drag location");
-                        xValue = (int) event.getX();
-                        yValue = (int) event.getY();
-                        break;
-
-                    //Used to get location of when the icon/image was released
-                    case DragEvent.ACTION_DRAG_ENDED   :
-                        System.out.println("Action drag ended");
-                        //image.setVisibility(View.VISIBLE);
-                        xValue = (int) event.getX();
-                        yValue = (int) event.getY();
-                        System.out.println("This is the x value in ACTION_DRAG_ENDED " + xValue);
-                        System.out.println("This is the y value in ACTION_DRAG_ENDED " + yValue);
-
-                        //Used to find where the icon was dropped and what player the icon was dropped on
-                        for(int i = 0 ; i < PlayersNames.length; i++){
-                            int width = PlayersX.get(i) + PlayersWidth.get(i);
-                            int height = PlayersY.get(i) + PlayersHeight.get(i);
-
-                            //Name1
-                            // x = 0 y = 144
-                            // width = 200 height = 81
-                            if(xValue >=  PlayersX.get(i) && xValue <= width && yValue >= PlayersY.get(i) && yValue <= height) {
-                                System.out.println("The player found " + PlayersNames[i]);
-                                System.out.println("The coordinates");
-                                System.out.println("X ====== " + PlayersX.get(i));
-                                System.out.println("Y ====== " + PlayersY.get(i));
-                                System.out.println("W ====== " + PlayersWidth.get(i));
-                                System.out.println("H ====== " + PlayersHeight.get(i));
-                                String[] PlayerID = PlayersNames[i].split(" ");
-                                System.out.println("Icon that was used " + IconChosen);
-                                IconChosen = "";
-                                System.out.println("The split " + PlayerID[0]);
-                                //Used to turn the string into an int so it can be passed to a class
-                                int Player = Integer.parseInt(PlayerID[0]);
-                                System.out.println("The int " + Player);
-                                System.out.println("The fixture " + FixID);
-                                int Fixture= Integer.parseInt(FixtureID);
-                                //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
-                                //apiCalls.playerStat(Player, Fixture, "Point_Miss");
-                            }
-                        }
-
-
-
-                        /*
-                        //Used to test the images coordinates
-                        // x = 0 y = 144
-                        // width = 200 height = 81
-                        if(xValue >= 0 && xValue <= 200 && yValue >= 144 && yValue <= 225){
-                            System.out.println("Player1 identified");
-                            System.out.println("Players name is " + player1);
-                            //Used to extratc the players id from the string
-                            String[] PlayerID = player1.split(" ");
-                            System.out.println("Icon that was used " + name);
-                            System.out.println("The split " + PlayerID[0]);
-                            //Used to turn the string into an int so it can be passed to a class
-                            int Player = Integer.parseInt(PlayerID[0]);
-                            System.out.println("The int " + Player);
-                            System.out.println("The fixture " + FixID);
-                            int Fixture= Integer.parseInt(FixtureID);
-                            //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
-                            apiCalls.playerStat(Player, Fixture, "Point_Miss");
-                        }
-                        // x = 440 y = 144
-                        // width = 140 height = 57
-                        if(xValue >= 470 && xValue <= 610 && yValue >= 144 && yValue <= 201){
-                            System.out.println("Player2 identified");
-                        }
-                        */
-
-                        break;
-
-                    case DragEvent.ACTION_DROP:
-                        System.out.println("Action drop");
-                        break;
-                    default: break;
-                }
-                return true;
-            }
-        });
-
-        image.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    ClipData clipdataTouch = ClipData.newPlainText("", "");
-                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img);
-
-                    img.startDrag(clipdataTouch, MyshadowBuilder, img, 0);
-                    //Makes the icon disappear
-                    //img.setVisibility(View.VISIBLE);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-        //End code reference
     }
 }
