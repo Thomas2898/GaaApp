@@ -799,7 +799,7 @@ public class apiCalls extends Activity {
                                 DisplayPlayerStats.getPlayersStats(PStatsVal, chkStat);
                             }
                             else {
-                                statsDisplay.getPlayersStats(PStatsVal, chkStat);
+                                //statsDisplay.getPlayersStats(PStatsVal, chkStat);
                             }
                         }
                     }
@@ -809,7 +809,7 @@ public class apiCalls extends Activity {
                             DisplayPlayerStats.getPlayersStats(PStatsVal, chkStat);
                         }
                         else {
-                            statsDisplay.getPlayersStats(PStatsVal, chkStat);
+                            //statsDisplay.getPlayersStats(PStatsVal, chkStat);
                         }
                     }
                     connection.disconnect();
@@ -1077,6 +1077,7 @@ public class apiCalls extends Activity {
 
     //Used to get a players stats from a specific match to be displayed in a pie chart
     //Chkclass is used to see which class is calling getPlayersFixtureStats
+    /*
     static public void getPlayersStats(final int playerID, final int fixtureID, final String stat, final String playerChk) {
         final String API = "http://142.93.44.141/stats/";
         final ArrayList<Integer> playerStats = new ArrayList<Integer>();
@@ -1184,9 +1185,11 @@ public class apiCalls extends Activity {
         });
         thread.start();
     }
+    */
 
     //Used to get all players stats from a specific match to be displayed in a pie chart
     //Chkclass is used to see which class is calling getPlayersFixtureStats
+    /*
     static public void getAllPlayersStats(final int fixtureID, final String stat, final String playerChk) {
         final String API = "http://142.93.44.141/stats/";
         final ArrayList<Integer> playerStats = new ArrayList<Integer>();
@@ -1291,6 +1294,89 @@ public class apiCalls extends Activity {
                         statsDisplay.receivePlayerStats(playerStats, "Player2");
                     }
 
+                    connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+    */
+    static public void getPlayersStats(final int playerID, final int fixtureID, final String player) {
+        final String API = "http://142.93.44.141/stats/";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    InputStream stream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
+
+                    int chkStat = 0;//Used to clarify if the players stat record exists for the certain fixture
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int playerIDData = (int) jsonObject.get("Player_ID");
+                        int fixtureIDData = (int) jsonObject.get("Fixture_ID");
+                        //System.out.println("Getting " + player + " stats");
+
+                        if(playerID == playerIDData && fixtureID == fixtureIDData) {
+                            chkStat = 1;
+
+                            int StatID = (int) jsonObject.get("id");
+                            int Player_ID = (int) jsonObject.get("Player_ID");
+                            int Fixture_ID = (int) jsonObject.get("Fixture_ID");
+                            int Pass = (int) jsonObject.get("Pass");
+                            int Pass_Miss = (int) jsonObject.get("Pass_Miss");
+                            int Point = (int) jsonObject.get("Point");
+                            int Point_Miss = (int) jsonObject.get("Point_Miss");
+                            int Goal = (int) jsonObject.get("Goal");
+                            int Goal_Miss = (int) jsonObject.get("Goal_Miss");
+                            int Turnover = (int) jsonObject.get("Turnover");
+                            int Dispossessed = (int) jsonObject.get("Dispossessed");
+                            int Block = (int) jsonObject.get("Block");
+                            int Kickout_won = (int) jsonObject.get("Kickout_won");
+                            int Kickout_lost = (int) jsonObject.get("Kickout_lost");
+                            int Goal_save = (int) jsonObject.get("Goal_save");
+                            int Goal_conceded = (int) jsonObject.get("Goal_conceded");
+                            int Yellow_card = (int) jsonObject.get("Yellow_card");
+                            int Red_card = (int) jsonObject.get("Red_card");
+                            int Black_card = (int) jsonObject.get("Black_card");
+
+                            //Used to compare to the stat that is a parameter when this class is called
+                            String[] PStats = {"id", "Player_ID", "Fixture_ID", "Pass", "Pass_Miss", "Point", "Point_Miss", "Goal", "Goal_Miss", "Turnover", "Dispossessed", "Block", "Kickout_won", "Kickout_lost", "Goal_save", "Goal_conceded", "Yellow_card", "Red_card", "Black_card"};
+                            int[] PStatsVal = {StatID, Player_ID, Fixture_ID, Pass, Pass_Miss, Point, Point_Miss, Goal, Goal_Miss, Turnover, Dispossessed, Block, Kickout_won, Kickout_lost, Goal_save, Goal_conceded, Yellow_card, Red_card, Black_card};
+
+                            System.out.println("Player Pass " + Pass + " Player pass miss " + Pass_Miss);
+                            System.out.println("The id of the stat is "  + StatID);
+                            String StatChosen = Integer.toString(StatID);
+                            //System.out.println(TeamID);
+                            connection.disconnect();
+                            if(player.equals("Player1")){
+                                System.out.println("Passing Player 1 stats");
+                                statsDisplay.getPlayersStats(PStatsVal, player);
+                            }
+
+                            if(player.equals("Player2")){
+                                System.out.println("Passing Player 2 stats");
+                                statsDisplay.getPlayersStats(PStatsVal, player);
+                            }
+                        }
+                    }
                     connection.disconnect();
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,85 +1,405 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/Back"
         android:text="Back"
-        android:layout_marginLeft="128dp"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/Back"
         android:text="Select Player"
         android:textSize="20dp"
         android:id="@+id/Player" />
 
     <Spinner
         android:id="@+id/playerDropDown"
+        android:layout_below="@+id/Player"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/playerDropDown"
         android:text="Select Fixture"
         android:textSize="20dp"
         android:id="@+id/Fixture" />
 
     <Spinner
         android:id="@+id/fixtureDropDown"
+        android:layout_below="@+id/Fixture"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/fixtureDropDown"
         android:text="Select Player 2"
         android:textSize="20dp"
         android:id="@+id/Player2" />
 
     <Spinner
         android:id="@+id/playerDropDown2"
+        android:layout_below="@+id/Player2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/playerDropDown2"
         android:text="Select Fixture 2"
         android:textSize="20dp"
         android:id="@+id/Fixture2" />
 
     <Spinner
         android:id="@+id/fixtureDropDown2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select stat"
-        android:textSize="20dp"
-        android:id="@+id/stat" />
-
-    <Spinner
-        android:id="@+id/statDropDown"
+        android:layout_below="@+id/Fixture2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/Search"
         android:text="Search"
+        android:layout_below="@+id/fixtureDropDown2"
         android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <com.github.mikephil.charting.charts.PieChart
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/idPieChart"></com.github.mikephil.charting.charts.PieChart>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Search"
+        android:text="Player1"
+        android:textSize="20dp"
+        android:id="@+id/Player1Chosen" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Search"
+        android:text="Player2"
+        android:textSize="20dp"
+        android:id="@+id/Player2Chosen"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Player1Chosen"
+        android:text="Pass(s): "
+        android:textSize="20dp"
+        android:id="@+id/Pass" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Player1Chosen"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/PassValue"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Player1Chosen"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/PassValue2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Pass"
+        android:text="Point(s): "
+        android:textSize="20dp"
+        android:id="@+id/Point" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Pass"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/PointValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/PassValue2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/PointValue2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Point"
+        android:text="Goal(s): "
+        android:textSize="20dp"
+        android:id="@+id/Goal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/PointValue"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/GoalValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/PointValue2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/GoalValue2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Goal"
+        android:text="Turnovers:"
+        android:textSize="20dp"
+        android:id="@+id/Turn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/GoalValue"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Turnover" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/GoalValue2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Turnover2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Turn"
+        android:text="Dispossessed:"
+        android:textSize="20dp"
+        android:id="@+id/Dis" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Turnover"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Dispossessed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Turnover2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Dispossessed2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Dis"
+        android:text="Block:"
+        android:textSize="20dp"
+        android:id="@+id/Blk" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Dispossessed"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Block"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Dispossessed2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Block2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Blk"
+        android:text="Kickouts:"
+        android:textSize="20dp"
+        android:id="@+id/Kickout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Block"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/KickoutValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Block2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/KickoutValue2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Kickout"
+        android:text="Saves:"
+        android:textSize="20dp"
+        android:id="@+id/Sav" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/KickoutValue"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Saves"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/KickoutValue2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/Saves2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Sav"
+        android:text="Yellow Card(s):"
+        android:textSize="20dp"
+        android:id="@+id/YC" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/Saves"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/YellowCard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Saves2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/YellowCard2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/YC"
+        android:text="Red Cards:"
+        android:textSize="20dp"
+        android:id="@+id/RC" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/YellowCard"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/RedCard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/YellowCard2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/RedCard2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RC"
+        android:text="Black Cards:"
+        android:textSize="20dp"
+        android:id="@+id/BC" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/RedCard"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/BlackCard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/RedCard2"
+        android:text=""
+        android:textSize="20dp"
+        android:id="@+id/BlackCard2"/>
+
+</RelativeLayout>

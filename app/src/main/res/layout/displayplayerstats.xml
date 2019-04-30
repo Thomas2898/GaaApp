@@ -16,13 +16,14 @@
         android:layout_below="@+id/Back"
         android:text="Select Player"
         android:textSize="20dp"
-        android:id="@+id/Player" />
+        android:id="@+id/Player"/>
 
     <Spinner
         android:id="@+id/playerDropDown"
         android:layout_below="@+id/Player"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/Search"
         android:text="Search"
@@ -242,8 +243,4 @@
         android:text=""
         android:textSize="20dp"
         android:id="@+id/BlackCard" />
-
-
-
-
 </RelativeLayout>

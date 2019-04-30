@@ -48,7 +48,8 @@ Also has a back button th=o bring the user to the main page
  */
 public class statsDisplay extends  Activity {
     Team team;
-    TextView Player, Fixture, Player2, Fixture2, stat;
+    TextView Player, Fixture, Player2, Fixture2, stat, Pass, PassValue, PassValue2, Point, PointValue, PointValue2, Goal, GoalValue, GoalValue2, Turn, Turnover, Turnover2, Dis, Dispossessed, Dispossessed2;;
+    TextView Blk, Block, Block2, Kickout, KickoutValue, KickoutValue2, Sav, Saves, Saves2, YC, YellowCard, YellowCard2, RC, RedCard, RedCard2, BC, BlackCard, BlackCard2, Player1Chosen, Player2Chosen;
     Intent intent;
     Button back, search, load;
     String TeamName;
@@ -57,13 +58,13 @@ public class statsDisplay extends  Activity {
     private String[] xData = {"Thomas", "Thomas"};
     PieChart pieChart;
     public static int PID, FID, PID2, FID2;//Player id and fixture id
+    public static String Player1Name, Player2Name;//Player id and fixture id
     public static ArrayList<Integer> player1Stats = new ArrayList<Integer>();
     public static ArrayList<Integer> player2Stats = new ArrayList<Integer>();
     public static ArrayList<String> players = new ArrayList<String>();
     public static ArrayList<String> fixtures = new ArrayList<String>();
     public static ArrayList<Integer> playersStats = new ArrayList<Integer>();
     //public static String[] statsSelect = new String[]{"Passing", "Points", "Goals", "Won possession", "Lost possession", "Red Card"};
-    public static ArrayList<String> statsSelect = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +76,6 @@ public class statsDisplay extends  Activity {
         apiCalls.getFixtures getFixtures = new apiCalls.getFixtures();
         getFixtures.execute("http://142.93.44.141/fixtures/", "fixtures");
         */
-
-        //Used to fill up the statistic drop down list
-        statsSelect.clear();
-        statsSelect.add("Passing");
-        statsSelect.add("Points");
-        statsSelect.add("Goals");
-        statsSelect.add("Won possession");
-        statsSelect.add("Lost possession");
 
         //Used to get what team was chosen
         Bundle bundle = getIntent().getExtras();
@@ -128,7 +121,7 @@ public class statsDisplay extends  Activity {
                         //Used to check if the user has selected a fixture and if they have then it
                         // will call a method that will get statitics
                         if(FID != 0) {
-                            apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
+                            //apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
                         }
                         //Else is triggered when the user selects a player from the list
                     } else {
@@ -138,11 +131,12 @@ public class statsDisplay extends  Activity {
                         //Transforms the players ID from a string into an int
                         PID = Integer.parseInt(getPID[0]);
                         //Used to check if the user has selected a fixture
+                        Player1Name = getPID[1];
                         if (FID != 0) {
-                            apiCalls.getPlayersStats(PID, FID, StatSelected, "Player1");
+                            apiCalls.getPlayersStats(PID, FID, "Player1");
                         }
                         else{
-                            Toast.makeText(statsDisplay.this, "Please select a Fixture", Toast.LENGTH_LONG).show();
+                            Toast.makeText(statsDisplay.this, "Please select Fixture", Toast.LENGTH_LONG).show();
                         }
                     }
                 //}
@@ -178,12 +172,12 @@ public class statsDisplay extends  Activity {
                     FID = Integer.parseInt(getFID[0]);
 
                     if(player1.equals("All")){
-                        apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
+                        //apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
                     }
                     //Used to check if the user has selected a player from the first player drop down
                     if(PID != 0) {
                         //Calls method in apiCalls to get the certain statistics(Passing, Scoring) for a certain player
-                        apiCalls.getPlayersStats(PID, FID, StatSelected, "Player1");
+                        apiCalls.getPlayersStats(PID, FID, "Player1");
                     }
                     else{
                         Toast.makeText(statsDisplay.this,"Please select a player", Toast.LENGTH_LONG).show();
@@ -218,7 +212,7 @@ public class statsDisplay extends  Activity {
                     player2=selection;
                     PID2 = 0;
                     if(FID2 != 0) {
-                        apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
+                        //apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
                     }
                 }
                 else{
@@ -226,8 +220,9 @@ public class statsDisplay extends  Activity {
                     player2 = getPID[1];
                     System.out.println("First element from splitting string " + getPID[0]);
                     PID2 = Integer.parseInt(getPID[0]);
+                    Player2Name = getPID[1];
                     if(FID2 != 0) {
-                        apiCalls.getPlayersStats(PID2, FID2, StatSelected, "Player2");
+                        apiCalls.getPlayersStats(PID2, FID2, "Player2");
                     }
                 }
             }
@@ -260,35 +255,12 @@ public class statsDisplay extends  Activity {
                     FID2 = Integer.parseInt(getFID[0]);
 
                     if(player1.equals("All")){
-                        apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
+                        //apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
                     }
                     if(PID2 != 0) {
-                        apiCalls.getPlayersStats(PID2, FID2, StatSelected, "Player2");
+                        apiCalls.getPlayersStats(PID2, FID2, "Player2");
                     }
                 }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        stat = (TextView) findViewById(R.id.stat);
-
-
-        Spinner statDropDown = (Spinner) findViewById(R.id.statDropDown);
-        ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, statsSelect);
-        statDropDown.setAdapter(adapter5);
-        statDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
-                String selection = (String) parent.getItemAtPosition(position);
-                System.out.println("Fixture that was selected is " + selection);
-                StatSelected = selection;
 
             }
 
@@ -304,117 +276,58 @@ public class statsDisplay extends  Activity {
             public void onClick(View v) {
                 System.out.println("Moving to Team screen");
                 //Used to update the Pie Chart
-                if(PID2 != 0 && FID2 != 0 && PID != 0 && FID != 0) {
-                    System.out.println("Inside the suspicous if");
-                    apiCalls.getPlayersStats(PID, FID, StatSelected, "Player1");
-                    apiCalls.getPlayersStats(PID2, FID2, StatSelected, "Player2");
-                }
-
-
-                if(player1.equals("All") || player2.equals("All")){
-                    System.out.println("TESTING");
-                    apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
-                    apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
-                }
-
-                if(player1Stats.isEmpty() || player2Stats.isEmpty()){
-                    //addDatatoChart();
-                }else{
-                    addDatatoChart();
-                }
-                //Toast.makeText(FixtureSelection.this, "No player selected",Toast.LENGTH_LONG).show();
+                setStats();
             }
         });
 
-        pieChart = (PieChart) findViewById(R.id.idPieChart);
+        Player1Chosen = (TextView) findViewById(R.id.Player1Chosen);
+        Player2Chosen = (TextView) findViewById(R.id.Player2Chosen);
 
-        //pieChart.setDescription("Sales by employee (In Thousands $)");
-        pieChart.setRotationEnabled(true);
-        //pieChart.setUsePercentValues(true);
-        //pieChart.setHoleColor(Color.BLUE);
-        //pieChart.setCenterTextColor(Color.BLACK);
-        pieChart.setHoleRadius(25f);
-        pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Stats");
-        pieChart.setCenterTextSize(10);
-        //pieChart.setDrawEntryLabels(true);
-        //pieChart.setEntryLabelTextSize(20);
-        //More options just check out the documentation!
+        Pass = (TextView) findViewById(R.id.Pass);
+        PassValue = (TextView) findViewById(R.id.PassValue);
+        PassValue2 = (TextView) findViewById(R.id.PassValue2);
+
+        Point = (TextView) findViewById(R.id.Point);
+        PointValue = (TextView) findViewById(R.id.PointValue);
+        PointValue2 = (TextView) findViewById(R.id.PointValue2);
+
+        Goal = (TextView) findViewById(R.id.Goal);
+        GoalValue = (TextView) findViewById(R.id.GoalValue);
+        GoalValue2 = (TextView) findViewById(R.id.GoalValue2);
+
+        Turn = (TextView) findViewById(R.id.Turn);
+        Turnover = (TextView) findViewById(R.id.Turnover);
+        Turnover2 = (TextView) findViewById(R.id.Turnover2);
 
 
-        //addDataSet();
+        Dis = (TextView) findViewById(R.id.Dis);
+        Dispossessed = (TextView) findViewById(R.id.Dispossessed);
+        Dispossessed2 = (TextView) findViewById(R.id.Dispossessed2);
 
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                System.out.println("This is the value of e");
-                System.out.println(e);
-                System.out.println(e.toString());
+        Blk = (TextView) findViewById(R.id.Blk);
+        Block = (TextView) findViewById(R.id.Block);
+        Block2 = (TextView) findViewById(R.id.Block2);
 
-                int pos1 = e.toString().indexOf("Entry, x: 0.0 y: ");
-                String statClicked = e.toString().substring(pos1 + 17);
-                float statClickedFloat = Float.parseFloat(statClicked);
-                int statClickedInt = (int) statClickedFloat;
-                System.out.println(statClicked);
+        Kickout = (TextView) findViewById(R.id.Kickout);
+        KickoutValue = (TextView) findViewById(R.id.KickoutValue);
+        KickoutValue2 = (TextView) findViewById(R.id.KickoutValue2);
 
-                if(player1Stats.isEmpty())
-                {
-                    //Toast.makeText(statsDisplay.this, "Select a player", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    if (player1Stats.get(2) == statClickedInt) {
-                        int overall = player1Stats.get(0) + player1Stats.get(1);
-                        Toast.makeText(statsDisplay.this, player1 + " " + StatSelected + "= " + player1Stats.get(0) + "/" + overall, Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        int overall = player2Stats.get(0) + player2Stats.get(1);
-                        Toast.makeText(statsDisplay.this, player2 + " " + StatSelected + "= " + player2Stats.get(0) + "/" + overall, Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
+        Sav = (TextView) findViewById(R.id.Sav);
+        Saves = (TextView) findViewById(R.id.Saves);
+        Saves2 = (TextView) findViewById(R.id.Saves2);
 
-            @Override
-            public void onNothingSelected() {
+        YC = (TextView) findViewById(R.id.YC);
+        YellowCard = (TextView) findViewById(R.id.YellowCard);
+        YellowCard2 = (TextView) findViewById(R.id.YellowCard2);
 
-            }
-        });
+        RC = (TextView) findViewById(R.id.RC);
+        RedCard = (TextView) findViewById(R.id.RedCard);
+        RedCard2 = (TextView) findViewById(R.id.RedCard2);
+
+        BC = (TextView) findViewById(R.id.BC);
+        BlackCard = (TextView) findViewById(R.id.BlackCard);
+        BlackCard2 = (TextView) findViewById(R.id.BlackCard2);
     }
-
-    private void addDatatoChart() {
-        ArrayList<PieEntry> yEntrys = new ArrayList<>();
-        ArrayList<String> xEntrys = new ArrayList<>();
-
-        System.out.println("In addDataSet (Pie Chart");
-        System.out.println("This is it " + player1Stats.get(0) + "/"+ player1Stats.get(0) + "and 3rd " + player1Stats.get(2));
-        System.out.println("This is it " + player2Stats.get(0) + "/"+ player2Stats.get(0) + "and 3rd " + player2Stats.get(2));
-
-
-        if(player1Stats.isEmpty() || player1Stats.isEmpty()){
-            System.out.println("No Player stats");
-        }else{
-            yEntrys.add(new PieEntry(player1Stats.get(2) , 0));
-            yEntrys.add(new PieEntry(player2Stats.get(2) , 1));
-        }
-
-        xEntrys.add(player1);
-        xEntrys.add(player2);
-
-
-        PieDataSet pieDataSet = new PieDataSet(yEntrys, "Player/Team Statistics");
-        pieDataSet.setSliceSpace(2);
-        pieDataSet.setValueTextSize(12);
-
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.BLUE);
-        colors.add(Color.RED);
-
-        pieDataSet.setColors(colors);
-
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
-    }
-
 
     //This recesives data from apiCalls.java to pass the players into the arraylist players
     protected static void getPlayers(ArrayList result) {
@@ -448,49 +361,79 @@ public class statsDisplay extends  Activity {
         }
     }
 
-    //Used to receive the selected players stats from apiCalls class getPlayersStats
-    protected static void receivePlayerStats(ArrayList<Integer> receivedStat, String PlayerChk) {
-        //check is used to see if rhe user exists, if = 1 then the payers stat exists for the given fixture
-            System.out.println(receivedStat.get(0));
-            System.out.println("In receivePlayerStats");
-            int OverallPass = receivedStat.get(0) + receivedStat.get(1);
-            float PercPass = ((float) receivedStat.get(0)/OverallPass * 100/1);
-            System.out.println("Pass " + receivedStat.get(0) + "/" + OverallPass + " (" + PercPass + ")");
-            int percentage = (int) PercPass;
-            if(PlayerChk.equals("Player1")) {
-                player1Stats.clear();
-                for (int i = 0; i < receivedStat.size(); i++) {
-                    player1Stats.add(receivedStat.get(i));
-                }
-                player1Stats.add(percentage);
-                System.out.println("The 3 values for player 1 ===== " + player1Stats.get(0) + " " + player1Stats.get(1) + " " + player1Stats.get(2));
-            }
-            if(PlayerChk.equals("Player2")){
-                player2Stats.clear();
-                for (int i = 0; i < receivedStat.size(); i++) {
-                    player2Stats.add(receivedStat.get(i));
-                }
-                player2Stats.add(percentage);
-                System.out.println("The 3 values for player 2 ===== " + player2Stats.get(0) + " " + player2Stats.get(1) + " " + player2Stats.get(2));
-            }
-    }
-
     //This receives data from apiCalls.java
-    protected static void getPlayersStats(int result[], int check) {
+    protected static void getPlayersStats(int result[], String PlayerChk) {
         //check is used to see if rhe user exists, if = 1 then the payers stat exists for the given fixture
-        if(check == 1) {
+        //if(check == 1) {
             System.out.println(result[0]);
             System.out.println("In getPlayersStats");
             int OverallPass = result[3] + result[4];
             float PercPass = ((float) result[3]/OverallPass * 100/1);
             System.out.println("Pass " + result[3] + "/" + OverallPass + " (" + PercPass + ")");
-            playersStats.clear();
-            for (int i = 0; i < result.length; i++) {
-                playersStats.add(result[i]);
+
+            if(PlayerChk.equals("Player1")) {
+                player1Stats.clear();
+                for (int i = 0; i < result.length; i++) {
+                    player1Stats.add(result[i]);
+                }
             }
+            if(PlayerChk.equals("Player2")) {
+                player2Stats.clear();
+                for (int i = 0; i < result.length; i++) {
+                    player2Stats.add(result[i]);
+                }
+            }
+        //}
+        //else{
+            //System.out.println("Player Doesnt exist");
+        //}
+    }
+
+    protected void setStats() {
+
+        if(player1Stats.isEmpty() || player2Stats.isEmpty()){
+            Toast.makeText(statsDisplay.this, "Please select Fixtures/Players", Toast.LENGTH_LONG).show();
         }
         else{
-            System.out.println("Player Doesnt exist");
+
+            Player1Chosen.setText(Player1Name);
+            Player2Chosen.setText(Player2Name);
+
+            int OverallPass = player1Stats.get(3) + player1Stats.get(4);
+            int OverallPoint = player1Stats.get(5) + player1Stats.get(6);
+            int OverallGoal = player1Stats.get(7) + player1Stats.get(8);
+            int OverallKickout = player1Stats.get(12) + player1Stats.get(13);
+            int OverallSaves = player1Stats.get(14) + player1Stats.get(15);
+
+            PassValue.setText(player1Stats.get(3) + "/" + OverallPass);
+            PointValue.setText(player1Stats.get(5) + "/" + OverallPoint);
+            GoalValue.setText(player1Stats.get(7) + "/" + OverallGoal);
+            Turnover.setText(player1Stats.get(9).toString());
+            Dispossessed.setText(player1Stats.get(10).toString());
+            Block.setText(player1Stats.get(11).toString());
+            KickoutValue.setText(player1Stats.get(12) + "/" + OverallKickout);
+            Saves.setText(player1Stats.get(14) + "/" + OverallSaves);
+            YellowCard.setText(player1Stats.get(15).toString());
+            RedCard.setText(player1Stats.get(16).toString());
+            BlackCard.setText(player1Stats.get(17).toString());
+
+            OverallPass = player2Stats.get(3) + player2Stats.get(4);
+            OverallPoint = player2Stats.get(5) + player2Stats.get(6);
+            OverallGoal = player2Stats.get(7) + player2Stats.get(8);
+            OverallKickout = player2Stats.get(12) + player2Stats.get(13);
+            OverallSaves = player2Stats.get(14) + player2Stats.get(15);
+
+            PassValue2.setText(player2Stats.get(3) + "/" + OverallPass);
+            PointValue2.setText(player2Stats.get(5) + "/" + OverallPoint);
+            GoalValue2.setText(player2Stats.get(7) + "/" + OverallGoal);
+            Turnover2.setText(player2Stats.get(9).toString());
+            Dispossessed2.setText(player2Stats.get(10).toString());
+            Block2.setText(player2Stats.get(11).toString());
+            KickoutValue2.setText(player2Stats.get(12) + "/" + OverallKickout);
+            Saves2.setText(player2Stats.get(14) + "/" + OverallSaves);
+            YellowCard2.setText(player2Stats.get(15).toString());
+            RedCard2.setText(player2Stats.get(16).toString());
+            BlackCard2.setText(player2Stats.get(17).toString());
         }
     }
 }
