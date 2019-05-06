@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +23,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+
+import static android.R.layout.simple_list_item_1;
 
 /**
  * Created by Thomas on 26/01/2019.
@@ -1385,6 +1389,120 @@ public class apiCalls extends Activity {
         });
         thread.start();
     }
+
+
+    static public void getAllPlayersStats(final int fixtureID, final String playerChk) {
+        final String API = "http://142.93.44.141/stats/";
+        final ArrayList<Integer> playerStats = new ArrayList<Integer>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    InputStream stream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
+
+                    playerStats.clear();
+                    int[] PStatsCount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                    int[] PStatsVal = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+                    int chkStat = 0;//Used to clarify if the players stat record exists for the certain fixture
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int playerIDData = (int) jsonObject.get("Player_ID");
+                        int fixtureIDData = (int) jsonObject.get("Fixture_ID");
+
+                        if(fixtureID == fixtureIDData) {
+                            chkStat = 1;
+
+                            int StatID = (int) jsonObject.get("id");
+                            int Player_ID = (int) jsonObject.get("Player_ID");
+                            int Fixture_ID = (int) jsonObject.get("Fixture_ID");
+                            int Pass = (int) jsonObject.get("Pass");
+                            int Pass_Miss = (int) jsonObject.get("Pass_Miss");
+                            int Point = (int) jsonObject.get("Point");
+                            int Point_Miss = (int) jsonObject.get("Point_Miss");
+                            int Goal = (int) jsonObject.get("Goal");
+                            int Goal_Miss = (int) jsonObject.get("Goal_Miss");
+                            int Turnover = (int) jsonObject.get("Turnover");
+                            int Dispossessed = (int) jsonObject.get("Dispossessed");
+                            int Block = (int) jsonObject.get("Block");
+                            int Kickout_won = (int) jsonObject.get("Kickout_won");
+                            int Kickout_lost = (int) jsonObject.get("Kickout_lost");
+                            int Goal_save = (int) jsonObject.get("Goal_save");
+                            int Goal_conceded = (int) jsonObject.get("Goal_conceded");
+                            int Yellow_card = (int) jsonObject.get("Yellow_card");
+                            int Red_card = (int) jsonObject.get("Red_card");
+                            int Black_card = (int) jsonObject.get("Black_card");
+
+                            PStatsCount[0] = StatID;
+                            PStatsCount[1] = Player_ID;
+                            PStatsCount[2] = Fixture_ID;
+                            PStatsCount[3] = Pass + PStatsCount[3];
+                            PStatsCount[4] = Pass_Miss + PStatsCount[4];
+                            PStatsCount[5] = Point + PStatsCount[5];
+                            PStatsCount[6] = Point_Miss + PStatsCount[6];
+                            PStatsCount[7] = Goal + PStatsCount[7];
+                            PStatsCount[8] = Goal_Miss + PStatsCount[8];
+                            PStatsCount[9] = Turnover + PStatsCount[9];
+                            PStatsCount[10] = Dispossessed + PStatsCount[10];
+                            PStatsCount[11] = Block + PStatsCount[11];
+                            PStatsCount[12] = Kickout_won + PStatsCount[12];
+                            PStatsCount[13] = Kickout_lost + PStatsCount[13];
+                            PStatsCount[14] = Goal_save + PStatsCount[14];
+                            PStatsCount[15] = Goal_conceded + PStatsCount[15];
+                            PStatsCount[16] = Yellow_card + PStatsCount[16];
+                            PStatsCount[17] = Red_card + PStatsCount[17];
+                            PStatsCount[18] = Black_card + PStatsCount[18];
+
+
+                            //int[] PStatsVal = {StatID, Player_ID, Fixture_ID, Pass, Pass_Miss, Point, Point_Miss, Goal, Goal_Miss, Turnover, Dispossessed, Block, Kickout_won, Kickout_lost, Goal_save, Goal_conceded, Yellow_card, Red_card, Black_card};
+
+                            //System.out.println(TeamID);
+                            connection.disconnect();
+                        }
+
+                    }
+
+                    for(int i = 0 ; i < PStatsVal.length; i++){
+                        System.out.println(PStatsCount[i]);
+                        PStatsVal[i] = PStatsCount[i];
+                    }
+
+                    if(playerChk.equals("Player1")){
+                        System.out.println("Passing Player 1 stats");
+                        statsDisplay.getPlayersStats(PStatsVal, playerChk);
+                    }
+
+                    if(playerChk.equals("Player2")){
+                        System.out.println("Passing Player 2 stats");
+                        statsDisplay.getPlayersStats(PStatsVal, playerChk);
+                    }
+                    connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+
 }
 
 

@@ -17,6 +17,7 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -35,9 +36,9 @@ import static android.R.layout.simple_list_item_1;
 
 //This is the code that creates the screen where stats are recorded
 public class Team extends Activity {
-    Button back,stats;
+    Button back,stats, iconBtn;
     TextView name1, name2, name3, name4, name5, name6, playerChosen, name7, name8, name9, name10, name11, name12, name13, name14, name15, Test, Test2;
-    ImageView img, img2, img3, img4, img5, img6, AltImg;
+    ImageView img, img2, img3, img4, img5, img6, img7, img8, img9, AltImg;
     static String IconChosen;
     MyDbHelper mydb;
     public static ArrayList<Integer> PlayersX = new ArrayList<Integer>();
@@ -48,13 +49,13 @@ public class Team extends Activity {
     public static String str2;
     public static String Pid;
     public static String test = "Name1";
-    public static String id1, id2, id3, id4, id5, id6;
+    public static String id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12, id13, id14, id15;
     public static String player1, player2, player3, player4, player5, player6, player7, player8, player9, player10, player11, player12, player13, player14, player15;//Player1, player2 are used to store the names of the players in the textview
     public static int ImageChk;
     //public static ArrayList<String> PlayersNamesString = new ArrayList<String>();
-    String[] PlayersNames= {player1, player2, player3};
+    String[] PlayersNames= {player1, player2, player3, player4, player5, player6, player7, player8, player9, player10,player11,player12,player13,player14,player15};
     //TextView[] TextNames= {name1, name2, name3};
-    TextView[] textViewNames = new TextView[3];
+    TextView[] textViewNames = new TextView[15];
 
     private android.widget.RelativeLayout.LayoutParams layoutParams;
 
@@ -113,6 +114,11 @@ public class Team extends Activity {
         name4 = (TextView) findViewById(R.id.Name4);
         name5 = (TextView) findViewById(R.id.Name5);
         name6 = (TextView) findViewById(R.id.Name6);
+        name7 = (TextView) findViewById(R.id.Name7);
+        name8 = (TextView) findViewById(R.id.Name8);
+        name9 = (TextView) findViewById(R.id.Name9);
+        name10 = (TextView) findViewById(R.id.Name10);
+
         int[] position= new int[2];
         name1.getLocationInWindow(position);
         System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
@@ -222,6 +228,10 @@ public class Team extends Activity {
                 int y = name4.getTop();
                 int width = name4.getWidth();
                 int height = name4.getHeight();
+                PlayersX.add(3,x);
+                PlayersY.add(3,y);
+                PlayersWidth.add(3, width);
+                PlayersHeight.add(3,height);
                 // x = 880 y = 144
                 // width = 200 height = 81
                 System.out.println("Coordinates x = " + x + " y = " + y);
@@ -243,6 +253,10 @@ public class Team extends Activity {
                 int y = name5.getTop();
                 int width = name5.getWidth();
                 int height = name5.getHeight();
+                PlayersX.add(4,x);
+                PlayersY.add(4,y);
+                PlayersWidth.add(4, width);
+                PlayersHeight.add(4,height);
                 // x = 880 y = 144
                 // width = 200 height = 81
                 System.out.println("Coordinates x = " + x + " y = " + y);
@@ -256,6 +270,33 @@ public class Team extends Activity {
             }
         });
 
+        /*
+        name5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int x = name5.getLeft();
+                int y = name5.getTop();
+                int width = name5.getWidth();
+                int height = name5.getHeight();
+                PlayersX.add(4,x);
+                PlayersY.add(4,y);
+                PlayersWidth.add(4, width);
+                PlayersHeight.add(4,height);
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id5 = "ID5";
+                playerChosen = (TextView) findViewById(R.id.Name5);
+                String a = name5.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id5);
+            }
+        });
+        */
+
         name6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,6 +304,12 @@ public class Team extends Activity {
                 int y = name6.getTop();
                 int width = name6.getWidth();
                 int height = name6.getHeight();
+
+                PlayersX.add(5,x);
+                PlayersY.add(5,y);
+                PlayersWidth.add(5, width);
+                PlayersHeight.add(5,height);
+
                 // x = 880 y = 144
                 // width = 200 height = 81
                 System.out.println("Coordinates x = " + x + " y = " + y);
@@ -273,6 +320,240 @@ public class Team extends Activity {
                 String a = name6.getText().toString();
                 System.out.println(a);
                 getPlayerName(a, id6);
+            }
+        });
+
+        name7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name7.getLeft();
+                int y = name7.getTop();
+                int width = name7.getWidth();
+                int height = name7.getHeight();
+
+                PlayersX.add(6,x);
+                PlayersY.add(6,y);
+                PlayersWidth.add(6, width);
+                PlayersHeight.add(6,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id7 = "ID7";
+                playerChosen = (TextView) findViewById(R.id.Name7);
+                String a = name7.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id7);
+            }
+        });
+
+        name8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name8.getLeft();
+                int y = name8.getTop();
+                int width = name8.getWidth();
+                int height = name8.getHeight();
+
+                PlayersX.add(7,x);
+                PlayersY.add(7,y);
+                PlayersWidth.add(7, width);
+                PlayersHeight.add(7,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id8 = "ID8";
+                playerChosen = (TextView) findViewById(R.id.Name8);
+                String a = name8.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id8);
+            }
+        });
+
+        name9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name9.getLeft();
+                int y = name9.getTop();
+                int width = name9.getWidth();
+                int height = name9.getHeight();
+
+                PlayersX.add(8,x);
+                PlayersY.add(8,y);
+                PlayersWidth.add(8, width);
+                PlayersHeight.add(8,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id9 = "ID9";
+                playerChosen = (TextView) findViewById(R.id.Name9);
+                String a = name9.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id9);
+            }
+        });
+
+        name10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name10.getLeft();
+                int y = name10.getTop();
+                int width = name10.getWidth();
+                int height = name10.getHeight();
+
+                PlayersX.add(9,x);
+                PlayersY.add(9,y);
+                PlayersWidth.add(9, width);
+                PlayersHeight.add(9,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id10 = "ID10";
+                playerChosen = (TextView) findViewById(R.id.Name10);
+                String a = name10.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id10);
+            }
+        });
+
+        name11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name11.getLeft();
+                int y = name11.getTop();
+                int width = name11.getWidth();
+                int height = name11.getHeight();
+
+                PlayersX.add(10,x);
+                PlayersY.add(10,y);
+                PlayersWidth.add(10, width);
+                PlayersHeight.add(10,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id11 = "ID11";
+                playerChosen = (TextView) findViewById(R.id.Name11);
+                String a = name11.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id11);
+            }
+        });
+
+        name12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name12.getLeft();
+                int y = name12.getTop();
+                int width = name12.getWidth();
+                int height = name12.getHeight();
+
+                PlayersX.add(11,x);
+                PlayersY.add(11,y);
+                PlayersWidth.add(11, width);
+                PlayersHeight.add(11,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id12 = "ID12";
+                playerChosen = (TextView) findViewById(R.id.Name12);
+                String a = name12.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id12);
+            }
+        });
+
+        name13.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name13.getLeft();
+                int y = name13.getTop();
+                int width = name13.getWidth();
+                int height = name13.getHeight();
+
+                PlayersX.add(12,x);
+                PlayersY.add(12,y);
+                PlayersWidth.add(12, width);
+                PlayersHeight.add(12,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id13 = "ID13";
+                playerChosen = (TextView) findViewById(R.id.Name13);
+                String a = name13.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id13);
+            }
+        });
+
+        name14.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name14.getLeft();
+                int y = name14.getTop();
+                int width = name14.getWidth();
+                int height = name14.getHeight();
+
+                PlayersX.add(13,x);
+                PlayersY.add(13,y);
+                PlayersWidth.add(13, width);
+                PlayersHeight.add(13,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id14 = "ID14";
+                playerChosen = (TextView) findViewById(R.id.Name14);
+                String a = name14.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id14);
+            }
+        });
+
+        name15.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = name15.getLeft();
+                int y = name15.getTop();
+                int width = name15.getWidth();
+                int height = name15.getHeight();
+
+                PlayersX.add(14,x);
+                PlayersY.add(14,y);
+                PlayersWidth.add(14, width);
+                PlayersHeight.add(14,height);
+
+                // x = 880 y = 144
+                // width = 200 height = 81
+                System.out.println("Coordinates x = " + x + " y = " + y);
+                System.out.println("Name3 width = " + width + " height = " + height);
+                //Assigns the textview an id to make it unique and identifiable
+                id15 = "ID15";
+                playerChosen = (TextView) findViewById(R.id.Name15);
+                String a = name15.getText().toString();
+                System.out.println(a);
+                getPlayerName(a, id15);
             }
         });
 
@@ -382,19 +663,26 @@ public class Team extends Activity {
                                         //System.out.println("Y ====== " + PlayersY.get(i));
                                         //System.out.println("W ====== " + PlayersWidth.get(i));
                                         //System.out.println("H ====== " + PlayersHeight.get(i));
-                                        String[] PlayerID = PlayersNames[i].split(" ");
-                                        System.out.println("Icon that was used " + IconChosen);
-                                        //String input = img.getText().toString();
-                                        //IconChosen = "";
-                                        //System.out.println("The split " + PlayerID[0]);
-                                        //Used to turn the string into an int so it can be passed to a class
-                                        int Player = Integer.parseInt(PlayerID[0]);
-                                        //System.out.println("The int " + Player);
-                                        //System.out.println("The fixture " + FixID);
-                                        int Fixture= Integer.parseInt(FixtureID);
-                                        System.out.println("Player has been updated1");
-                                        //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
-                                        apiCalls.playerStat(Player, Fixture, IconChosen);
+                                        if(PlayersNames[i] != null) {
+                                            String[] PlayerID = PlayersNames[i].split(" ");
+
+                                            System.out.println("Icon that was used " + IconChosen);
+                                            //String input = img.getText().toString();
+                                            //IconChosen = "";
+                                            //System.out.println("The split " + PlayerID[0]);
+                                            //Used to turn the string into an int so it can be passed to a class
+                                            int Player = Integer.parseInt(PlayerID[0]);
+                                            //System.out.println("The int " + Player);
+                                            //System.out.println("The fixture " + FixID);
+                                            int Fixture = Integer.parseInt(FixtureID);
+                                            System.out.println("Player has been updated1");
+                                            //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
+                                            //apiCalls.playerStat(Player, Fixture, IconChosen);
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(Team.this, "Please select a player", Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
                                 break;
@@ -504,6 +792,86 @@ public class Team extends Activity {
             }
         });
 
+        img7=(ImageView)findViewById(R.id.imageView7);
+        img7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View img7, MotionEvent event7) {
+                if (event7.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal_Miss";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img7);
+
+                    img7.startDrag(clipdataTouch, MyshadowBuilder, img7, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        img8=(ImageView)findViewById(R.id.imageView8);
+        img8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View img8, MotionEvent event8) {
+                if (event8.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal_Miss";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img8);
+
+                    img8.startDrag(clipdataTouch, MyshadowBuilder, img8, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        img9=(ImageView)findViewById(R.id.imageView9);
+        img9.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View img9, MotionEvent event9) {
+                if (event9.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal_Miss";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img9);
+
+                    img9.startDrag(clipdataTouch, MyshadowBuilder, img9, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        iconBtn = (Button) findViewById(R.id.IconButton);
+        iconBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Changing the icons");
+                System.out.println("This is the chosen icon = " + IconChosen);
+                if(ImageChk == 0) {
+                    ImageChk = 1;
+                    img3.setVisibility(View.INVISIBLE);
+                    //name1.setVisibility(View.INVISIBLE);
+                    iconBtn.setText("Possession Icons");
+                    System.out.println("Attacking Icon");
+                }
+                else{
+                    ImageChk = 0;
+                    img3.setVisibility(View.VISIBLE);
+                    iconBtn.setText("Disspossesed Icons");
+                    System.out.println("Defensive Icon");
+                }
+
+            }
+        });
+        /*
         //When the button is clicked this image will be infront og the image occupying image3(Point)
         AltImg=(ImageView)findViewById(R.id.AltimageView);
         AltImg.setOnTouchListener(new View.OnTouchListener() {
@@ -521,8 +889,9 @@ public class Team extends Activity {
                 }
             }
         });
+        */
 
-        //onWindowFocusChanged(true);
+        onWindowFocusChanged(true);
 
         //Used to get different Icons to drag and drop
         Test2.setOnClickListener(new View.OnClickListener() {
@@ -573,6 +942,15 @@ public class Team extends Activity {
         name4 = (TextView) findViewById(R.id.Name4);
         name5 = (TextView) findViewById(R.id.Name5);
         name6 = (TextView) findViewById(R.id.Name6);
+        name7 = (TextView) findViewById(R.id.Name7);
+        name8 = (TextView) findViewById(R.id.Name8);
+        name9 = (TextView) findViewById(R.id.Name9);
+        name10 = (TextView) findViewById(R.id.Name10);
+        name11 = (TextView) findViewById(R.id.Name11);
+        name12 = (TextView) findViewById(R.id.Name12);
+        name13 = (TextView) findViewById(R.id.Name13);
+        name14 = (TextView) findViewById(R.id.Name14);
+        name15 = (TextView) findViewById(R.id.Name15);
 
         if(Pid.equals("ID1")) {
             player1 = str2;
@@ -594,18 +972,74 @@ public class Team extends Activity {
 
         if(Pid.equals("ID4")) {
             player4 = str2;
-
+            PlayersNames[3] = str2;
             name4.setText(str2);
         }
 
         if(Pid.equals("ID5")) {
             player5 = str2;
+            PlayersNames[4] = str2;
             name5.setText(str2);
         }
 
         if(Pid.equals("ID6")) {
             player6 = str2;
+            PlayersNames[5] = str2;
             name6.setText(str2);
+        }
+
+        if(Pid.equals("ID7")) {
+            player7 = str2;
+            PlayersNames[6] = str2;
+            name7.setText(str2);
+        }
+
+        if(Pid.equals("ID8")) {
+            player8 = str2;
+            PlayersNames[7] = str2;
+            name8.setText(str2);
+        }
+
+        if(Pid.equals("ID9")) {
+            player9 = str2;
+            PlayersNames[8] = str2;
+            name9.setText(str2);
+        }
+
+        if(Pid.equals("ID10")) {
+            player10 = str2;
+            PlayersNames[9] = str2;
+            name10.setText(str2);
+        }
+
+        if(Pid.equals("ID11")) {
+            player11 = str2;
+            PlayersNames[10] = str2;
+            name11.setText(str2);
+        }
+
+        if(Pid.equals("ID12")) {
+            player12 = str2;
+            PlayersNames[11] = str2;
+            name12.setText(str2);
+        }
+
+        if(Pid.equals("ID13")) {
+            player13 = str2;
+            PlayersNames[12] = str2;
+            name13.setText(str2);
+        }
+
+        if(Pid.equals("ID14")) {
+            player14 = str2;
+            PlayersNames[13] = str2;
+            name14.setText(str2);
+        }
+
+        if(Pid.equals("ID15")) {
+            player15 = str2;
+            PlayersNames[14] = str2;
+            name15.setText(str2);
         }
 
 
@@ -675,9 +1109,32 @@ public class Team extends Activity {
         name4 = (TextView) findViewById(R.id.Name4);
         name5 = (TextView) findViewById(R.id.Name5);
         name6 = (TextView) findViewById(R.id.Name6);
+        name7 = (TextView) findViewById(R.id.Name7);
+        name8 = (TextView) findViewById(R.id.Name8);
+        name9 = (TextView) findViewById(R.id.Name9);
+        name10 = (TextView) findViewById(R.id.Name10);
+        name11 = (TextView) findViewById(R.id.Name11);
+        name12 = (TextView) findViewById(R.id.Name12);
+        name13 = (TextView) findViewById(R.id.Name13);
+        name14 = (TextView) findViewById(R.id.Name14);
+        name15 = (TextView) findViewById(R.id.Name15);
+
         textViewNames[0]=name1;
         textViewNames[1]=name2;
         textViewNames[2]=name3;
+        textViewNames[3]=name4;
+        textViewNames[4]=name5;
+        textViewNames[5]=name6;
+        textViewNames[6]=name7;
+        textViewNames[7]=name8;
+        textViewNames[8]=name9;
+        textViewNames[9]=name10;
+        textViewNames[10]=name11;
+        textViewNames[11]=name12;
+        textViewNames[12]=name13;
+        textViewNames[13]=name14;
+        textViewNames[14]=name15;
+        //textViewNames[3]=name4;
         //name1.setText(player1);
 
         /*
@@ -701,9 +1158,9 @@ public class Team extends Activity {
         */
 
         //An array of strings that hold the value of the players name (String player1 = "Tom")
-        String[] Players = {player1,player2,player3,player4,player5,player6};
+        String[] Players = {player1,player2,player3,player4,player5,player6,player7,player8,player9,player10,player11,player12,player13,player14,player15};
         //Used to know which textview is which
-        TextView[] Names = {name1,name2,name3,name4,name5,name6};
+        TextView[] Names = {name1,name2,name3,name4,name5,name6,name7,name8,name9,name10,name11,name12,name13,name14,name15};
 
         //Used to set the textviews to the players names that were already chosen
         for(int i = 0 ; i < Players.length; i++){

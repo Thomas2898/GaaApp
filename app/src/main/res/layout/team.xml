@@ -38,7 +38,8 @@
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
         android:layout_above="@+id/Name2"
-        android:text="Stats" />
+        android:text="Stats"
+        android:background="@drawable/button"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -167,14 +168,15 @@
         android:text="Player15"
         android:textSize="20dp"
         android:id="@+id/Name15"
-        android:layout_above="@+id/AltimageView"
         android:layout_alignLeft="@+id/Name13"
-        android:layout_alignStart="@+id/Name13" />
+        android:layout_alignStart="@+id/Name13"
+        android:layout_below="@+id/Name13"
+        android:layout_marginTop="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text=""
         android:textSize="20dp"
         android:id="@+id/Test"
         android:layout_alignParentLeft="true"
@@ -184,7 +186,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test2"
+        android:text=""
         android:id="@+id/Test2"
         android:textSize="10dp"
         android:layout_alignTop="@+id/Name15"
@@ -205,54 +207,129 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@mipmap/ic_launcher"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/Name15" />
+        android:layout_below="@+id/Name15"
+        android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:id="@+id/AltimageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/ic_launcher"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/Test"/>
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_launcher"
-        android:layout_alignTop="@+id/AltimageView"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="42dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/point"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_below="@+id/Test2"
+        android:layout_above="@+id/imageView5"
+        android:layout_alignLeft="@+id/Name6"
+        android:layout_alignStart="@+id/Name6" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_launcher"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="42dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pointmiss"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageView"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:layout_alignRight="@+id/Name9"
+        android:layout_alignEnd="@+id/Name9"
+        android:layout_alignBottom="@+id/imageView6" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_launcher"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/goal"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/imageView2"
-        android:layout_marginTop="30dp"/>
+        android:layout_alignRight="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView2"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2" />
 
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_launcher"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/goalmiss"
+        android:layout_alignTop="@+id/imageView5"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/imageView3"
-        android:layout_marginTop="30dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/imageView3"
+        android:layout_alignStart="@+id/imageView3" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pointmiss"
+        android:layout_below="@+id/imageView4"
+        android:layout_marginTop="30dp"
+        android:layout_alignRight="@+id/imageView4"
+        android:layout_alignEnd="@+id/imageView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/goal"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/imageView5"
+        android:layout_alignRight="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView2"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="42dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/goalmiss"
+        android:layout_below="@+id/imageView6"
+        android:layout_alignTop="@+id/imageView7"
+        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/imageView6"
+        android:layout_alignStart="@+id/imageView6" />
+
+    <Button
+        android:id="@+id/IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/imageView8"
+        android:layout_marginTop="30dp"
+        android:text="Disspossesed Icons"
+        android:background="@drawable/button"/>
 </RelativeLayout>

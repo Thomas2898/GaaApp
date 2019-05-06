@@ -73,6 +73,10 @@ public class AddPlayer extends Activity {
                     System.out.println("This is the DOB that was selected " + DOB);
                     System.out.println("This is the teams ID that was selected " + TeamID);
                     apiCalls.addPlayer(player_name, DOB, TeamID);
+                    nameInput.getText().clear();
+                    DOBInput.getText().clear();
+                    apiCalls.getPlayers getPlayers = new apiCalls.getPlayers();
+                    getPlayers.execute("http://142.93.44.141/teams", TeamName);
                 }
             }
         });

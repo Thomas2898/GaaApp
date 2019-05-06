@@ -121,7 +121,7 @@ public class statsDisplay extends  Activity {
                         //Used to check if the user has selected a fixture and if they have then it
                         // will call a method that will get statitics
                         if(FID != 0) {
-                            //apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
+                            apiCalls.getAllPlayersStats(FID, "Player1");
                         }
                         //Else is triggered when the user selects a player from the list
                     } else {
@@ -172,7 +172,7 @@ public class statsDisplay extends  Activity {
                     FID = Integer.parseInt(getFID[0]);
 
                     if(player1.equals("All")){
-                        //apiCalls.getAllPlayersStats(FID, StatSelected, "Player1");
+                        apiCalls.getAllPlayersStats(FID, "Player1");
                     }
                     //Used to check if the user has selected a player from the first player drop down
                     if(PID != 0) {
@@ -210,9 +210,11 @@ public class statsDisplay extends  Activity {
                 if(selection.equals("All")){
                     System.out.println("Team chosen");
                     player2=selection;
+                    //Sets Player2 id to 0 as the whole team is selected
                     PID2 = 0;
+                    //Used to check if the user has selected a fixture
                     if(FID2 != 0) {
-                        //apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
+                        apiCalls.getAllPlayersStats(FID2, "Player2");
                     }
                 }
                 else{
@@ -255,7 +257,7 @@ public class statsDisplay extends  Activity {
                     FID2 = Integer.parseInt(getFID[0]);
 
                     if(player1.equals("All")){
-                        //apiCalls.getAllPlayersStats(FID2, StatSelected, "Player2");
+                        apiCalls.getAllPlayersStats(FID2, "Player2");
                     }
                     if(PID2 != 0) {
                         apiCalls.getPlayersStats(PID2, FID2, "Player2");

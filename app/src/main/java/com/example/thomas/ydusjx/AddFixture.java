@@ -97,11 +97,15 @@ public class AddFixture extends Activity {
 
                     apiCalls.getFixtures getFixtures = new apiCalls.getFixtures();
                     getFixtures.execute("http://142.93.44.141/fixtures", TeamName);
-                    Intent PlayerSelection = new Intent(AddFixture.this, FixtureSelection.class);
-                    PlayerSelection.putExtra("TeamSelected", TeamName);
-                    //apiCalls.getPlayers getPlayers = new apiCalls.getPlayers();
-                    //getPlayers.execute("http://142.93.44.141/teams", TeamName);
-                    startActivity(PlayerSelection);
+                    //Intent PlayerSelection = new Intent(AddFixture.this, FixtureSelection.class);
+                    //PlayerSelection.putExtra("TeamSelected", TeamName);
+                    //startActivity(PlayerSelection);
+                    AwayTeamInput.getText().clear();
+                    RefereeInput.getText().clear();
+                    DateInput.getText().clear();
+                    TimeInput.getText().clear();
+                    LocationInput.getText().clear();
+                    Toast.makeText(AddFixture.this, "Fixture added",Toast.LENGTH_LONG).show();
                 }
             }
         });

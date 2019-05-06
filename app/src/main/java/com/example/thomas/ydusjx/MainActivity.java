@@ -34,7 +34,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -143,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
                 //apiCalls.playerStat(9, 10, "Point_Miss");
                 //updateApi();
                 //addPlayer();
-                updatePlayerStat();
+                //updatePlayerStat();
+                dateTest();
 
                 //apiPlayer.getAllPlayersStats(10, "Passing", "Player 1");
             }
@@ -706,5 +710,69 @@ public class MainActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
+
+    //Chkclass is used to see which class is calling getPlayersFixtureStats
+    static public void dateTest() {
+        final String API = "http://142.93.44.141/fixtures/";
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    InputStream stream = connection.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
+
+                    int chkStat = 0;//Used to clarify if the players stat record exists for the certain fixture
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        String Datef = (String) jsonObject.get("Date");
+                        if(Datef.equals("2019-05-13")) {
+                            String Home_Team = (String) jsonObject.get("Home_Team");
+                            String Away_Team = (String) jsonObject.get("Away_Team");
+                            String Referee = (String) jsonObject.get("Referee");
+                            String Time = (String) jsonObject.get("Time");
+                            String Location = (String) jsonObject.get("Location");
+                            System.out.println("Fixure Found");
+                            System.out.println(Home_Team);
+                            System.out.println(Away_Team);
+                            System.out.println(Referee);
+                            Date c = Calendar.getInstance().getTime();
+                            System.out.println("Current time => " + c);
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                            String formattedDate = df.format(c);
+                            System.out.println(formattedDate);
+                        }
+
+                        connection.disconnect();
+
+
+                    }
+                    connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
 
 }
