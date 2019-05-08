@@ -18,19 +18,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/PlayersBtn"
-            android:text="Players"
-            android:layout_marginLeft="128dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/TestBtn"
-            android:text="Test"
-            android:layout_marginLeft="128dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

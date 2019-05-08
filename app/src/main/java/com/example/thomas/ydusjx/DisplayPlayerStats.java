@@ -102,6 +102,8 @@ public class DisplayPlayerStats extends  Activity {
                 System.out.println("First element from splitting string " + getPID[0]);
                 PID = Integer.parseInt(getPID[0]);
                 System.out.println("Player chosen " + PID + " Fixture chosen " + FID);
+
+                //Used to get the selected players statistics
                 apiCalls.getPlayersFixtureStats(PID, FID, 2);
             }
 
@@ -118,6 +120,7 @@ public class DisplayPlayerStats extends  Activity {
             public void onClick(View v) {
                 System.out.println("Moving to Team screen");
                 //Toast.makeText(FixtureSelection.this, "No player selected",Toast.LENGTH_LONG).show();
+
                 if(playersStats.isEmpty()){
                     System.out.println("ArrayList empty");
                 }
@@ -224,9 +227,9 @@ public class DisplayPlayerStats extends  Activity {
         Block.setText(playersStats.get(11).toString());
         KickoutValue.setText(playersStats.get(12) + "/" + OverallKickout);
         Saves.setText(playersStats.get(14) + "/" + OverallSaves);
-        YellowCard.setText(playersStats.get(15).toString());
-        RedCard.setText(playersStats.get(16).toString());
-        BlackCard.setText(playersStats.get(17).toString());
+        YellowCard.setText(playersStats.get(16).toString());
+        RedCard.setText(playersStats.get(17).toString());
+        BlackCard.setText(playersStats.get(18).toString());
     }
 
 }

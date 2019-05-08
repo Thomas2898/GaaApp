@@ -7,13 +7,8 @@
         android:id="@+id/Back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
-
-    <Button
-        android:id="@+id/AddPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add player" />
+        android:text="Back"
+        android:background="@drawable/button"/>
 
     <ListView
         android:id="@android:id/list"

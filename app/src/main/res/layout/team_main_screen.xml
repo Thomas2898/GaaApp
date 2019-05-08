@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/Back"
         android:text="Back"
-        android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/button" />
 
     <Button
         android:id="@+id/FixtureBtn"
         android:text="Fixtures"
-        android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Back"
+        android:background="@drawable/button"
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/PlayersBtn"
         android:text="Players"
-        android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/FixtureBtn"
+        android:background="@drawable/button"
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/StatsBtn"
         android:text="Record Statistics"
-        android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/PlayersBtn"
+        android:background="@drawable/button"
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/DisplayStatsBtn"
         android:text="Statistics"
-        android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/StatsBtn"
+        android:background="@drawable/button"
+        android:layout_marginTop="30dp"/>
 
-</LinearLayout>
+</RelativeLayout>

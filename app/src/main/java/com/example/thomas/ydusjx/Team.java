@@ -38,9 +38,10 @@ import static android.R.layout.simple_list_item_1;
 public class Team extends Activity {
     Button back,stats, iconBtn;
     TextView name1, name2, name3, name4, name5, name6, playerChosen, name7, name8, name9, name10, name11, name12, name13, name14, name15, Test, Test2;
-    ImageView img, img2, img3, img4, img5, img6, img7, img8, img9, AltImg;
+    ImageView img, img2, img3, img4, img5, img6, img7, img8, img9, AltImg, AltImg2, AltImg3, AltImg4, AltImg5, AltImg6, Altimg7, Altimg8, Altimg9, Altimg10;
     static String IconChosen;
     MyDbHelper mydb;
+    public Toast toastobject;
     public static ArrayList<Integer> PlayersX = new ArrayList<Integer>();
     public static ArrayList<Integer> PlayersY = new ArrayList<Integer>();
     public static ArrayList<Integer> PlayersHeight = new ArrayList<Integer>();
@@ -56,6 +57,7 @@ public class Team extends Activity {
     String[] PlayersNames= {player1, player2, player3, player4, player5, player6, player7, player8, player9, player10,player11,player12,player13,player14,player15};
     //TextView[] TextNames= {name1, name2, name3};
     TextView[] textViewNames = new TextView[15];
+    private static final int SHORT_DELAY = 1000;
 
     private android.widget.RelativeLayout.LayoutParams layoutParams;
 
@@ -560,6 +562,28 @@ public class Team extends Activity {
         Test = (TextView) findViewById(R.id.Test);
         Test2 = (TextView) findViewById(R.id.Test2);
 
+        AltImg=(ImageView)findViewById(R.id.AltimageView);
+        AltImg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg, MotionEvent Altevent) {
+                if (Altevent.getAction() == MotionEvent.ACTION_DOWN) {
+                    System.out.println("111111111111111111111111111111111111111111");
+                    System.out.println("Altimage 1 is being dragged");
+                    IconChosen = "Goal_save";
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg);
+
+                    AltImg.startDrag(clipdataTouch, MyshadowBuilder, AltImg, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        });
+
         img=(ImageView)findViewById(R.id.imageView);
         //img.setOnClickListener(new View.OnClickListener() {
             //@Override
@@ -572,6 +596,9 @@ public class Team extends Activity {
                             System.out.println("111111111111111111111111111111111111111111");
                             System.out.println("Image 1 is being dragged");
                             IconChosen = "Pass";
+                            //toastObject.cancel();
+                            Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                            //toastobject = Toast.makeText(Team.this, "This message will disappear when toast.close(); is called", Toast.LENGTH_SHORT);
                             ClipData clipdataTouch = ClipData.newPlainText("", "");
                             View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img);
 
@@ -587,6 +614,7 @@ public class Team extends Activity {
                 //IconChosen = "Pass";
 
 
+                //Used to detect one of the images being dragged
                 img.setOnDragListener(new View.OnDragListener() {
                     final int Imagex = img.getLeft();
                     final int Imagey = img.getTop();
@@ -677,7 +705,8 @@ public class Team extends Activity {
                                             int Fixture = Integer.parseInt(FixtureID);
                                             System.out.println("Player has been updated1");
                                             //Used to call a class in apiCalls that updates a stat using a player id and fixture id and the name of the stat
-                                            //apiCalls.playerStat(Player, Fixture, IconChosen);
+                                            Toast.makeText(Team.this, PlayerID[1] + " updated using " + IconChosen, Toast.LENGTH_SHORT).show();
+                                            apiCalls.playerStat(Player, Fixture, IconChosen);
                                         }
                                         else
                                         {
@@ -696,6 +725,25 @@ public class Team extends Activity {
                     }
                 });
 
+        AltImg2=(ImageView)findViewById(R.id.AltimageView2);
+        AltImg2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg2, MotionEvent Altevent2) {
+                //IconChosen = "Pass_Miss";
+                if (Altevent2.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal_save";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg2);
+                    AltImg2.startDrag(clipdataTouch, MyshadowBuilder, AltImg2, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
 
         img2=(ImageView)findViewById(R.id.imageView2);
         img2.setOnTouchListener(new View.OnTouchListener() {
@@ -704,9 +752,30 @@ public class Team extends Activity {
                 //IconChosen = "Pass_Miss";
                 if (event2.getAction() == MotionEvent.ACTION_DOWN) {
                     IconChosen = "Pass_Miss";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img2);
                     img2.startDrag(clipdataTouch, MyshadowBuilder, img2, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        AltImg3=(ImageView)findViewById(R.id.AltimageView3);
+        AltImg3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg3, MotionEvent Altevent3) {
+                if (Altevent3.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Goal_conceded";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg3);
+
+                    AltImg3.startDrag(clipdataTouch, MyshadowBuilder, AltImg3, 0);
                     //Makes the icon disappear
                     //img.setVisibility(View.VISIBLE);
                     return true;
@@ -722,10 +791,31 @@ public class Team extends Activity {
             public boolean onTouch(View img3, MotionEvent event3) {
                 if (event3.getAction() == MotionEvent.ACTION_DOWN) {
                     IconChosen = "Point";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img3);
 
                     img3.startDrag(clipdataTouch, MyshadowBuilder, img3, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        AltImg4=(ImageView)findViewById(R.id.AltimageView4);
+        AltImg4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg4, MotionEvent Altevent4) {
+                if (Altevent4.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Kickout_won";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg4);
+
+                    AltImg4.startDrag(clipdataTouch, MyshadowBuilder, AltImg4, 0);
                     //Makes the icon disappear
                     //img.setVisibility(View.VISIBLE);
                     return true;
@@ -741,10 +831,31 @@ public class Team extends Activity {
             public boolean onTouch(View img4, MotionEvent event4) {
                 if (event4.getAction() == MotionEvent.ACTION_DOWN) {
                     IconChosen = "Point_Miss";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img4);
 
                     img4.startDrag(clipdataTouch, MyshadowBuilder, img4, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        AltImg5=(ImageView)findViewById(R.id.AltimageView5);
+        AltImg5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg5, MotionEvent Altevent5) {
+                if (Altevent5.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Kickout_lost";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg5);
+
+                    AltImg5.startDrag(clipdataTouch, MyshadowBuilder, AltImg5, 0);
                     //Makes the icon disappear
                     //img.setVisibility(View.VISIBLE);
                     return true;
@@ -760,10 +871,31 @@ public class Team extends Activity {
             public boolean onTouch(View img5, MotionEvent event5) {
                 if (event5.getAction() == MotionEvent.ACTION_DOWN) {
                     IconChosen = "Goal";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img5);
 
                     img5.startDrag(clipdataTouch, MyshadowBuilder, img5, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        AltImg6=(ImageView)findViewById(R.id.AltimageView6);
+        AltImg6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View AltImg6, MotionEvent Altevent6) {
+                if (Altevent6.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Red_card";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(AltImg6);
+
+                    AltImg6.startDrag(clipdataTouch, MyshadowBuilder, AltImg6, 0);
                     //Makes the icon disappear
                     //img.setVisibility(View.VISIBLE);
                     return true;
@@ -779,10 +911,30 @@ public class Team extends Activity {
             public boolean onTouch(View img6, MotionEvent event6) {
                 if (event6.getAction() == MotionEvent.ACTION_DOWN) {
                     IconChosen = "Goal_Miss";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img6);
 
                     img6.startDrag(clipdataTouch, MyshadowBuilder, img6, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        Altimg7=(ImageView)findViewById(R.id.AltimageView7);
+        Altimg7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View Altimg7, MotionEvent Altevent7) {
+                if (Altevent7.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Black_card";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(Altimg7);
+                    Altimg7.startDrag(clipdataTouch, MyshadowBuilder, Altimg7, 0);
                     //Makes the icon disappear
                     //img.setVisibility(View.VISIBLE);
                     return true;
@@ -797,11 +949,32 @@ public class Team extends Activity {
             @Override
             public boolean onTouch(View img7, MotionEvent event7) {
                 if (event7.getAction() == MotionEvent.ACTION_DOWN) {
-                    IconChosen = "Goal_Miss";
+                    IconChosen = "Block";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img7);
 
                     img7.startDrag(clipdataTouch, MyshadowBuilder, img7, 0);
+                    //Makes the icon disappear
+                    //img.setVisibility(View.VISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        Altimg8=(ImageView)findViewById(R.id.AltimageView8);
+        Altimg8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View Altimg8, MotionEvent Altevent8) {
+                if (Altevent8.getAction() == MotionEvent.ACTION_DOWN) {
+                    IconChosen = "Turnover";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
+                    ClipData clipdataTouch = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(Altimg8);
+
+                    Altimg8.startDrag(clipdataTouch, MyshadowBuilder, Altimg8, 0);
                     //Makes the icon disappear
                     //img.setVisibility(View.VISIBLE);
                     return true;
@@ -816,7 +989,8 @@ public class Team extends Activity {
             @Override
             public boolean onTouch(View img8, MotionEvent event8) {
                 if (event8.getAction() == MotionEvent.ACTION_DOWN) {
-                    IconChosen = "Goal_Miss";
+                    IconChosen = "Dispossessed";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img8);
 
@@ -835,7 +1009,8 @@ public class Team extends Activity {
             @Override
             public boolean onTouch(View img9, MotionEvent event9) {
                 if (event9.getAction() == MotionEvent.ACTION_DOWN) {
-                    IconChosen = "Goal_Miss";
+                    IconChosen = "Yellow_card";
+                    Toast.makeText(Team.this, "Icon = " + IconChosen, Toast.LENGTH_SHORT).show();
                     ClipData clipdataTouch = ClipData.newPlainText("", "");
                     View.DragShadowBuilder MyshadowBuilder = new View.DragShadowBuilder(img9);
 
@@ -857,14 +1032,28 @@ public class Team extends Activity {
                 System.out.println("This is the chosen icon = " + IconChosen);
                 if(ImageChk == 0) {
                     ImageChk = 1;
+                    //img.setVisibility(View.INVISIBLE);
+                    img2.setVisibility(View.INVISIBLE);
                     img3.setVisibility(View.INVISIBLE);
+                    img4.setVisibility(View.INVISIBLE);
+                    img5.setVisibility(View.INVISIBLE);
+                    img6.setVisibility(View.INVISIBLE);
+                    img7.setVisibility(View.INVISIBLE);
+                    img8.setVisibility(View.INVISIBLE);
                     //name1.setVisibility(View.INVISIBLE);
                     iconBtn.setText("Possession Icons");
                     System.out.println("Attacking Icon");
                 }
                 else{
                     ImageChk = 0;
+                    //img.setVisibility(View.VISIBLE);
+                    img2.setVisibility(View.VISIBLE);
                     img3.setVisibility(View.VISIBLE);
+                    img4.setVisibility(View.VISIBLE);
+                    img5.setVisibility(View.VISIBLE);
+                    img6.setVisibility(View.VISIBLE);
+                    img7.setVisibility(View.VISIBLE);
+                    img8.setVisibility(View.VISIBLE);
                     iconBtn.setText("Disspossesed Icons");
                     System.out.println("Defensive Icon");
                 }
@@ -902,14 +1091,20 @@ public class Team extends Activity {
                 System.out.println("This is the chosen icon = " + IconChosen);
                 if(ImageChk == 0) {
                     ImageChk = 1;
+                    img2.setVisibility(View.INVISIBLE);
                     img3.setVisibility(View.INVISIBLE);
+                    img4.setVisibility(View.INVISIBLE);
+                    img5.setVisibility(View.INVISIBLE);
                     //name1.setVisibility(View.INVISIBLE);
                     Test2.setText("Attacking Icon");
                     System.out.println("Attacking Icon");
                 }
                 else{
                     ImageChk = 0;
+                    img2.setVisibility(View.VISIBLE);
                     img3.setVisibility(View.VISIBLE);
+                    img4.setVisibility(View.VISIBLE);
+                    img5.setVisibility(View.VISIBLE);
                     Test2.setText("Defensive Icon");
                     System.out.println("Defensive Icon");
                 }

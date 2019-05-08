@@ -1,7 +1,7 @@
 package com.example.thomas.ydusjx;
 
 /**
- * Created by Thomas on 03/11/2018.
+ * Created by Thomas on 06/05/2019.
  */
 
 import android.app.ListActivity;
@@ -27,10 +27,9 @@ import static android.R.layout.simple_list_item_1;
 This screen displays  the modules the user has entered
 Also has a back button th=o bring the user to the main page
  */
-public class PlayerList extends ListActivity {
+public class dateSelection extends ListActivity {
     Team team;
     ListView mylist;
-    MyDbHelper mydb;
     Intent intent;
     Button back, addplayer;
     public static int chk;
@@ -59,8 +58,7 @@ public class PlayerList extends ListActivity {
             public void onClick(View v) {
                 System.out.println("Moving to Team screen");
                 System.out.println("Team name in PlayerLists Back is " + TeamName);
-                Toast.makeText(PlayerList.this, "No player selected",Toast.LENGTH_LONG).show();
-                Intent Team = new Intent(PlayerList.this, Team.class);
+                Intent Team = new Intent(dateSelection.this, TeamMainScreen.class);
                 //Used to keep the players name as it was if the user decides not to chnage the player when in the screen with the list of layer names
                 Team.putExtra("FixtureID", FixtureID);
                 Team.putExtra("TeamSelected", TeamName);
@@ -88,7 +86,6 @@ public class PlayerList extends ListActivity {
         */
 
         mylist = (ListView) findViewById(list);
-        mydb = new MyDbHelper(this);
         String[] Test = {"A","B","C","D"};
         //Reference: The following code an Android example https://stackoverflow.com/questions/45870812/showing-data-in-listview-from-database-in-android-studio
         ArrayList<String> theList = new ArrayList<String>();
@@ -122,25 +119,8 @@ public class PlayerList extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id){
         String selection = l.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-        Intent PlayedSelected = new Intent(PlayerList.this, Team.class);
-        //Used to get the players id and first name, as displaying the players full name will cover too much of the screen.
-        String[] getPlayerName = selection.split(" ");//Used to extract the players id from the string
-        String playerID = getPlayerName[0];
-        String playerName = getPlayerName[1];
-        System.out.println("First element from splitting string " + getPlayerName[0]);
-        String NameID = getPlayerName[0] + " " +  getPlayerName[1];
-        //Used tp pass a string to NoteList
-        //Reference: The following code an Android example https://stackoverflow.com/questions/5343544/send-a-variable-between-classes-through-the-intent
-        PlayedSelected.putExtra("TeamSelected", TeamName);
-        PlayedSelected.putExtra("FixtureID", FixtureID);
-        PlayedSelected.putExtra("PlayerSelected", nameselect);
-        PlayedSelected.putExtra("NewPlayer", NameID);
-        PlayedSelected.putExtra("Pid", Pid);
-        //Team.setPlayerName(String Pid, String str2)
-        //team.setPlayerName();
-        //Reference complete
-        startActivity(PlayedSelected);
-
+        //apiCalls.getStatScreensFixtures(selection, TeamName);
     }
 }
+
 

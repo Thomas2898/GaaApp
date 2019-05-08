@@ -7,7 +7,8 @@
         android:id="@+id/Back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="Back"
+        android:background="@drawable/button"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
         android:text="Choose a fixture"
         android:textSize="20dp"
         android:id="@+id/Header"
-        android:layout_below="@+id/Back"/>
+        android:layout_below="@+id/Back" />
 
     <ListView
         android:id="@android:id/list"

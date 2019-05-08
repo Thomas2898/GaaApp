@@ -33,6 +33,14 @@ import static android.R.layout.simple_list_item_1;
 public class apiCalls extends Activity {
     public JSONArray getPlayers;
 
+    //////////////////////////////////////////////////////////////////////////////
+    //These ere used to influence my code in creatin connections between the app and the rest framework
+    //This is where i learned how to connect the app to data from rest framework using AsyncTask
+    //https://stackoverflow.com/questions/33229869/get-json-data-from-url-using-android
+    ////This is where i learned how to connect the app to data from rest framework using threads
+    //https://stackoverflow.com/questions/42767249/android-post-request-with-json
+    ///////////////////////////////////////////////////////////////////////////////
+
     public JSONArray callApi() {
         final String API = "http://142.93.44.141/teams/";
         //HttpURLConnection connection = null;
@@ -229,7 +237,7 @@ public class apiCalls extends Activity {
 
 
 
-    //Used to get Fixtures names from the restframework
+    //Used to get all the Fixtures relating to the team the user chose
     public static class getFixtures extends AsyncTask<String, String, JSONArray> {
 
         public JSONArray p1;
@@ -283,6 +291,7 @@ public class apiCalls extends Activity {
                             fixtureNames.add(fullDisplay);
                         }
                     }
+                    //Fills up arraylists across the app
                     FixtureSelection.getFixtures(fixtureNames);
                     statsDisplay.getFixtures(fixtureNames);
                     StatFixtureClass.getStatFixtures(fixtureNames);
@@ -591,10 +600,13 @@ public class apiCalls extends Activity {
                             //Used to compare the stat that was passed in as a parameter
                             //and increase the stat by one
                             for(int j=0; j<PStats.length; j++) {
+
+                                System.out.println("Stat =  "  + PStats[j] + " value = " + PStatsVal[j]);
                                 if(Stat.equals(PStats[j])){
-                                    System.out.println("Stat being increased is "  + Stat);
+                                    System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+                                    System.out.println("Stat being increased is "  + Stat + " value = " + PStatsVal[j]);
+                                    System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
                                     PStatsVal[j] = PStatsVal[j] + 1;
-                                    System.out.println("Stat is increased to "  + PStatsVal[j]);
                                     System.out.println("Compare "  + Point);
                                 }
                             }
@@ -604,6 +616,7 @@ public class apiCalls extends Activity {
                             String StatChosen = Integer.toString(StatID);
                             //System.out.println(TeamID);
                             connection.disconnect();
+                            //Passes all the stats names and values with the stat that will be updated tp updatePlayerStat()
                             updatePlayerStat(StatChosen, PStats, PStatsVal);
                         }
                     }
@@ -622,6 +635,7 @@ public class apiCalls extends Activity {
         thread.start();
     }
 
+    //This is called when a player receives thier first statistic for a given fixture
     public static void addPlayerStat(final int playerID, final int fixtureID, final String Stat) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -667,6 +681,8 @@ public class apiCalls extends Activity {
                     Log.i("MSG" , conn.getResponseMessage());
 
                     conn.disconnect();
+                    //Once the entry in the stat table has been created
+                    //then it updates the player with the statistic image that was dropped onto the player
                     playerStat(playerID, fixtureID, Stat);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -676,20 +692,7 @@ public class apiCalls extends Activity {
         thread.start();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //Receives data from addPlayerStat() and updates the players statistics
     static public void updatePlayerStat(final String StatID, final String[] PStats, final int[] PStatsVal) {
         final String API = "http://142.93.44.141/stats/" + StatID;
         Thread thread = new Thread(new Runnable() {
@@ -869,7 +872,7 @@ public class apiCalls extends Activity {
         thread.start();
     }
 
-    //Used to get the selected Teams ud
+    //Used to get the selected Teams id
     static public void getTeamsID(final String Team) {
         final String API = "http://142.93.44.141/teams/";
         Thread thread = new Thread(new Runnable() {
@@ -1501,8 +1504,72 @@ public class apiCalls extends Activity {
         thread.start();
     }
 
+    static public void getStatScreensFixtures(final String DateChosen, final String TeamChosen) {
+        final String API = "http://142.93.44.141/fixtures/";
+        final ArrayList<String> fixtureDetails = new ArrayList<String>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    URL url = new URL(API);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
 
+                    InputStream stream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
 
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line+"\n");
+                        Log.d("Response: ", "> " + line);
+                    }
+
+                    fixtureDetails.clear();
+                    int chkStat = 0;//Used to clarify if the players stat record exists for the certain fixture
+                    JSONArray jsonArray = new JSONArray(buffer.toString());
+                    for(int i=0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String Date = (String) jsonObject.get("Date");
+
+                        String[] getYear = Date.split("-");//Used to extract the players id from the string
+                        String year = getYear[0];
+
+                        if(year.equals(DateChosen)) {
+                            int StatID = (int) jsonObject.get("id");
+                            String StatChosen = Integer.toString(StatID);
+                            String AwayTeam = (String) jsonObject.get("Away_Team");
+                            String HomeTeam = (String) jsonObject.get("Home_Team");
+                            String Referee = (String) jsonObject.get("Referee");
+                            String Time = (String) jsonObject.get("Time");
+                            String Location = (String) jsonObject.get("Location");
+                            //String fullDisplay = StatChosen + " " + HomeTeam + " vs " + AwayTeam + " Date " + Date;
+                            String fullDisplay = StatChosen + ", " + HomeTeam + ", " + AwayTeam + ", " + Referee + ", " + Date + ", " + Time + ", " + Location;
+                            System.out.println(fullDisplay);
+                            System.out.println("This is the homeTeam " + HomeTeam);
+                            //fixtureNames.add(fullDisplay);
+
+                            //Used to get the fixtures that contain the users team as the home team
+                            if(TeamChosen.equals(HomeTeam)) {
+                                fixtureDetails.add(fullDisplay);
+                            }
+                            //connection.disconnect();
+                        }
+                        connection.disconnect();
+
+                    }
+                    statsDisplay.getFixtures(fixtureDetails);
+                    connection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
 }
 
 

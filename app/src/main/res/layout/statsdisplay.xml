@@ -6,9 +6,10 @@
     <Button
         android:id="@+id/Back"
         android:text="Back"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,7 +17,8 @@
         android:layout_below="@+id/Back"
         android:text="Select Player"
         android:textSize="20dp"
-        android:id="@+id/Player" />
+        android:id="@+id/Player"
+        />
 
     <Spinner
         android:id="@+id/playerDropDown"
@@ -72,7 +74,8 @@
         android:layout_below="@+id/fixtureDropDown2"
         android:layout_marginLeft="128dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"/>
 
     <TextView
         android:layout_width="wrap_content"

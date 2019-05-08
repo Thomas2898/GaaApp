@@ -9,33 +9,43 @@
         android:id="@+id/Back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="Back"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/header"
         android:layout_marginLeft="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update/Delete Player" />
+        android:text="Update/Delete Player"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"/>
 
     <EditText
         android:id="@+id/userInput"
         android:layout_marginLeft="150dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/UpdatePlayer"
         android:layout_marginLeft="137dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Player" />
+        android:text="Update Player"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/DeletePlayer"
         android:layout_marginLeft="137dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Player" />
+        android:text="Delete Player"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"/>
 
 </LinearLayout>

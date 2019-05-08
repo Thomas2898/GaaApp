@@ -48,18 +48,6 @@ public class PlayerListMain extends ListActivity {
             }
         });
 
-        //Opens the add player screen
-        addplayer = (Button)findViewById(R.id.AddPlayer);
-        addplayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Moving to modules");
-                Intent NewPlayer = new Intent(PlayerListMain.this, AddPlayer.class);
-                NewPlayer.putExtra("PlayerSelected", "PlayerListMain");
-                startActivity(NewPlayer);
-            }
-        });
-
         mylist = (ListView) findViewById(list);
         mydb = new MyDbHelper(this);
         //Reference: The following code an Android example https://stackoverflow.com/questions/45870812/showing-data-in-listview-from-database-in-android-studio

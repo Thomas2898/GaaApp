@@ -9,7 +9,8 @@ android:orientation="vertical">
     android:id="@+id/Back"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Back" />
+    android:text="Back"
+    android:background="@drawable/button"/>
 
 <TextView
     android:id="@+id/header"
@@ -78,7 +79,8 @@ android:orientation="vertical">
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:layout_centerInParent="true"
-    android:layout_below="@+id/LocationInput"/>
+    android:layout_below="@+id/LocationInput"
+    android:background="@drawable/button"/>
 
 <Button
     android:id="@+id/DeleteFixture"
@@ -88,6 +90,8 @@ android:orientation="vertical">
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:layout_centerInParent="true"
-    android:layout_below="@+id/UpdateFixture"/>
+    android:layout_below="@+id/UpdateFixture"
+    android:background="@drawable/button"
+    android:layout_marginTop="30dp"/>
 
 </RelativeLayout>

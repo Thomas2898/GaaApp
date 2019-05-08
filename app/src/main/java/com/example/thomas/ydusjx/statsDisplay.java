@@ -63,6 +63,7 @@ public class statsDisplay extends  Activity {
     public static ArrayList<Integer> player2Stats = new ArrayList<Integer>();
     public static ArrayList<String> players = new ArrayList<String>();
     public static ArrayList<String> fixtures = new ArrayList<String>();
+    public static ArrayList<Integer> fixtureID = new ArrayList<Integer>();
     public static ArrayList<Integer> playersStats = new ArrayList<Integer>();
     //public static String[] statsSelect = new String[]{"Passing", "Points", "Goals", "Won possession", "Lost possession", "Red Card"};
 
@@ -116,6 +117,7 @@ public class statsDisplay extends  Activity {
                     if (selection.equals("All")) {
                         System.out.println("Team Chosen");
                         player1=selection;
+                        System.out.println(player1);
                         //So the methods gettin data for a specific player cannot be called
                         PID = 0;
                         //Used to check if the user has selected a fixture and if they have then it
@@ -355,10 +357,17 @@ public class statsDisplay extends  Activity {
     protected static void getFixtures(ArrayList result) {
         System.out.println("In getFixtures");
         fixtures.clear();
+        fixtureID.clear();
         //fixtures.add("Select Fixture");
         fixtures.add("All");
         for(int i = 0 ; i < result.size(); i++){
             String name = (String) result.get(i);
+
+            String[] getPID = name.split(", ");//Used to extract the players id from the string
+            System.out.println("First element from splitting string " + getPID[0]);
+            int getFID = Integer.parseInt(getPID[0]);
+
+            fixtureID.add(getFID);
             fixtures.add(name);
         }
     }
@@ -407,17 +416,29 @@ public class statsDisplay extends  Activity {
             int OverallKickout = player1Stats.get(12) + player1Stats.get(13);
             int OverallSaves = player1Stats.get(14) + player1Stats.get(15);
 
-            PassValue.setText(player1Stats.get(3) + "/" + OverallPass);
-            PointValue.setText(player1Stats.get(5) + "/" + OverallPoint);
-            GoalValue.setText(player1Stats.get(7) + "/" + OverallGoal);
+            float PercPass = ((float) player1Stats.get(3)/OverallPass * 100/1);
+            float PercPoint = ((float) player1Stats.get(5)/OverallPoint * 100/1);
+            float PercGoal = ((float) player1Stats.get(7)/OverallGoal * 100/1);
+            float PercKickout = ((float) player1Stats.get(12)/OverallKickout * 100/1);
+            float PercSave = ((float) player1Stats.get(14)/OverallSaves * 100/1);
+
+            double roundOffPass = Math.round(PercPass * 100.0) / 100.0;
+            double roundOffPoint = Math.round(PercPoint * 100.0) / 100.0;
+            double roundOffGoal = Math.round(PercGoal * 100.0) / 100.0;
+            double roundOffKickout = Math.round(PercKickout * 100.0) / 100.0;
+            double roundOffSave = Math.round(PercSave * 100.0) / 100.0;
+
+            PassValue.setText(player1Stats.get(3) + "/" + OverallPass + "("+ roundOffPass +")");
+            PointValue.setText(player1Stats.get(5) + "/" + OverallPoint + "("+ roundOffPoint + ")");
+            GoalValue.setText(player1Stats.get(7) + "/" + OverallGoal + "("+ roundOffGoal + ")");
             Turnover.setText(player1Stats.get(9).toString());
             Dispossessed.setText(player1Stats.get(10).toString());
             Block.setText(player1Stats.get(11).toString());
-            KickoutValue.setText(player1Stats.get(12) + "/" + OverallKickout);
-            Saves.setText(player1Stats.get(14) + "/" + OverallSaves);
-            YellowCard.setText(player1Stats.get(15).toString());
-            RedCard.setText(player1Stats.get(16).toString());
-            BlackCard.setText(player1Stats.get(17).toString());
+            KickoutValue.setText(player1Stats.get(12) + "/" + OverallKickout + "("+ roundOffKickout + ")");
+            Saves.setText(player1Stats.get(14) + "/" + OverallSaves + "("+ roundOffSave +")");
+            YellowCard.setText(player1Stats.get(16).toString());
+            RedCard.setText(player1Stats.get(17).toString());
+            BlackCard.setText(player1Stats.get(18).toString());
 
             OverallPass = player2Stats.get(3) + player2Stats.get(4);
             OverallPoint = player2Stats.get(5) + player2Stats.get(6);
@@ -425,17 +446,28 @@ public class statsDisplay extends  Activity {
             OverallKickout = player2Stats.get(12) + player2Stats.get(13);
             OverallSaves = player2Stats.get(14) + player2Stats.get(15);
 
-            PassValue2.setText(player2Stats.get(3) + "/" + OverallPass);
-            PointValue2.setText(player2Stats.get(5) + "/" + OverallPoint);
-            GoalValue2.setText(player2Stats.get(7) + "/" + OverallGoal);
+            PercPass = ((float) player2Stats.get(3)/OverallPass * 100/1);
+            PercPoint = ((float) player2Stats.get(5)/OverallPoint * 100/1);
+            PercGoal = ((float) player2Stats.get(7)/OverallGoal * 100/1);
+            PercKickout = ((float) player2Stats.get(12)/OverallKickout * 100/1);
+            PercSave = ((float) player2Stats.get(14)/OverallSaves * 100/1);
+            roundOffPass = Math.round(PercPass * 100.0) / 100.0;
+            roundOffPoint = Math.round(PercPoint * 100.0) / 100.0;
+            roundOffGoal = Math.round(PercGoal * 100.0) / 100.0;
+            roundOffKickout = Math.round(PercKickout * 100.0) / 100.0;
+            roundOffSave = Math.round(PercSave * 100.0) / 100.0;
+
+            PassValue2.setText(player2Stats.get(3) + "/" + OverallPass + "("+ roundOffPass +")");
+            PointValue2.setText(player2Stats.get(5) + "/" + OverallPoint + "("+ roundOffPoint +")");
+            GoalValue2.setText(player2Stats.get(7) + "/" + OverallGoal + "("+ roundOffGoal + ")");
             Turnover2.setText(player2Stats.get(9).toString());
             Dispossessed2.setText(player2Stats.get(10).toString());
             Block2.setText(player2Stats.get(11).toString());
-            KickoutValue2.setText(player2Stats.get(12) + "/" + OverallKickout);
-            Saves2.setText(player2Stats.get(14) + "/" + OverallSaves);
-            YellowCard2.setText(player2Stats.get(15).toString());
-            RedCard2.setText(player2Stats.get(16).toString());
-            BlackCard2.setText(player2Stats.get(17).toString());
+            KickoutValue2.setText(player2Stats.get(12) + "/" + OverallKickout + "("+ roundOffKickout + ")");
+            Saves2.setText(player2Stats.get(14) + "/" + OverallSaves + "("+ roundOffSave + ")");
+            YellowCard2.setText(player2Stats.get(16).toString());
+            RedCard2.setText(player2Stats.get(17).toString());
+            BlackCard2.setText(player2Stats.get(18).toString());
         }
     }
 }
