@@ -43,8 +43,8 @@ import static android.R.layout.simple_list_item_1;
 
 
 /*
-This screen displays  the modules the user has entered
-Also has a back button th=o bring the user to the main page
+This screen displays the the stats of a player that is chosen
+it is reached by clicking stats button in TeamMainScreen
  */
 public class statsDisplay extends  Activity {
     Team team;

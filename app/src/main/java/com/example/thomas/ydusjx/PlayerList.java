@@ -24,8 +24,8 @@ import static android.R.layout.simple_list_item_1;
 
 
 /*
-This screen displays  the modules the user has entered
-Also has a back button th=o bring the user to the main page
+This screen displays the players relating to the team that was chosen.
+This screen is activated by clicking the stats button in Team
  */
 public class PlayerList extends ListActivity {
     Team team;

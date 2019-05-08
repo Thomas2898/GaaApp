@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//This is the code for the screen that is used to add a fixture
 public class AddFixture extends Activity {
     EditText HomeTeamInput, AwayTeamInput, RefereeInput, DateInput, TimeInput, LocationInput;
     Button btnAddFixture;

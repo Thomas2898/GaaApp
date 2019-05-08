@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//This is the code for the screen that is used to add a player
 public class AddPlayer extends Activity {
     EditText nameInput, DOBInput;//Name and DOB input
     Button btnAddPlayer;

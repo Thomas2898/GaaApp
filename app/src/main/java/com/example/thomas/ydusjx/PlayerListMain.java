@@ -19,7 +19,9 @@ import static android.R.layout.simple_list_item_1;
 /**
  * Created by Thomas on 26/11/2018.
  */
-
+//################################################
+//Used as test, has nothing to do with the project
+//################################################
 public class PlayerListMain extends ListActivity {
     Team team;
     ListView mylist;

@@ -27,8 +27,8 @@ import static android.R.layout.simple_list_item_1;
 
 
 /*
-This screen displays  the modules the user has entered
-Also has a back button th=o bring the user to the main page
+This screen displays the players relating to the team chosen
+it is activate by the players button in TeamMainScreen
  */
 public class PlayerSelection extends ListActivity {
     Team team;

@@ -30,6 +30,8 @@ import static android.R.layout.simple_list_item_1;
  * Created by Thomas on 26/01/2019.
  */
 
+//This is the code that is used to communicate with the rest framework
+// Other screens call fucntions in this class to communicate with the rest framework
 public class apiCalls extends Activity {
     public JSONArray getPlayers;
 
