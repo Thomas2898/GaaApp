@@ -11,6 +11,7 @@ import android.widget.Toast;
  * Created by Thomas on 31/03/2019.
  */
 
+//Main navigation point of the app
 public class TeamMainScreen extends Activity {
 
     Button fixture, stats, teamPlayers, back, DisplayStatsBtn;

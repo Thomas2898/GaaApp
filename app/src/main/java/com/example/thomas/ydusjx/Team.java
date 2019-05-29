@@ -562,6 +562,8 @@ public class Team extends Activity {
         Test = (TextView) findViewById(R.id.Test);
         Test2 = (TextView) findViewById(R.id.Test2);
 
+        //Alt images ae displayed when the user clicks the disspossesed button
+
         AltImg=(ImageView)findViewById(R.id.AltimageView);
         AltImg.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -584,6 +586,9 @@ public class Team extends Activity {
             }
         });
 
+        //Where i learned how drag and drop works in regards to android studio
+        //https://www.tutorialspoint.com/android/android_drag_and_drop.htm
+        //https://developer.android.com/guide/topics/ui/drag-drop
         img=(ImageView)findViewById(R.id.imageView);
         //img.setOnClickListener(new View.OnClickListener() {
             //@Override

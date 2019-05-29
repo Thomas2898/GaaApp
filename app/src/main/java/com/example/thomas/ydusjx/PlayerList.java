@@ -25,7 +25,7 @@ import static android.R.layout.simple_list_item_1;
 
 /*
 This screen displays the players relating to the team that was chosen.
-This screen is activated by clicking the stats button in Team
+This screen is activated by clicking the one of the textviews in Team.java screen
  */
 public class PlayerList extends ListActivity {
     Team team;

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//Used to update and delete a chosen fixture
 public class UpdateDeleteFixture extends Activity {
     EditText HomeTeamInput, AwayTeamInput, RefereeInput, DateInput, TimeInput, LocationInput;//Name and DOB input
     Button btnUpdateFixture, btnDeleteFixture;

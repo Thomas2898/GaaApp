@@ -27,8 +27,7 @@ import static android.R.layout.simple_list_item_1;
 
 
 /*
-This screen displays  the modules the user has entered
-Also has a back button th=o bring the user to the main page
+Screen that displays the teams gotten from the database
  */
 public class TeamSelection extends ListActivity {
     Team team;

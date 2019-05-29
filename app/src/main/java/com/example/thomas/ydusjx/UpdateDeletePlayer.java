@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//Used to update and delete a chosen Player
 public class UpdateDeletePlayer extends Activity {
     EditText nameInput, DOBInput;//Name and DOB input
     Button btnUpdatePlayer, btnDeletePlayer;

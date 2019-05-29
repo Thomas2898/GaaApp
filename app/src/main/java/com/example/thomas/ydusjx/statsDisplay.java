@@ -44,7 +44,7 @@ import static android.R.layout.simple_list_item_1;
 
 /*
 This screen displays the the stats of a player that is chosen
-it is reached by clicking stats button in TeamMainScreen
+it is reached by clicking stats button in TeamMainScreen.java screen
  */
 public class statsDisplay extends  Activity {
     Team team;

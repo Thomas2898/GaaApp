@@ -11,6 +11,9 @@ import android.widget.Toast;
  * Created by Thomas on 26/11/2018.
  */
 
+///////////////////////////////////////////
+//Used eraly on devlopment not used anymore
+///////////////////////////////////////////
 public class PlayerUpdateDelete extends Activity {
     MyDbHelper mydb;
     EditText mninput;//Module name input

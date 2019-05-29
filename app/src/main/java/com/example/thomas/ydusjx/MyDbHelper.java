@@ -17,8 +17,7 @@ import android.widget.Toast;
 import static java.sql.DriverManager.println;
 
 /*
-Works as a database helper where the tables are created and methods such as insertModule, insertNote, deleteModule, deleteNote,
-updateModule, updateNote, getAllRows and getModuleNotes are created
+Used to test data locally early in development, not used anymore
  */
 public class MyDbHelper extends SQLiteOpenHelper {
     SQLiteDatabase db;
